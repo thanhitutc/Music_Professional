@@ -13,6 +13,10 @@ import retrofit2.Response
  */
 
 class SlideRemoteDataSource private constructor() : SlideDataSource {
+    override fun getSlide(onResultGetSlide: SlideDataSource.OnResultGetSlide): List<Slide> {
+        return null!!
+    }
+
     init {
         slideData = ConfigCommonRetrofit.getSlideAPI()
     }
@@ -28,8 +32,5 @@ class SlideRemoteDataSource private constructor() : SlideDataSource {
         }
     }
 
-    override fun getSlide(): Call<List<Slide>>? {
-        val result = slideData?.getSlide()
-        return null
-    }
+
 }

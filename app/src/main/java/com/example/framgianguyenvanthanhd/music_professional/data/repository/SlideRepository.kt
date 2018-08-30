@@ -11,6 +11,11 @@ import retrofit2.Call
 
 class SlideRepository : SlideDataSource {
 
+    override fun getSlide(onResultGetSlide: SlideDataSource.OnResultGetSlide): List<Slide> {
+        return Holder.INSTANCE.getSlide(onResultGetSlide)
+    }
+
+
     init {
     }
 
@@ -22,13 +27,5 @@ class SlideRepository : SlideDataSource {
             return Holder.INSTANCE
         }
     }
-
-
-    override fun getSlide(): Call<List<Slide>>? {
-        return Holder.INSTANCE.getSlide()
-    }
-
-
-
 
 }
