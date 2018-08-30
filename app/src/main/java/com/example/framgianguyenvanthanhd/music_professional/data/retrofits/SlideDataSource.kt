@@ -10,6 +10,6 @@ import retrofit2.http.GET
 interface SlideDataSource {
 
     @GET("Slide.php")
-    fun getSlide() : Call<List<Slide>>
+    fun getSlide() : Call<List<Slide>>?
 
 }
