@@ -28,7 +28,6 @@ class SlidePagerAdapter(slides: List<Slide>?) : PagerAdapter() {
     }
 
     override fun instantiateItem(container: ViewGroup?, position: Int): Any {
-//        var view : View
         val view = LayoutInflater.from(container?.context).inflate(R.layout.layout_slide_container, container, false)
         Picasso.with(container?.context).load(slides?.get(position)?.imageSlide).into(view.img_slide_background)
         Picasso.with(container?.context).load(slides?.get(position)?.imageSong).into(view.img_slide_image)

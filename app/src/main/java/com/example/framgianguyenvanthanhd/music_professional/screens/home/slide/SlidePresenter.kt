@@ -7,9 +7,9 @@ import com.example.framgianguyenvanthanhd.music_professional.data.repository.Sli
 /**
  * Created by admin on 8/30/2018.
  */
-class SlidePresenter: SlideContract.Prensenter {
-    private lateinit var slideView : SlideContract.View
-    private lateinit var slideRepository : SlideRepository
+class SlidePresenter : SlideContract.Prensenter {
+    private lateinit var slideView: SlideContract.View
+    private lateinit var slideRepository: SlideRepository
 
     init {
         slideRepository = SlideRepository.getInstance()
@@ -27,7 +27,7 @@ class SlidePresenter: SlideContract.Prensenter {
     }
 
     override fun requestGetSlides() {
-        slideRepository.getSlide(object : SlideDataSource.OnResultGetSlide{
+        slideRepository.getSlide(object : SlideDataSource.OnResultGetSlide {
             override fun onSuccess(slides: List<Slide>?) {
                 if (slides != null) slideView.showSlidesSuccess(slides)
             }
