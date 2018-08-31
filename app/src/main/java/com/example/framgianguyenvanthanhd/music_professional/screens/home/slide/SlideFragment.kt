@@ -2,12 +2,12 @@ package com.example.framgianguyenvanthanhd.music_professional.screens.home.slide
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Slide
+import kotlinx.android.synthetic.main.fragment_slide.*
 
 /**
  * Created by admin on 8/25/2018.
@@ -16,12 +16,13 @@ class SlideFragment : Fragment(), SlideContract.View {
     private lateinit var presenter: SlideContract.Prensenter
 
     override fun showSlidesSuccess(slides: List<Slide>) {
-        for (item in slides) {
-            Log.e("thanhd: ", item.nameSong)
-        }
+        var slideAdapter = SlidePagerAdapter(slides)
+        slide_pager.adapter = slideAdapter
+        slide_indicator.setViewPager(slide_pager)
+        slide_pager.setCurrentItem(0, true)
     }
 
-    override fun showSlidesFailue(t: Throwable) {
+    override fun showSlidesFailure(t: Throwable) {
     }
 
     override fun setPresenter(presenter: SlideContract.Prensenter) {
@@ -39,7 +40,4 @@ class SlideFragment : Fragment(), SlideContract.View {
         presenter.requestGetSlides()
         super.onViewCreated(view, savedInstanceState)
     }
-
-
-
 }

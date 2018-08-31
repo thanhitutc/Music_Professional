@@ -33,7 +33,7 @@ class SlidePresenter: SlideContract.Prensenter {
             }
 
             override fun onFailure(t: Throwable?) {
-                if (t != null) slideView.showSlidesFailue(t)
+                if (t != null) slideView.showSlidesFailure(t)
             }
 
         })
