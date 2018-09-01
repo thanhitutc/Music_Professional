@@ -11,7 +11,7 @@ interface SlideContract {
     interface View : BaseView<Prensenter> {
         fun showSlidesSuccess(slides: List<Slide>)
 
-        fun showSlidesFailue(t: Throwable)
+        fun showSlidesFailure(t: Throwable)
     }
 
     interface Prensenter : BasePresenter<View> {

@@ -2,4 +2,10 @@
 <resources>
     <dimen name="height_slide">180dp</dimen>
     <dimen name="margin_indicator">16dp</dimen>
+    <dimen name="size_image_slide">64dp</dimen>
+    <dimen name="margin_left">10dp</dimen>
+    <dimen name="margin_bottom">10dp</dimen>
+    <dimen name="margin_right">10dp</dimen>
+    <dimen name="slide_text_size_name_song">17sp</dimen>
+    <dimen name="slide_text_size_content">13sp</dimen>
 </resources>

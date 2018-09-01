@@ -10,5 +10,7 @@ class Constants {
         val READ_TIME_OUT : Long = 10000
         val WRITE_TIME_OUT : Long = 10000
         val CONNECT_TIME_OUT : Long = 10000
+
+        val DELAY_SLIDE : Long = 4000
     }
 }

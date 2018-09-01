@@ -1,27 +1,35 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.home.slide
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.framgianguyenvanthanhd.music_professional.R
+import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Slide
+import kotlinx.android.synthetic.main.fragment_slide.*
 
 /**
  * Created by admin on 8/25/2018.
  */
 class SlideFragment : Fragment(), SlideContract.View {
     private lateinit var presenter: SlideContract.Prensenter
+    private var currentPosition: Int = 0
+    private lateinit var handler: Handler
+    private lateinit var slideAdapter: SlidePagerAdapter
 
     override fun showSlidesSuccess(slides: List<Slide>) {
-        for (item in slides) {
-            Log.e("thanhd: ", item.nameSong)
-        }
+        slideAdapter = SlidePagerAdapter(slides)
+        slide_pager.adapter = slideAdapter
+        slide_indicator.setViewPager(slide_pager)
+        update()
     }
 
-    override fun showSlidesFailue(t: Throwable) {
+    override fun showSlidesFailure(t: Throwable) {
+        Toast.makeText(activity, "ERROR", Toast.LENGTH_LONG).show()
     }
 
     override fun setPresenter(presenter: SlideContract.Prensenter) {
@@ -33,6 +41,7 @@ class SlideFragment : Fragment(), SlideContract.View {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        handler = Handler()
         presenter = SlidePresenter()
         presenter.setView(this)
         presenter.onStart()
@@ -40,6 +49,20 @@ class SlideFragment : Fragment(), SlideContract.View {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun update() {
+        handler.postDelayed(infinitySlideRunable, Constants.DELAY_SLIDE)
+    }
 
+    private var infinitySlideRunable = object : Runnable {
+        override fun run() {
+            currentPosition = slide_pager.currentItem
+            currentPosition++
+            if (slide_pager.currentItem++ >= slideAdapter.count - 1) {
+                currentPosition = 0
+            }
+            slide_pager.setCurrentItem(currentPosition, true)
+            update()
+        }
 
+    }
 }
