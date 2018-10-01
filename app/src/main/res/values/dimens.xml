@@ -8,4 +8,6 @@
     <dimen name="margin_right">10dp</dimen>
     <dimen name="slide_text_size_name_song">17sp</dimen>
     <dimen name="slide_text_size_content">13sp</dimen>
+    <dimen name="title_size_top">24sp</dimen>
+    <dimen name="pading_insdie_top">8dp</dimen>
 </resources>

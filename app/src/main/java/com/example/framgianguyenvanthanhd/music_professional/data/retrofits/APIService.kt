@@ -8,8 +8,12 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
 class APIService {
 
     companion object {
-       fun getSlideAPI() : DataService.SlideDataService? {
-           return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.SlideDataService::class.java)
-       }
+        fun getSlideAPI(): DataService.SlideDataService? {
+            return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.SlideDataService::class.java)
+        }
+
+        fun getPlaylistAPI(): DataService.PlaylistDataService? {
+            return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.PlaylistDataService::class.java)
+        }
     }
 }
