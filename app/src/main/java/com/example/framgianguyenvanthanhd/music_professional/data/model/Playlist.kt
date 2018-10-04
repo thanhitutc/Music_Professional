@@ -11,17 +11,17 @@ import com.google.gson.annotations.Expose
 class Playlist {
     @SerializedName("idPlaylist")
     @Expose
-    private val idPlaylist: String? = null
+    val idPlaylist: String? = null
     @SerializedName("name")
     @Expose
-    private val name: String? = null
+    val name: String? = null
     @SerializedName("image")
     @Expose
-    private val image: String? = null
+    val image: String? = null
     @SerializedName("background")
     @Expose
-    private val background: String? = null
+    val background: String? = null
     @SerializedName("idAccount")
     @Expose
-    private val idAccount: String? = null
+    val idAccount: String? = null
 }

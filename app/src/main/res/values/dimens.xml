@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="height_slide">180dp</dimen>
+    <dimen name="height_playlist_home">120dp</dimen>
     <dimen name="margin_indicator">16dp</dimen>
     <dimen name="size_image_slide">64dp</dimen>
     <dimen name="margin_left">10dp</dimen>

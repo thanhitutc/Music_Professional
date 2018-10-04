@@ -7,5 +7,10 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
  */
 interface PlaylistHomeDataSource {
 
-    fun getPlaylistHome() : List<Playlist>
+    fun getPlaylistHome(onResponse: OnResponsePlaylistHome)
+
+    interface OnResponsePlaylistHome {
+        fun onSuccess(playlists: List<Playlist>?)
+        fun onFailure(t: Throwable?)
+    }
 }

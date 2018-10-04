@@ -1,13 +1,16 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.repository
 
 import com.example.framgianguyenvanthanhd.music_professional.data.PlaylistHomeDataSource
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.resources.remote.PlaylistHomeRemoteDataSource
 
 /**
  * Created by admin on 10/2/2018.
  */
 class PlaylistHomeRepository private constructor(playlistDataSource: PlaylistHomeDataSource): PlaylistHomeDataSource {
+    override fun getPlaylistHome(onResponse: PlaylistHomeDataSource.OnResponsePlaylistHome) {
+        playlistHomeDataSource?.getPlaylistHome(onResponse)
+    }
+
     private var playlistHomeDataSource: PlaylistHomeDataSource? = null
     companion object {
 
@@ -15,8 +18,6 @@ class PlaylistHomeRepository private constructor(playlistDataSource: PlaylistHom
         fun getInstance() : PlaylistHomeRepository{
             return Holder.INSTANCE
         }
-
-
     }
 
     private object Holder {
@@ -25,9 +26,7 @@ class PlaylistHomeRepository private constructor(playlistDataSource: PlaylistHom
 
 
 
-    override fun getPlaylistHome(): List<Playlist> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     init {
           playlistHomeDataSource = playlistDataSource
