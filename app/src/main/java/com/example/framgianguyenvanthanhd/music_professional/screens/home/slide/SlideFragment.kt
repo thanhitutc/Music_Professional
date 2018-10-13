@@ -65,4 +65,9 @@ class SlideFragment : Fragment(), SlideContract.View {
         }
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        currentPosition = 0
+    }
 }

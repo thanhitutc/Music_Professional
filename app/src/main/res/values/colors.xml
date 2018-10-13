@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="button_checked">#d9d9d9</color>
+
     <color name="background_color_slide_start">#20fdfdfd</color>
     <color name="background_color_slide_end">#d00b0b0b</color>
     <color name="slide_name_song_color">#ffffff</color>
