@@ -15,5 +15,9 @@ class APIService {
         fun getPlaylistAPI(): DataService.PlaylistDataService? {
             return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.PlaylistDataService::class.java)
         }
+
+        fun getTopicAPI(): DataService.TopicDataService? {
+            return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.TopicDataService::class.java)
+        }
     }
 }

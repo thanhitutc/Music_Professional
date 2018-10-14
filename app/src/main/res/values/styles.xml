@@ -9,10 +9,10 @@
     </style>
 
     <style name="title_top">
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingTop">4dp</item>
-        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
         <item name="android:textColor">#212121</item>
         <item name="android:textAlignment">viewStart</item>
     </style>

@@ -1,6 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.resources.remote
 
-import com.example.framgianguyenvanthanhd.music_professional.data.PlaylistHomeDataSource
+import com.example.framgianguyenvanthanhd.music_professional.data.datasource.PlaylistHomeDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.APIService
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.DataService
