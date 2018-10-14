@@ -1,4 +1,4 @@
-package com.example.framgianguyenvanthanhd.music_professional.data
+package com.example.framgianguyenvanthanhd.music_professional.data.datasource
 
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Slide
 

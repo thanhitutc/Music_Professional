@@ -1,6 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.repository
 
-import com.example.framgianguyenvanthanhd.music_professional.data.SlideDataSource
+import com.example.framgianguyenvanthanhd.music_professional.data.datasource.SlideDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.resources.remote.SlideRemoteDataSource
 
 /**
