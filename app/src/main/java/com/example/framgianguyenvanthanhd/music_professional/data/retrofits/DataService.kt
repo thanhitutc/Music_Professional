@@ -1,5 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.retrofits
 
+import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Slide
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Topic
@@ -24,5 +25,10 @@ interface DataService {
     interface TopicDataService {
         @GET("topic.php")
         fun getTopics(): Call<List<Topic>>?
+    }
+
+    interface CategoryDataService {
+        @GET("category.php")
+        fun getCategory(): Call<List<Category>>?
     }
 }

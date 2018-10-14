@@ -27,6 +27,11 @@
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.topic_home.TopicHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <fragment
+            android:id="@+id/fragment_category_home"
+            android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.Category_home.CategoryHomeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
