@@ -19,5 +19,9 @@ class APIService {
         fun getTopicAPI(): DataService.TopicDataService? {
             return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.TopicDataService::class.java)
         }
+
+        fun getCategoryAPI(): DataService.CategoryDataService? {
+            return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.CategoryDataService::class.java)
+        }
     }
 }
