@@ -1,9 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.retrofits
 
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Slide
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Topic
+import com.example.framgianguyenvanthanhd.music_professional.data.model.*
 import retrofit2.Call
 import retrofit2.http.GET
 
@@ -30,5 +27,10 @@ interface DataService {
     interface CategoryDataService {
         @GET("category.php")
         fun getCategory(): Call<List<Category>>?
+    }
+
+    interface FavoriteDataService {
+        @GET("favorites.php")
+        fun getFavorite(): Call<List<Favorite>?>
     }
 }

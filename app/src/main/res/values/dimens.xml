@@ -11,4 +11,5 @@
     <dimen name="slide_text_size_content">13sp</dimen>
     <dimen name="title_size_top">24sp</dimen>
     <dimen name="pading_insdie_top">8dp</dimen>
+    <dimen name="size_image_item">64dp</dimen>
 </resources>

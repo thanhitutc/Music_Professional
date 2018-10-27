@@ -23,5 +23,9 @@ class APIService {
         fun getCategoryAPI(): DataService.CategoryDataService? {
             return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.CategoryDataService::class.java)
         }
+
+        fun getFavoriteAPI(): DataService.FavoriteDataService? {
+            return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.FavoriteDataService::class.java)
+        }
     }
 }
