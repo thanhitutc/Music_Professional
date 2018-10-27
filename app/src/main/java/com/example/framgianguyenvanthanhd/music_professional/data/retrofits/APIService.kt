@@ -27,5 +27,9 @@ class APIService {
         fun getFavoriteAPI(): DataService.FavoriteDataService? {
             return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.FavoriteDataService::class.java)
         }
+
+        fun getPlayMostAPI(): DataService.PlayMostDataService? {
+            return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.PlayMostDataService::class.java)
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.home.favorite_home
 
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.FavoriteDataSource
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Favorite
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 
 /**
@@ -26,14 +26,14 @@ class FavoriteHomePresenter(
 
     override fun getFavoriteSongs() {
         repository.fetchFavoriteHome(object : FavoriteDataSource.OnResponseFavoriteHome{
-            override fun onSuccess(favorites: List<Favorite>?) {
-                favorites?.let {
-                    view.favoriteSongsSuccessfully(favorites)
+            override fun onSuccess(songHomes: List<SongHome>?) {
+                songHomes?.let {
+                    view.favoriteSongsSuccessfully(songHomes)
                 }
             }
 
             override fun onError(t: Throwable?) {
-                view.favoriteSongs(t)
+                view.favoriteSongsError(t)
             }
         })
     }

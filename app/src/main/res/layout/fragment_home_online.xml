@@ -37,6 +37,11 @@
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.favorite_home.FavoriteHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <fragment
+            android:id="@+id/fragment_playmost"
+            android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.playmost.PlayMostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

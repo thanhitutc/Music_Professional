@@ -31,6 +31,11 @@ interface DataService {
 
     interface FavoriteDataService {
         @GET("favorites.php")
-        fun getFavorite(): Call<List<Favorite>?>
+        fun getFavorite(): Call<List<SongHome>?>
+    }
+
+    interface PlayMostDataService {
+        @GET("playstheweek.php")
+        fun getPlayMost(): Call<List<SongHome>?>
     }
 }

@@ -4,5 +4,6 @@
     <string name="topic_home_title">Chủ đề hot</string>
     <string name="category_home_title">Thể loại dành cho bạn</string>
     <string name="favorite_home_title">Những ca khúc được yêu thích nhất</string>
+    <string name="playmost_home_title">Nghe nhiều nhất trong tuần</string>
     <string name="more">Xem thêm</string>
 </resources>
