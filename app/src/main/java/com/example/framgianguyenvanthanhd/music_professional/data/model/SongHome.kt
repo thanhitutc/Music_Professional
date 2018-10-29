@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by admin on 10/27/2018.
  */
-data class Favorite (
+data class SongHome (
     @SerializedName("idSong")
     @Expose
     val idSong: String?,

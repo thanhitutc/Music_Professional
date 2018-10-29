@@ -5,11 +5,11 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 /**
  * Created by admin on 10/27/2018.
  */
-interface FavoriteDataSource {
+interface PlayMostDataSource {
 
-    fun fetchFavoriteHome(onResponse: OnResponseFavoriteHome)
+    fun fetchPlayMost(onResponse: OnResponsePlayMost)
 
-    interface OnResponseFavoriteHome {
+    interface OnResponsePlayMost {
 
         fun onSuccess(songHomes: List<SongHome>?)
 

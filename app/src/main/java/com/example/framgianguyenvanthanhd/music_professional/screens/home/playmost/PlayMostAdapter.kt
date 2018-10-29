@@ -1,4 +1,4 @@
-package com.example.framgianguyenvanthanhd.music_professional.screens.home.favorite_home
+package com.example.framgianguyenvanthanhd.music_professional.screens.home.playmost
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,9 +13,9 @@ import com.squareup.picasso.Picasso
 /**
  * Created by admin on 10/27/2018.
  */
-class FavoriteAdapter(
+class PlayMostAdapter(
         private val songHomeSongs: List<SongHome>
-): RecyclerView.Adapter<FavoriteAdapter.FavoriteHolder>() {
+): RecyclerView.Adapter<PlayMostAdapter.FavoriteHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FavoriteHolder {
         return FavoriteHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_song_rv,parent, false))

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.framgianguyenvanthanhd.music_professional.R
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Favorite
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import kotlinx.android.synthetic.main.fragment_favorite.*
 
@@ -22,12 +22,12 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View {
         this.presenter = presenter
     }
 
-    override fun favoriteSongsSuccessfully(favoriteSongs: List<Favorite>) {
-        adapter = FavoriteAdapter(favoriteSongs)
+    override fun favoriteSongsSuccessfully(songHomeSongs: List<SongHome>) {
+        adapter = FavoriteAdapter(songHomeSongs)
         rc_favorite_home.adapter = adapter
     }
 
-    override fun favoriteSongs(t: Throwable?) {
+    override fun favoriteSongsError(t: Throwable?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

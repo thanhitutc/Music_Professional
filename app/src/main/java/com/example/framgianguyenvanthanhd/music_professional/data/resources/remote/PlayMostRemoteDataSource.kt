@@ -1,6 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.resources.remote
 
-import com.example.framgianguyenvanthanhd.music_professional.data.datasource.FavoriteDataSource
+import com.example.framgianguyenvanthanhd.music_professional.data.datasource.PlayMostDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.APIService
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.DataService
@@ -11,24 +11,24 @@ import retrofit2.Response
 /**
  * Created by admin on 10/27/2018.
  */
-class FavoriteRemoteDataSource private constructor(
-        private val dataService: DataService.FavoriteDataService? = APIService.getFavoriteAPI()
-) : FavoriteDataSource {
+class PlayMostRemoteDataSource private constructor(
+        private val dataService : DataService.PlayMostDataService? = APIService.getPlayMostAPI()
+): PlayMostDataSource {
 
     private object Holder {
-        val INSTANCE = FavoriteRemoteDataSource()
+        val INSTANCE = PlayMostRemoteDataSource()
     }
 
     companion object {
         @JvmStatic
-        fun getInstance(): FavoriteDataSource {
+        fun getInstance(): PlayMostDataSource {
             return Holder.INSTANCE
         }
     }
 
-    override fun fetchFavoriteHome(onResponse: FavoriteDataSource.OnResponseFavoriteHome) {
+    override fun fetchPlayMost(onResponse: PlayMostDataSource.OnResponsePlayMost) {
         dataService?.let {
-            val callback: Call<List<SongHome>?> = dataService.getFavorite()
+            val callback: Call<List<SongHome>?> = dataService.getPlayMost()
             callback.enqueue(object : Callback<List<SongHome>?> {
 
                 override fun onFailure(call: Call<List<SongHome>?>?, t: Throwable?) {
@@ -44,4 +44,5 @@ class FavoriteRemoteDataSource private constructor(
         }
 
     }
+
 }
