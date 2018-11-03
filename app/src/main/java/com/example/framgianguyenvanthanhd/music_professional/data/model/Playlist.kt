@@ -2,13 +2,13 @@ package com.example.framgianguyenvanthanhd.music_professional.data.model
 
 import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
-
+import java.io.Serializable
 
 
 /**
  * Created by admin on 10/2/2018.
  */
-class Playlist {
+class Playlist : Serializable{
     @SerializedName("idPlaylist")
     @Expose
     val idPlaylist: String? = null

@@ -12,5 +12,8 @@ class Constants {
         val CONNECT_TIME_OUT : Long = 10000
 
         val DELAY_SLIDE : Long = 4000
+
+        const val PLAYLIST_ACTION = "playlist_acction"
+        const val PLAYLIST_EXTRA = "playlist_extra"
     }
 }

@@ -13,7 +13,16 @@ import com.squareup.picasso.Picasso
 /**
  * Created by FRAMGIA\nguyen.van.thanhd on 04/10/2018.
  */
-class PlaylistHomeAdapter(val playlists: List<Playlist>?) : RecyclerView.Adapter<PlaylistHomeAdapter.PlaylistHolder>() {
+class PlaylistHomeAdapter
+(val playlists: List<Playlist>?,
+ private val onItemPlaylistClick: OnItemPlaylistClick
+ ) : RecyclerView.Adapter<PlaylistHomeAdapter.PlaylistHolder>() {
+
+    interface OnItemPlaylistClick {
+
+        fun onItemClick(playlist: Playlist)
+
+    }
 
     override fun getItemCount(): Int {
         return playlists?.size ?: 0
@@ -26,10 +35,14 @@ class PlaylistHomeAdapter(val playlists: List<Playlist>?) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: PlaylistHolder?, position: Int) {
         holder?.bindData(playlists?.get(position))
+        holder?.itemView?.setOnClickListener{
+            onItemPlaylistClick.onItemClick(playlists?.get(position)!!)
+        }
     }
 
 
     class PlaylistHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+
         private val imgAvatarPl = itemView?.findViewById<ImageView>(R.id.img_playlist_home_image)
         private val imgBackgroundPl = itemView?.findViewById<ImageView>(R.id.img_playist_home_background)
         private val txtNamePl = itemView?.findViewById<TextView>(R.id.txt_playlist_home_name)

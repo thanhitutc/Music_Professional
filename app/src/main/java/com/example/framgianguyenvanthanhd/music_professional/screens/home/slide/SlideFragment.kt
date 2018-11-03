@@ -56,9 +56,7 @@ class SlideFragment : Fragment(), SlideContract.View {
     private var infinitySlideRunable = object : Runnable {
         override fun run() {
             if (slide_pager == null) {
-                currentPosition = 0
-            } else{
-                currentPosition = slide_pager.currentItem
+                return
             }
             currentPosition++
             if (slide_pager.currentItem++ >= slideAdapter.count - 1) {

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
@@ -28,7 +29,7 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View {
     }
 
     override fun favoriteSongsError(t: Throwable?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(context, t.toString(), Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {

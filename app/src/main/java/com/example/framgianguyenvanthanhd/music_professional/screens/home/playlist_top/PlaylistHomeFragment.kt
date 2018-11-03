@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
+import com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.detail.DetailPlaylistActivity
 import kotlinx.android.synthetic.main.fragment_playlist_home.*
 
 /**
  * Created by admin on 10/2/2018.
  */
-class PlaylistHomeFragment : Fragment(), PlaylistHomeContract.PlaylistHomeView {
+class PlaylistHomeFragment : Fragment(), PlaylistHomeContract.PlaylistHomeView,
+        PlaylistHomeAdapter.OnItemPlaylistClick {
+
     private lateinit var presenter: PlaylistHomeContract.PlaylistHomePresenter
     private lateinit var plHomeAdapter: PlaylistHomeAdapter
 
@@ -23,7 +26,7 @@ class PlaylistHomeFragment : Fragment(), PlaylistHomeContract.PlaylistHomeView {
     }
 
     override fun loadSuccessfully(list: List<Playlist>?) {
-        plHomeAdapter = PlaylistHomeAdapter(list)
+        plHomeAdapter = PlaylistHomeAdapter(list, this)
         rc_playlist_home.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
         rc_playlist_home.adapter = plHomeAdapter
     }
@@ -41,6 +44,10 @@ class PlaylistHomeFragment : Fragment(), PlaylistHomeContract.PlaylistHomeView {
         presenter.onStart()
         presenter.requestPlaylistsHome()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onItemClick(playlist: Playlist) {
+        activity.startActivity(DetailPlaylistActivity.getInstance(context, playlist))
     }
 }
 
