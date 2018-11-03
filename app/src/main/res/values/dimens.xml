@@ -12,4 +12,14 @@
     <dimen name="title_size_top">24sp</dimen>
     <dimen name="pading_insdie_top">8dp</dimen>
     <dimen name="size_image_item">64dp</dimen>
+    <dimen name="height_appbar">250dp</dimen>
+    <dimen name="image_detail_size">96dp</dimen>
+    <dimen name="space_30">30dp</dimen>
+    <dimen name="space_2">2dp</dimen>
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_6">6dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_10">10dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_16">16dp</dimen>
 </resources>

@@ -37,7 +37,6 @@ class PlayMostFragment : Fragment(), PlaymostContract.View {
     }
 
     override fun playMostSongsError(t: Throwable?) {
-        TODO("not implemented")
     }
 
     override fun setPresenter(presenter: PlaymostContract.Presenter) {

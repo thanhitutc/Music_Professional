@@ -2,7 +2,10 @@ package com.example.framgianguyenvanthanhd.music_professional.data.retrofits
 
 import com.example.framgianguyenvanthanhd.music_professional.data.model.*
 import retrofit2.Call
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 /**
  * Created by FRAMGIA\nguyen.van.thanhd on 30/08/2018.
@@ -15,8 +18,14 @@ interface DataService {
     }
 
     interface PlaylistDataService {
+
         @GET("playlists.php")
         fun getPlaylistHome(): Call<List<Playlist>>?
+
+        @POST("detail.php")
+        @FormUrlEncoded
+        fun getDetailPlaylist(@Field("idplaylist") id: String): Call<List<Song>?>
+
     }
 
     interface TopicDataService {

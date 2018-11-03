@@ -6,4 +6,5 @@
     <string name="favorite_home_title">Những ca khúc được yêu thích nhất</string>
     <string name="playmost_home_title">Nghe nhiều nhất trong tuần</string>
     <string name="more">Xem thêm</string>
+    <string name="play_shuffle">Nghe ngẫu nhiên</string>
 </resources>

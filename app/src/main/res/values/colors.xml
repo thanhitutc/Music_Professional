@@ -10,4 +10,5 @@
     <color name="background_color_slide_end">#d00b0b0b</color>
     <color name="slide_name_song_color">#ffffff</color>
     <color name="slide_content_color">#efebeb</color>
+    <color name="while_color">#ffffff</color>
 </resources>
