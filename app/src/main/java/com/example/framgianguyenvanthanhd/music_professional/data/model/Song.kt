@@ -11,7 +11,7 @@ data class Song (
         @Expose
         val idSong: Int?,
 
-        @SerializedName("nameSong")
+        @SerializedName("name")
         @Expose
         val name: String?,
 

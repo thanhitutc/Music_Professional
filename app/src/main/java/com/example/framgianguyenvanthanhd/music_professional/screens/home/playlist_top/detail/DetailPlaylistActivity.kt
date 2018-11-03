@@ -6,11 +6,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistHomeRepository
+import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_detail_songs.*
 
@@ -18,9 +22,11 @@ import kotlinx.android.synthetic.main.layout_detail_songs.*
 /**
  * Created by admin on 10/31/2018.
  */
-class DetailPlaylistActivity : AppCompatActivity(), DetailPlaylistContract.DetailPlaylistView {
+class DetailPlaylistActivity : AppCompatActivity(), DetailPlaylistContract.DetailPlaylistView,
+DetailSongAdapter.OnItemSongClickListener{
 
     private lateinit var presenter: DetailPlaylistContract.DetailPlPresenter
+    private lateinit var adapter : DetailSongAdapter
 
     companion object {
         @JvmStatic
@@ -64,6 +70,12 @@ class DetailPlaylistActivity : AppCompatActivity(), DetailPlaylistContract.Detai
             collapsing_toolbar.setCollapsedTitleTextColor(Color.WHITE)
             presenter.fetchDetailPlaylist(playlist.idPlaylist.orEmpty())
         }
+        rc_detail_songs.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
+        rc_detail_songs.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
+        swipe_refresh.setOnRefreshListener {
+            swipe_refresh.isRefreshing = true
+            presenter.fetchDetailPlaylist(playlist?.idPlaylist.orEmpty())
+        }
     }
 
     override fun setPresenter(presenter: DetailPlaylistContract.DetailPlPresenter) {
@@ -71,10 +83,18 @@ class DetailPlaylistActivity : AppCompatActivity(), DetailPlaylistContract.Detai
     }
 
     override fun loadSuccessfully(list: List<Song>) {
-
+        progress_isloading.visibility = View.INVISIBLE
+        swipe_refresh.isRefreshing = false
+        adapter = DetailSongAdapter(list, this)
+        rc_detail_songs.adapter = adapter
     }
 
     override fun loadError(t: Throwable) {
+        swipe_refresh.isRefreshing = false
+        progress_isloading.visibility = View.INVISIBLE
+    }
+
+    override fun onItemSongClick(song: Song) {
 
     }
 }

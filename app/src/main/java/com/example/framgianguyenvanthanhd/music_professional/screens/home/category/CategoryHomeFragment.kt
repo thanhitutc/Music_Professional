@@ -3,13 +3,12 @@ package com.example.framgianguyenvanthanhd.music_professional.screens.home.Categ
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
+import com.example.framgianguyenvanthanhd.music_professional.helper.GridSpacingItemDecoration
 import kotlinx.android.synthetic.main.fragment_category_home.*
 
 
@@ -27,7 +26,6 @@ class CategoryHomeFragment : Fragment(), CategoryContract.View {
 
     override fun categorySuccessfully(Categorys: List<Category>) {
         CategoryAdapter = CategoryAdapter(Categorys)
-        rc_category_home.layoutManager = GridLayoutManager(activity, 2)
         rc_category_home.adapter = CategoryAdapter
     }
 
@@ -45,5 +43,7 @@ class CategoryHomeFragment : Fragment(), CategoryContract.View {
         presenter.setView(this)
         presenter.onStart()
         presenter.getCategorysHome()
+        rc_category_home.layoutManager = GridLayoutManager(activity, 2)
+        rc_category_home.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context,10), true))
     }
 }

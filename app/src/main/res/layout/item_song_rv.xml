@@ -19,8 +19,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/song_name"
-            android:layout_marginRight="8dp" />
+            app:layout_constraintRight_toLeftOf="@id/song_name" />
 
         <TextView
             android:id="@+id/song_name"
@@ -29,6 +28,7 @@
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_8"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/song_image"
             app:layout_constraintBottom_toTopOf="@id/song_singer" />
@@ -37,6 +37,7 @@
             android:id="@+id/song_singer"
             android:text="ten ca si"
             android:textSize="13sp"
+            android:layout_marginLeft="@dimen/space_8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toRightOf="@id/song_image"

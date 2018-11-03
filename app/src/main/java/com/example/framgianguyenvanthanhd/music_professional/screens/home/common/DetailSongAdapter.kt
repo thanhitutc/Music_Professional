@@ -20,7 +20,7 @@ class DetailSongAdapter(
 
     interface OnItemSongClickListener {
 
-        fun onItemSongclick (song: Song)
+        fun onItemSongClick (song: Song)
 
     }
 
