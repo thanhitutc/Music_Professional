@@ -14,6 +14,7 @@
     <dimen name="size_image_item">64dp</dimen>
     <dimen name="height_appbar">250dp</dimen>
     <dimen name="image_detail_size">96dp</dimen>
+    <dimen name="category_height_item">202dp</dimen>
     <dimen name="space_30">30dp</dimen>
     <dimen name="space_2">2dp</dimen>
     <dimen name="space_4">4dp</dimen>

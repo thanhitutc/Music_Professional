@@ -13,6 +13,8 @@ class Constants {
 
         val DELAY_SLIDE : Long = 4000
 
+        const val DEFAULT_SIZE_PLAYLIST_HOME = 3
+
         const val PLAYLIST_ACTION = "playlist_acction"
         const val PLAYLIST_EXTRA = "playlist_extra"
     }

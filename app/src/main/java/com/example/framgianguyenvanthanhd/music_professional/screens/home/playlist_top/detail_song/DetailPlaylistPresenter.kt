@@ -1,4 +1,4 @@
-package com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.detail
+package com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.detail_song
 
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.common.OnResponseDetailSong
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
