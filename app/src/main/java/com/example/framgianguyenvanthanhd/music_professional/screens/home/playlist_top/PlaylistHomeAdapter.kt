@@ -7,25 +7,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.framgianguyenvanthanhd.music_professional.R
+import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.squareup.picasso.Picasso
 
 /**
  * Created by FRAMGIA\nguyen.van.thanhd on 04/10/2018.
  */
-class PlaylistHomeAdapter
-(val playlists: List<Playlist>?,
- private val onItemPlaylistClick: OnItemPlaylistClick
- ) : RecyclerView.Adapter<PlaylistHomeAdapter.PlaylistHolder>() {
-
-    interface OnItemPlaylistClick {
-
-        fun onItemClick(playlist: Playlist)
-
-    }
+class PlaylistHomeAdapter(
+        val playlists: List<Playlist>?,
+        private val onItemPlaylistClick: OnItemPlaylistClick
+) : RecyclerView.Adapter<PlaylistHomeAdapter.PlaylistHolder>() {
 
     override fun getItemCount(): Int {
-        return playlists?.size ?: 0
+        return Constants.DEFAULT_SIZE_PLAYLIST_HOME
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PlaylistHolder {
@@ -35,7 +30,7 @@ class PlaylistHomeAdapter
 
     override fun onBindViewHolder(holder: PlaylistHolder?, position: Int) {
         holder?.bindData(playlists?.get(position))
-        holder?.itemView?.setOnClickListener{
+        holder?.itemView?.setOnClickListener {
             onItemPlaylistClick.onItemClick(playlists?.get(position)!!)
         }
     }

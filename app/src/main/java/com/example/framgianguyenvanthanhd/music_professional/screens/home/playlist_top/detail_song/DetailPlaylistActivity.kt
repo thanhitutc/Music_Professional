@@ -1,4 +1,4 @@
-package com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.detail
+package com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.detail_song
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,6 +17,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.repository.Pla
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_detail_songs.*
+import java.util.*
 
 
 /**

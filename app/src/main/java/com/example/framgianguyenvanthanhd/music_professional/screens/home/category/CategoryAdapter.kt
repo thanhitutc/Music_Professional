@@ -31,7 +31,7 @@ class CategoryAdapter(val Categorys: List<Category>?) : RecyclerView.Adapter<Cat
 
         fun binData(Category: Category?) {
             Category?.let {
-                Picasso.with(itemView?.context).load(Category.image).into(imgItem)
+                Picasso.with(itemView?.context).load(Category.image).fit().into(imgItem)
             }
         }
     }

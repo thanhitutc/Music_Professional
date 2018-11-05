@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".screens.home.playlist_top.detail.DetailPlaylistActivity"/>
+        <activity android:name=".screens.home.playlist_top.detail_song.DetailPlaylistActivity"/>
+        <activity android:name=".screens.home.playlist_top.detail.PlaylistMoreActivity"/>
     </application>
 
 </manifest>
