@@ -2,7 +2,7 @@ package com.example.framgianguyenvanthanhd.music_professional.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-
+import java.io.Serializable
 
 
 /**
@@ -11,13 +11,13 @@ import com.google.gson.annotations.SerializedName
 data class Topic (
     @SerializedName("idTopic")
     @Expose
-    var idTopic: String? = null,
+    val idTopic: String?,
 
     @SerializedName("name")
     @Expose
-    var name: String? = null,
+    val name: String?,
 
     @SerializedName("image")
     @Expose
-    var image: String? = null
-)
+    val image: String?
+) : Serializable

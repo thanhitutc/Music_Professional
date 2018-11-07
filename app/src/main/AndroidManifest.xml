@@ -20,6 +20,10 @@
 
         <activity android:name=".screens.home.playlist_top.detail_song.DetailPlaylistActivity"/>
         <activity android:name=".screens.home.playlist_top.detail.PlaylistMoreActivity"/>
+        <activity android:name=".screens.home.topic_home.more_topic.AllTopicActivity"/>
+        <activity android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.category.category_from_topic.CategoryFromTopicActivity"/>
+        <activity android:name=".screens.home.category.detail_songs.DetailSongsCategoryActivity"/>
+        <activity android:name=".screens.home.category.more.CategoryMoreActivity"/>
     </application>
 
 </manifest>

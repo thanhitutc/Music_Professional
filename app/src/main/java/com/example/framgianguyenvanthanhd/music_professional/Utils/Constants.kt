@@ -17,5 +17,12 @@ class Constants {
 
         const val PLAYLIST_ACTION = "playlist_acction"
         const val PLAYLIST_EXTRA = "playlist_extra"
+
+        /*
+        * category
+        * */
+        const val CATEGORY_FROM_TOPIC_EXTRA = "category_from_topic_extra"
+        const val CATEGORY_ID_EXTRA = "category_id_extra"
+
     }
 }

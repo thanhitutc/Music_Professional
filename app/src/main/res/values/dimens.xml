@@ -15,6 +15,7 @@
     <dimen name="height_appbar">250dp</dimen>
     <dimen name="image_detail_size">96dp</dimen>
     <dimen name="category_height_item">202dp</dimen>
+    <dimen name="category_with_item">296dp</dimen>
     <dimen name="space_30">30dp</dimen>
     <dimen name="space_2">2dp</dimen>
     <dimen name="space_4">4dp</dimen>
@@ -23,4 +24,11 @@
     <dimen name="space_10">10dp</dimen>
     <dimen name="space_12">12dp</dimen>
     <dimen name="space_16">16dp</dimen>
+
+    <dimen name="text_sie_18">18sp</dimen>
+    <dimen name="text_sie_16">16sp</dimen>
+    <dimen name="text_sie_15">15sp</dimen>
+    <dimen name="text_sie_14">14sp</dimen>
+    <dimen name="text_sie_13">13sp</dimen>
+    <dimen name="text_sie_12">12sp</dimen>
 </resources>

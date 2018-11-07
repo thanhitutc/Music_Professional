@@ -36,6 +36,14 @@ interface DataService {
     interface CategoryDataService {
         @GET("category.php")
         fun getCategory(): Call<List<Category>>?
+
+        @POST("category.php")
+        @FormUrlEncoded
+        fun getCategoryWithIdTopic(@Field("idTopic") idTopic: String): Call<List<Category>>
+
+        @POST("detail.php")
+        @FormUrlEncoded
+        fun getDetailCategory(@Field("idCategory") id: String): Call<List<Song>?>
     }
 
     interface FavoriteDataService {

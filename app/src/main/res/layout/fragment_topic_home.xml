@@ -37,7 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/txt_title_topic_home"/>
 
     <Button
-        android:id="@+id/btn_playlist_home_more"
+        android:id="@+id/btn_topic_home_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
