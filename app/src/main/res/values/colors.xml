@@ -11,4 +11,6 @@
     <color name="slide_name_song_color">#ffffff</color>
     <color name="slide_content_color">#efebeb</color>
     <color name="while_color">#ffffff</color>
+
+    <color name="sub_title_color">#727272</color>
 </resources>

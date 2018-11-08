@@ -9,24 +9,27 @@ import android.view.ViewGroup
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
 import com.example.framgianguyenvanthanhd.music_professional.helper.GridSpacingItemDecoration
+import com.example.framgianguyenvanthanhd.music_professional.screens.home.category.OnItemCategoryClick
+import com.example.framgianguyenvanthanhd.music_professional.screens.home.category.detail_songs.DetailSongsCategoryActivity
+import com.example.framgianguyenvanthanhd.music_professional.screens.home.category.more.CategoryMoreActivity
 import kotlinx.android.synthetic.main.fragment_category_home.*
 
 
 /**
  * Created by admin on 10/14/2018.
  */
-class CategoryHomeFragment : Fragment(), CategoryContract.View {
+class CategoryHomeFragment : Fragment(), CategoryContract.View, OnItemCategoryClick, View.OnClickListener {
 
     private lateinit var presenter: CategoryContract.Presenter
-    private lateinit var CategoryAdapter: CategoryAdapter
+    private lateinit var CategoryHomeAdapter: CategoryHomeAdapter
 
     override fun setPresenter(presenter: CategoryContract.Presenter) {
         this.presenter = presenter
     }
 
     override fun categorySuccessfully(Categorys: List<Category>) {
-        CategoryAdapter = CategoryAdapter(Categorys)
-        rc_category_home.adapter = CategoryAdapter
+        CategoryHomeAdapter = CategoryHomeAdapter(Categorys, this)
+        rc_category_home.adapter = CategoryHomeAdapter
     }
 
     override fun categoryError(t: Throwable?) {
@@ -45,5 +48,18 @@ class CategoryHomeFragment : Fragment(), CategoryContract.View {
         presenter.getCategorysHome()
         rc_category_home.layoutManager = GridLayoutManager(activity, 2)
         rc_category_home.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context,10), true))
+
+        txt_title_category_home.setOnClickListener(this)
+        btn_category_home_more.setOnClickListener(this)
+    }
+
+    override fun onItemClick(category: Category) {
+        startActivity(DetailSongsCategoryActivity.getInstance(context, category))
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id) {
+            R.id.txt_title_category_home, R.id.btn_category_home_more -> startActivity(CategoryMoreActivity.getInstance(context))
+        }
     }
 }

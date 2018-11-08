@@ -7,4 +7,6 @@
     <string name="playmost_home_title">Nghe nhiều nhất trong tuần</string>
     <string name="more">Xem thêm</string>
     <string name="play_shuffle">Nghe ngẫu nhiên</string>
+
+    <string name="default_artists">Various Artists</string>
 </resources>

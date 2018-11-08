@@ -7,23 +7,30 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
+import com.example.framgianguyenvanthanhd.music_professional.screens.home.category.OnItemCategoryClick
 import com.squareup.picasso.Picasso
 
 /**
  * Created by admin on 10/14/2018.
  */
-class CategoryAdapter(val Categorys: List<Category>?) : RecyclerView.Adapter<CategoryAdapter.CategoryHolder>() {
+class CategoryHomeAdapter(
+        val categorys: List<Category>,
+        private val onItemClick: OnItemCategoryClick
+) : RecyclerView.Adapter<CategoryHomeAdapter.CategoryHolder>() {
 
     override fun onBindViewHolder(holder: CategoryHolder?, position: Int) {
-        holder?.binData(Categorys?.get(position))
+        holder?.binData(categorys.get(position))
+        holder?.itemView?.setOnClickListener {
+            onItemClick.onItemClick(categorys[position])
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): CategoryHolder {
-        return CategoryHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_topic_category, parent, false))
+        return CategoryHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_category, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return Categorys?.size ?: 0
+        return 6
     }
 
     class CategoryHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
