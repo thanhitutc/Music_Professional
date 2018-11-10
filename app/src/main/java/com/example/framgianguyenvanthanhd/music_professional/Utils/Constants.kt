@@ -24,5 +24,11 @@ class Constants {
         const val CATEGORY_FROM_TOPIC_EXTRA = "category_from_topic_extra"
         const val CATEGORY_ID_EXTRA = "category_id_extra"
 
+        /*
+        * song home detail
+        * */
+
+        const val SONG_HOME_TYPE = "song_home_type"
+
     }
 }

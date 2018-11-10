@@ -1,4 +1,4 @@
-package com.example.framgianguyenvanthanhd.music_professional.screens.home.playmost
+package com.example.framgianguyenvanthanhd.music_professional.screens.home.common
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,16 +13,19 @@ import com.squareup.picasso.Picasso
 /**
  * Created by admin on 10/27/2018.
  */
-class PlayMostAdapter(
-        private val songHomeSongs: List<SongHome>
-): RecyclerView.Adapter<PlayMostAdapter.FavoriteHolder>() {
+class SongHomeAdapter(
+        private val songHomeSongs: List<SongHome>,
+        private val isHomeScreen : Boolean
+): RecyclerView.Adapter<SongHomeAdapter.FavoriteHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): FavoriteHolder {
-        return FavoriteHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_song_rv,parent, false))
+        return FavoriteHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_song_rv, parent, false))
     }
 
 
-    override fun getItemCount(): Int = songHomeSongs.size
+    override fun getItemCount(): Int {
+        return if (isHomeScreen) 5 else songHomeSongs.size
+    }
 
 
     override fun onBindViewHolder(holder: FavoriteHolder?, position: Int) {

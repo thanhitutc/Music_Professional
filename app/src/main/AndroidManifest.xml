@@ -24,6 +24,7 @@
         <activity android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.category.category_from_topic.CategoryFromTopicActivity"/>
         <activity android:name=".screens.home.category.detail_songs.DetailSongsCategoryActivity"/>
         <activity android:name=".screens.home.category.more.CategoryMoreActivity"/>
+        <activity android:name=".screens.home.common.song_home_detail.SongHomeDetailActivity"/>
     </application>
 
 </manifest>
