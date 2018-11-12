@@ -9,4 +9,13 @@
     <string name="play_shuffle">Nghe ngẫu nhiên</string>
 
     <string name="default_artists">Various Artists</string>
+
+    <!--menu-->
+    <string name="menu_account">Cá nhân</string>
+    <string name="menu_cd">Khám phá</string>
+    <string name="menu_more">Thêm</string>
+    <string name="playlist">Playlist</string>
+    <string name="song">Bài hát</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="Download">download</string>
 </resources>

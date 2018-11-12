@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,6 +26,7 @@
         <activity android:name=".screens.home.category.detail_songs.DetailSongsCategoryActivity"/>
         <activity android:name=".screens.home.category.more.CategoryMoreActivity"/>
         <activity android:name=".screens.home.common.song_home_detail.SongHomeDetailActivity"/>
+        <activity android:name=".screens.offline.MainOfflineActivity"/>
     </application>
 
 </manifest>

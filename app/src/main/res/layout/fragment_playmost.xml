@@ -1,48 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/txt_title_playmost_home"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingLeft="@dimen/pading_insdie_top">
 
         <TextView
-            android:text="@string/playmost_home_title"
             style="@style/title_top"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/playmost_home_title" />
 
         <ImageView
-            android:src="@drawable/ic_action_more"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_more" />
     </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView
-        android:paddingLeft="@dimen/pading_insdie_top"
-        android:paddingRight="@dimen/pading_insdie_top"
         android:id="@+id/rc_playmost_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/pading_insdie_top"
+        android:paddingRight="@dimen/pading_insdie_top"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_title_playmost_home"/>
+        app:layout_constraintTop_toBottomOf="@id/txt_title_playmost_home" />
 
     <Button
         android:id="@+id/btn_playmost_home_more"
+        style="@style/more_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        style="@style/more_top"
         android:background="?android:attr/selectableItemBackground"
-        app:layout_constraintTop_toBottomOf="@id/rc_playmost_home"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rc_playmost_home" />
 
 </android.support.constraint.ConstraintLayout>

@@ -3,13 +3,15 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical"
     android:fillViewport="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/online"
+    android:tag="home_online">
 
     <LinearLayout
         android:id="@+id/home_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <fragment
             android:id="@+id/fragment_slide_home"
@@ -18,30 +20,38 @@
             android:layout_height="wrap_content"/>
 
         <fragment
+            android:layout_marginTop="@dimen/text_sie_16"
             android:id="@+id/fragment_playlist_home"
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.PlaylistHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <fragment
+            android:layout_marginTop="@dimen/text_sie_16"
             android:id="@+id/fragment_topic_home"
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.topic_home.TopicHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <fragment
+            android:layout_marginTop="@dimen/text_sie_16"
             android:id="@+id/fragment_category_home"
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.Category_home.CategoryHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
         <fragment
+            android:layout_marginTop="@dimen/text_sie_16"
+            android:id="@+id/fragment_most_play"
+            android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.playmost.PlayMostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <fragment
+            android:layout_marginTop="@dimen/text_sie_16"
             android:id="@+id/fragment_favorite_home"
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.favorite_home.FavoriteHomeFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <fragment
-            android:id="@+id/fragment_playmost"
-            android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.playmost.PlayMostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
 
     </LinearLayout>
 
