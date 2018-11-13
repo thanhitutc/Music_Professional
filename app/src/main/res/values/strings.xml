@@ -18,4 +18,37 @@
     <string name="song">Bài hát</string>
     <string name="favorite">Yêu thích</string>
     <string name="Download">download</string>
+
+    <!--OFFLINE-->
+    <string name="title_all_song">Song</string>
+    <string name="title_album">Album</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_feed_back_developer">Feed back developer</string>
+    <string name="title_add_song_to_favorite">Add songOffline to favorite</string>
+    <string name="title_add_song_to_album">Add songOffline to playlistOffline</string>
+    <string name="title_toolbar_playmusic">Playing music</string>
+    <string name="title_menu_add_to_favorite">Add to favorite</string>
+    <string name="title_menu_add_to_album">Add to playlistOffline</string>
+    <string name="title_menu_delete_song">Delete songOffline</string>
+    <string name="title_menu_delete_album">Delete playlistOffline</string>
+    <string name="title_menu_update_album">Update name</string>
+    <string name="title_dialog_add_album">Add new playlistOffline</string>
+    <string name="title_dialog_delete_song">Delete songOffline</string>
+    <string name="title_dialog_delete_album">Delete playlistOffline</string>
+    <string name="title_dialog_rename_album">Rename playlistOffline</string>
+    <string name="announcement_no_song">No songOffline in the memory</string>
+    <string name="announcement_delete_song">Do you want delete</string>
+    <string name="announcement_delete_album">Do you want delete playlistOffline</string>
+    <string name="announcement_no_song_in_album">No songOffline in the playlistOffline</string>
+    <string name="announcement_no_song_favorite">No songOffline favorite in the memory</string>
+    <string name="announcement_delete_song_fail">Delete songOffline fail</string>
+    <string name="announcement_add_song_favorite_success">Add songOffline to the favorite successfully</string>
+    <string name="announcement_add_song_favorite_fail">Song is exist</string>
+    <string name="announcement_add_favorite_nothing_song">No songOfflines selected</string>
+    <string name="announcement_list_favorite_empty">All songOfflines have been added to favorite </string>
+    <string name="announcement_no_album">You have not created any playlistOfflines yet</string>
+    <string name="announcement_add_song_album_fail">Song is exist</string>
+    <string name="announcement_add_song_album_success">Add songOffline to the playlistOffline successfully</string>
+    <string name="description_image_view">button more</string>
+    <string name="description_image_avatar">image songOffline</string>
 </resources>

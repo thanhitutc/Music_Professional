@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.framgianguyenvanthanhd.music_professional">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".App"
@@ -27,6 +29,10 @@
         <activity android:name=".screens.home.category.more.CategoryMoreActivity"/>
         <activity android:name=".screens.home.common.song_home_detail.SongHomeDetailActivity"/>
         <activity android:name=".screens.offline.MainOfflineActivity"/>
+        <activity android:name=".screens.offline.addsongtoplaylist.SongAddToPlaylistOffActivity"/>
+        <activity android:name=".screens.offline.detailplaylistoff.DetailPlaylistOffActivity"/>
+        <activity android:name=".screens.offline.listsongaddfavorite.ListSongAddActivity"/>
+        <activity android:name=".screens.offline.listsongaddplaylist.ListAddPlaylistOffActivity"/>
     </application>
 
 </manifest>

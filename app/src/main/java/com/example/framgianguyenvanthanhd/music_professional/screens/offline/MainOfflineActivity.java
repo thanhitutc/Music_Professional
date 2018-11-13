@@ -1,5 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.offline;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.framgianguyenvanthanhd.music_professional.R;
+import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
 
 
 /**
@@ -27,7 +29,11 @@ public class MainOfflineActivity extends AppCompatActivity {
     }
 
 
-
+    public static Intent getInstance(Context context, int mainType) {
+        Intent intent = new Intent(context, MainOfflineActivity.class);
+        intent.putExtra(Constants.ConstantIntent.MAIN_TYPE, mainType);
+        return intent;
+    }
 
     private void createSendEmailToDeveloper() {
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -50,6 +56,7 @@ public class MainOfflineActivity extends AppCompatActivity {
         ViewPager pager = (ViewPager) findViewById(R.id.view_pager);
         pager.setAdapter(new MainOfflinePagerAdapter(getBaseContext(), getSupportFragmentManager()));
         pager.setOffscreenPageLimit(PAGE_LIMIT);
+        pager.setCurrentItem(getIntent().getIntExtra(Constants.ConstantIntent.MAIN_TYPE,0));
     }
 }
 

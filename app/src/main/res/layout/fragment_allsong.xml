@@ -7,27 +7,14 @@
     >
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_favorite"
+        android:id="@+id/recyler_allsong"
         android:layout_width="match_parent"
         android:layout_height="@dimen/width_seekbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginBottom="?attr/actionBarSize"
-        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_add_favorite"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85"
         />
 
 </android.support.constraint.ConstraintLayout>

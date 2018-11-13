@@ -47,6 +47,7 @@ class Constants {
         const val EXTRA_INIT_SONG_SERVICE = "com.framgia.music5.extra_init_song_service"
         const val EXTRA_INIT_POSITION_SONG_SERVICE = "com.framgia.music5.extra_init_position_song_service"
         const val EXTRA_ID_ALBUM_FOR_ADD_LIST_SONG = "com.framgia.music5.extra_id_album_for_add_list_song"
+        const val MAIN_TYPE = "main_type"
     }
 
     /**
@@ -72,7 +73,6 @@ class Constants {
      * Constant permission
      */
     object ConstantPermission {
-        val PERMISSION_READ_EXTERNAL = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         const val REQUEST_READ_STORAGE = 199
 
     }

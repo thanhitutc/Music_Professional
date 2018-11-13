@@ -13,7 +13,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail.SongHomeDetailActivity
-import kotlinx.android.synthetic.main.fragment_favorite.*
+import kotlinx.android.synthetic.main.fragment_favorite_home.*
 
 /**
  * Created by admin on 10/27/2018.
@@ -36,7 +36,7 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickL
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_favorite, container, false)
+        return inflater?.inflate(R.layout.fragment_favorite_home, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {

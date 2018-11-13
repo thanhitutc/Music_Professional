@@ -31,4 +31,23 @@
     <dimen name="text_sie_14">14sp</dimen>
     <dimen name="text_sie_13">13sp</dimen>
     <dimen name="text_sie_12">12sp</dimen>
+
+    <!--OFFLINE-->
+    <dimen name="height_item_song">64dp</dimen>
+    <dimen name="width_text_song">256dp</dimen>
+    <dimen name="width_avatar_song">64dp</dimen>
+    <dimen name="margin_layout">8dp</dimen>
+    <dimen name="padding_text_playing">24dp</dimen>
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_album">22sp</dimen>
+    <dimen name="text_size_playing">18sp</dimen>
+    <dimen name="text_size_singer">15sp</dimen>
+    <dimen name="width_image_album">140dp</dimen>
+    <dimen name="height_image_album">140dp</dimen>
+    <dimen name="height_image_notification">56dp</dimen>
+    <dimen name="width_image_notification">56dp</dimen>
+    <dimen name="width_image_playing">256dp</dimen>
+    <dimen name="height_image_playing">256dp</dimen>
+    <dimen name="width_seekbar">0dp</dimen>
+    <dimen name="width_border_image_playing">2dp</dimen>
 </resources>
