@@ -30,6 +30,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlay
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongRepository;
 import com.example.framgianguyenvanthanhd.music_professional.screens.offline.addsongtoplaylist.SongAddToPlaylistOffActivity;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity;
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 
 import java.util.List;
@@ -114,7 +115,7 @@ public class AllSongFragment extends Fragment
 
     @Override
     public void onItemClickSong(List<SongOffline> songOfflines, int position) {
-//        getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
+        getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
         SongOffline songOffline = songOfflines.get(position);
         SongPlaying songPlaying = new SongPlaying(songOffline.getId(), songOffline.getTitle(), songOffline.getSinger(),
                 null, songOffline.getData(), SongMode.OFFLINE);
