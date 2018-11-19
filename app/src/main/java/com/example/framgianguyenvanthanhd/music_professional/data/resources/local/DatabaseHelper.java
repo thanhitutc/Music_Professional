@@ -18,6 +18,8 @@ import static com.example.framgianguyenvanthanhd.music_professional.data.resourc
 import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabaseAlbum.SQL_DELTE_ALBUM;
 import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabaseFavorite.SQL_CREATE_TABLE_FAVORITE;
 import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabaseFavorite.SQL_DELTE_FAVORITE;
+import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabasePlaying.SQL_CREATE_TABLE_PLAYING;
+import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabasePlaying.SQL_DELETE_PLAYING;
 import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabaseSongDeleted.SQL_CREATE_TABLE_SONGDELETED;
 import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabaseSongDeleted.SQL_DELTE_SONGDELETED;
 import static com.example.framgianguyenvanthanhd.music_professional.data.resources.local.ContractSong.DatabaseSongDeleted.TABLE_SONG_DELETED;
@@ -41,6 +43,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_ALBUM);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_SONGDELETED);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE_SONG_IN_ALBUM);
+        sqLiteDatabase.execSQL(SQL_CREATE_TABLE_PLAYING);
     }
 
     @Override
@@ -49,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQL_DELTE_FAVORITE);
         sqLiteDatabase.execSQL(SQL_DELTE_SONGDELETED);
         sqLiteDatabase.execSQL(SQL_DELTE_SONG_IN_ALBUM);
+        sqLiteDatabase.execSQL(SQL_DELETE_PLAYING);
         onCreate(sqLiteDatabase);
     }
 

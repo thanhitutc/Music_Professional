@@ -33,6 +33,7 @@
         <activity android:name=".screens.offline.detailplaylistoff.DetailPlaylistOffActivity"/>
         <activity android:name=".screens.offline.listsongaddfavorite.ListSongAddActivity"/>
         <activity android:name=".screens.offline.listsongaddplaylist.ListAddPlaylistOffActivity"/>
+        <service android:name=".service.MediaService"/>
     </application>
 
 </manifest>

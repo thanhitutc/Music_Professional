@@ -15,7 +15,7 @@
             android:layout_width="@dimen/width_avatar_song"
             android:layout_height="@dimen/height_item_song"
             android:contentDescription="@string/description_image_avatar"
-            android:src="@drawable/ic_song"
+            android:src="@drawable/ic_cd"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

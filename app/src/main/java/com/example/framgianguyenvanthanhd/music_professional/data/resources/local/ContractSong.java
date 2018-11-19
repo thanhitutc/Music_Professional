@@ -22,6 +22,23 @@ public class ContractSong {
     }
 
     /**
+     * Constant Database Playing
+     **/
+    public static class DatabasePlaying extends BaseColumsDatabase {
+        public static final String TABLE_PLAYING = "Playing";
+        public static final String IN_TABLE_PLAYING = " IN ( ";
+        public static final String NOT_IN_TABLE_PLAYING = " NOT IN ( ";
+        public static final String SQL_DELETE_PLAYING = DROP_TABLE + TABLE_PLAYING;
+        public static final String SQL_CREATE_TABLE_PLAYING =
+                CREATE_TABLE + TABLE_PLAYING + "(" + ID + " Text primary key,"
+                        + TITLE + " TEXT,"
+                        + SINGER + " TEXT,"
+                        + IMAGE + " TEXT,"
+                        + RESOURCE + " TEXT,"
+                        + MODE +  INTEGER;
+    }
+
+    /**
      * Constant Database SongOffline deteted
      */
     public static class DatabaseSongDeleted extends BaseColumsDatabase {
