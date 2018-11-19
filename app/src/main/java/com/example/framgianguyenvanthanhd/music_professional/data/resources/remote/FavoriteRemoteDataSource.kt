@@ -2,6 +2,7 @@ package com.example.framgianguyenvanthanhd.music_professional.data.resources.rem
 
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.FavoriteDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongOffline
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.APIService
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.DataService
 import retrofit2.Call
@@ -43,5 +44,27 @@ class FavoriteRemoteDataSource private constructor(
             })
         }
 
+    }
+
+    /**
+     * Offline
+     * */
+    override fun getSongFavorite(type: Int): List<SongOffline> {
+        // todo not implement
+        return emptyList()
+    }
+
+    override fun deleteFavorite(idSong: String): Boolean {
+        // todo not implement
+        return false
+    }
+
+    override fun insertSongToFavorite(idSong: String): Boolean {
+        // todo not implement
+        return false
+    }
+
+    override fun insertListSongToFavorite(songOfflines: List<SongOffline>?, callBack: FavoriteDataSource.CallBackInsertFavorite) {
+        // todo not implement
     }
 }

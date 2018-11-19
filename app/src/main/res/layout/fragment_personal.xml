@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:tag="personal">
+
+    <TextView
+        android:text="NHẠC OFFLINE"
+        android:textStyle="bold"
+        android:paddingStart="@dimen/space_10"
+        android:textSize="@dimen/text_sie_18"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/menu_playlist"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/space_4"
+        android:paddingBottom="@dimen/space_4"
+        android:paddingStart="@dimen/space_10"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="@dimen/pading_insdie_top">
+
+        <ImageView
+            android:src="@drawable/ic_playlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginStart="@dimen/space_10"
+            android:text="@string/playlist"
+            style="@style/menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_songs"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/space_4"
+        android:paddingBottom="@dimen/space_4"
+        android:paddingStart="@dimen/space_10"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="@dimen/pading_insdie_top">
+
+        <ImageView
+            android:src="@drawable/ic_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginStart="@dimen/space_10"
+            android:text="@string/song"
+            style="@style/menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_favorite"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/space_4"
+        android:paddingBottom="@dimen/space_4"
+        android:paddingStart="@dimen/space_10"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="@dimen/pading_insdie_top">
+
+        <ImageView
+            android:src="@drawable/ic_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginStart="@dimen/space_10"
+            android:text="@string/favorite"
+            style="@style/menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_download"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingTop="@dimen/space_4"
+        android:paddingBottom="@dimen/space_4"
+        android:paddingStart="@dimen/space_10"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="@dimen/pading_insdie_top">
+
+        <ImageView
+            android:src="@drawable/ic_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_marginStart="@dimen/space_10"
+            android:text="@string/Download"
+            style="@style/menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+</LinearLayout>

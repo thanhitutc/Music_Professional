@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.framgianguyenvanthanhd.music_professional.R
 
+
 /**
  * Created by admin on 8/25/2018.
  */
@@ -14,5 +15,9 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_home_online, container, false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }
