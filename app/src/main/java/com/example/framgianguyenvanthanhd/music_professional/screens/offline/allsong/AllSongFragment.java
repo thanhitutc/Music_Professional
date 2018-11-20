@@ -115,11 +115,12 @@ public class AllSongFragment extends Fragment
 
     @Override
     public void onItemClickSong(List<SongOffline> songOfflines, int position) {
-        getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
         SongOffline songOffline = songOfflines.get(position);
         SongPlaying songPlaying = new SongPlaying(songOffline.getId(), songOffline.getTitle(), songOffline.getSinger(),
                 null, songOffline.getData(), SongMode.OFFLINE);
         getActivity().startService(MediaService.getInstance(getActivity(), songPlaying, position));
+        getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
+
     }
 
     @Override

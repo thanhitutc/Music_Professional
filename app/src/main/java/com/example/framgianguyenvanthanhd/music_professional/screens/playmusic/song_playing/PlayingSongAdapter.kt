@@ -1,13 +1,13 @@
-package com.example.framgianguyenvanthanhd.music_professional.screens.playmusic
+package com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.song_playing
 
 import android.support.v7.widget.RecyclerView
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.framgianguyenvanthanhd.music_professional.R
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.squareup.picasso.Picasso
 
@@ -15,18 +15,19 @@ import com.squareup.picasso.Picasso
  * Created by admin on 11/3/2018.
  */
 class PlayingSongAdapter(
-        private val songs: List<SongPlaying>,
-        private val onItemSongClickListener: OnItemSongClickListener
-): RecyclerView.Adapter<PlayingSongAdapter.SongDetailHolder>() {
+        private var songs: MutableList<SongPlaying>,
+        private var onItemSongClickListener: OnItemSongClickListener
+) : RecyclerView.Adapter<PlayingSongAdapter.SongDetailHolder>() {
+
 
     interface OnItemSongClickListener {
 
-        fun onItemSongClick (song: Song)
+        fun onItemSongClick(song: SongPlaying, positon: Int)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SongDetailHolder {
-        return SongDetailHolder (LayoutInflater.from(parent?.context).inflate(R.layout.item_song_rv, parent, false))
+        return SongDetailHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_song_rv, parent, false))
     }
 
 
@@ -35,7 +36,10 @@ class PlayingSongAdapter(
     }
 
     override fun onBindViewHolder(holder: SongDetailHolder?, position: Int) {
-       holder?.bindData(songs[position])
+        holder?.bindData(songs[position])
+        holder?.itemView?.setOnClickListener{
+            onItemSongClickListener.onItemSongClick(songs[position], position)
+        }
     }
 
     class SongDetailHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -52,5 +56,23 @@ class PlayingSongAdapter(
             txtSongName?.text = song.name
             txtSingerName?.text = song.singer
         }
+
+    }
+
+    fun updateSongs(books: List<SongPlaying>) {
+        if (songs.isNotEmpty()) {
+            books.forEach { newSong ->
+                // Remove duplicate post
+                songs.removeAll { oldSong ->
+                    oldSong.id == newSong.id
+                }
+            }
+        }
+        songs.addAll(books)
+        notifyDataSetChanged()
+    }
+
+    fun getPositionSong(song: SongPlaying): Int {
+        return songs.indexOf(song)
     }
 }

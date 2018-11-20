@@ -25,10 +25,13 @@ import android.widget.TextView;
 
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SongMode;
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.Constants.ConstantBroadcast.ACTION_STATE_MEDIA;
@@ -57,6 +60,8 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private IntentFilter mIntentFilter;
     private BroadcastReceiver mBroadcastReceiver;
     private Animation mAnimation;
+
+    private OnChangeSongListener mOnChangeSongListener;
 
     public static Intent getInstance(Context context) {
         Intent intent = new Intent(context, PlayMusicActivity.class);
@@ -260,6 +265,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                 mTextTitleSong.setText(mService.getTitleSongPlaying());
                 mTextDuration.setText(convertToTime(mService.getDuration()));
                 mTextCurrentDuration.setText(TIME_DEFAULT);
+                mOnChangeSongListener.onUpdateSong(mService.getSongPlaying());
             }
             if (mService.isPlay()) {
                 long currentPercent = 100 * mService.getCurrentDuration() / mService.getDuration();
@@ -324,4 +330,21 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private void removeCallbacks() {
         mHandler.removeCallbacks(mTimeCounter);
     }
+
+    public List<SongPlaying> getSongsPlaying() {
+        return mService.getSongsPlaying();
+    }
+
+    public void setOnChangeSongListener(OnChangeSongListener listener) {
+        mOnChangeSongListener = listener;
+    }
+
+    public MediaService getService() {
+        return mService;
+    }
+
+    public void playWithSong(SongPlaying songPlaying) {
+        mService.playWithSongClick(songPlaying);
+    }
+
 }

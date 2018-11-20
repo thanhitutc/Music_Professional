@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.song_playing.PlayingSongFragment;
+
 /**
  * Created by admin on 11/19/2018.
  */
