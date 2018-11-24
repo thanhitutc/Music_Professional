@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_playing"
+        android:layout_width="124dp"
+        android:layout_height="124dp"
+        android:contentDescription="@string/description_image_avatar"
+        android:src="@drawable/ic_song_playing"
+        app:civ_border_color="@color/color_blue_500"
+        app:civ_border_width="@dimen/width_border_image_playing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="48dp"
+        android:drawableLeft="@drawable/user"
+        android:hint="@string/user_name" />
+
+
+    <EditText
+        android:id="@+id/edt_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/pass"
+        android:hint="@string/user_password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/edt_password_again"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/pass"
+        android:hint="@string/user_password"
+        android:inputType="textPassword" />
+
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/background_button"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/register_txt"
+        android:textAllCaps="false"
+        android:textColor="#f1f5f8" />
+
+
+</LinearLayout>

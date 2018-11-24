@@ -18,6 +18,14 @@
     <string name="song">Bài hát</string>
     <string name="favorite">Yêu thích</string>
     <string name="Download">download</string>
+    <string name="search_title">Tìm kiếm bài hát</string>
+    <string name="login">Đăng nhập</string>
+    <string name="user_name">Tên đăng nhập</string>
+    <string name="user_password">Mật khẩu</string>
+    <string name="login_with">Đăng nhập với </string>
+    <string name="login_txt">Đăng nhập</string>
+    <string name="register_txt">Đăng ký</string>
+    <string name="register_title">Bạn chưa có tài khoản?</string>
 
     <!--OFFLINE-->
     <string name="title_all_song">Song</string>
