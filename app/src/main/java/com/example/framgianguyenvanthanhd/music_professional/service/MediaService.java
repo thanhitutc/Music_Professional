@@ -21,6 +21,8 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlay
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SettingRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.resources.local.SettingLocalDataSource;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.song_playing.ContractSongPlaying;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.song_playing.SongPlayingPresenter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ import static com.example.framgianguyenvanthanhd.music_professional.service.Noti
  * Created by MyPC on 30/01/2018.
  */
 
-public class MediaService extends Service implements BaseMediaPlayer {
+public class MediaService extends Service implements BaseMediaPlayer, ContractSongPlaying.SongPlayingView {
     private static final String ACTION_CHANGE_MEDIA_NEXT = "ACTION_CHANGE_MEDIA_NEXT";
     private static final String ACTION_CHANGE_MEDIA_PREVIOUS = "ACTION_CHANGE_MEDIA_PREVIOUS";
     private static final String ACTION_CHANGE_MEDIA_STATE = "ACTION_CHANGE_MEDIA_STATE";
@@ -56,6 +58,7 @@ public class MediaService extends Service implements BaseMediaPlayer {
     private Setting mSetting;
     private SettingRepository mSettingRepository;
     private SongPlayingRepository mPlayingRepository;
+    private ContractSongPlaying.SongPlayingPresenter mPresenter;
 
     public static Intent getInstance(Context context, SongPlaying songPlaying, int position) {
         Intent intent = new Intent(context, MediaService.class);
@@ -66,6 +69,24 @@ public class MediaService extends Service implements BaseMediaPlayer {
     }
 
     @Override
+    public void setPresenter(ContractSongPlaying.SongPlayingPresenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void songsPlayingSuccess(List<SongPlaying> songPlaying) {
+        if (mSongsPlaying != null) {
+            mSongsPlaying.clear();
+        }
+        mSongsPlaying = songPlaying;
+    }
+
+    @Override
+    public void songPlayingFail() {
+
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         initMediaPlayer();
@@ -73,22 +94,15 @@ public class MediaService extends Service implements BaseMediaPlayer {
         mIntentBroadcast = new Intent();
         mIntentBroadcast.setAction(Constants.ConstantBroadcast.ACTION_STATE_MEDIA);
         mPlayingRepository = SongPlayingRepository.getInstance(this);
+        mPresenter = new SongPlayingPresenter(mPlayingRepository);
+        mPresenter.setView(this);
+        mPresenter.onStart();
     }
 
     private void initSettingService() {
         mSettingRepository =
                 SettingRepository.getInstance(SettingLocalDataSource.getInstance(this));
         mSetting = mSettingRepository.getSetting();
-    }
-
-    private void updateListSongPlaying() {
-        if (mSongsPlaying != null){
-            mSongsPlaying.clear();
-        }
-        mSongsPlaying = mPlayingRepository.getSongsPlaying();
-        if (mSetting.isShuffleMode()) {
-            shuffleSong();
-        }
     }
 
     @Override
@@ -105,32 +119,16 @@ public class MediaService extends Service implements BaseMediaPlayer {
         }
         switch (action) {
             case Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE:
-//                List<SongOffline> songs = intent.getParcelableArrayListExtra(
-//                        Constant.ConstantIntent.EXTRA_INIT_SONG_SERVICE);
-//                int position =
-//                        intent.getIntExtra(Constant.ConstantIntent.EXTRA_INIT_POSITION_SONG_SERVICE,
-//                                -1);
-//                if (position != -1 && songs != null) {
-//                    mSongsPlaying = songs;
-//                    mPosition = position;
-//                    if (mSetting.isShuffleMode()) {
-//                        shuffleSong();
-//                        play(mPositionShuffled);
-//                    } else {
-//                        play(mPosition);
-//                    }
-//                }
                 SongPlaying songPlaying = (SongPlaying) intent.getSerializableExtra(EXTRA_INIT_SONG_SERVICE);
                 mPlayingRepository.insertSongPlaying(songPlaying);
-                    updateListSongPlaying();
-                if (!mSetting.isShuffleMode()) {
-                    mSongsPlaying.add(songPlaying);
-                    mPosition = mSongsPlaying.indexOf(songPlaying);
-                    play(mPosition);
-                } else {
-                    mSongsShuffled.add(songPlaying);
-                    mPositionShuffled = mSongsShuffled.indexOf(songPlaying);
+                mPresenter.getSongsPlaying();
+                mPosition = mSongsPlaying.indexOf(songPlaying);
+                mSongsPlaying.add(songPlaying);
+                if (mSetting.isShuffleMode()) {
+                    shuffleSong();
                     play(mPositionShuffled);
+                } else {
+                    play(mPosition);
                 }
                 break;
             case ACTION_CHANGE_MEDIA_PREVIOUS:
@@ -321,6 +319,30 @@ public class MediaService extends Service implements BaseMediaPlayer {
         mSettingRepository.saveSetting(mSetting);
     }
 
+    public List<SongPlaying> getSongsPlaying() {
+        if (mSetting.isShuffleMode()) {
+            return mSongsShuffled;
+        }
+        return mSongsPlaying;
+    }
+
+    public void playWithSongClick(SongPlaying songPlaying) {
+        if (mSetting.isShuffleMode()) {
+            mPositionShuffled = mSongsShuffled.indexOf(songPlaying);
+            play(mPositionShuffled);
+        } else {
+            mPosition = mSongsPlaying.indexOf(songPlaying);
+            play(mPosition);
+        }
+    }
+
+    public SongPlaying getSongPlaying() {
+        if (mSetting.isShuffleMode()) {
+            return mSongsShuffled.get(mPositionShuffled);
+        }
+        return mSongsPlaying.get(mPosition);
+    }
+
     private void initMediaPlayer() {
         mPosition = -1;
         mMediaPlayer = new MediaPlayer();
@@ -330,53 +352,53 @@ public class MediaService extends Service implements BaseMediaPlayer {
     }
 
     private void checkShuffleAndRepeatMode() {
-//        switch (mSetting.getRepeatMode()) {
-//            case RepeatType.NO_REPEAT:
-//                if (!mSetting.isShuffleMode()) {
-//                    if (mPosition < mSongsPlaying.size() - 1) {
-//                        mPosition++;
-//                        play(mPosition);
-//                    } else {
-//                        mPosition = DEFAULT_POSITION_START;
-//                        seekTo(DEFAULT_POSITION_START);
-//                        stop();
-//                    }
-//                } else {
-//                    if (mPositionShuffled < mSongsShuffled.size() - 1) {
-//                        mPositionShuffled++;
-//                        play(mPositionShuffled);
-//                    } else {
-//                        mPositionShuffled = DEFAULT_POSITION_START;
-//                        seekTo(DEFAULT_POSITION_START);
-//                        stop();
-//                    }
-//                }
-//                break;
-//            case RepeatType.REPEAT_ONE:
-//                if (mSetting.isShuffleMode()) {
-//                    play(mPositionShuffled);
-//                } else {
-//                    play(mPosition);
-//                }
-//                break;
-//            case RepeatType.REPEAT_ALL:
-//                if (!mSetting.isShuffleMode()) {
-//                    if (mPosition == mSongsPlaying.size() - 1) {
-//                        mPosition = DEFAULT_POSITION_START;
-//                    } else {
-//                        mPosition++;
-//                    }
-//                    play(mPosition);
-//                } else {
-//                    if (mPositionShuffled == mSongsShuffled.size() - 1) {
-//                        mPositionShuffled = DEFAULT_POSITION_START;
-//                    } else {
-//                        mPositionShuffled++;
-//                    }
-//                    play(mPositionShuffled);
-//                }
-//                break;
-//        }
+        switch (mSetting.getRepeatMode()) {
+            case RepeatType.NO_REPEAT:
+                if (!mSetting.isShuffleMode()) {
+                    if (mPosition < mSongsPlaying.size() - 1) {
+                        mPosition++;
+                        play(mPosition);
+                    } else {
+                        mPosition = DEFAULT_POSITION_START;
+                        seekTo(DEFAULT_POSITION_START);
+                        stop();
+                    }
+                } else {
+                    if (mPositionShuffled < mSongsShuffled.size() - 1) {
+                        mPositionShuffled++;
+                        play(mPositionShuffled);
+                    } else {
+                        mPositionShuffled = DEFAULT_POSITION_START;
+                        seekTo(DEFAULT_POSITION_START);
+                        stop();
+                    }
+                }
+                break;
+            case RepeatType.REPEAT_ONE:
+                if (mSetting.isShuffleMode()) {
+                    play(mPositionShuffled);
+                } else {
+                    play(mPosition);
+                }
+                break;
+            case RepeatType.REPEAT_ALL:
+                if (!mSetting.isShuffleMode()) {
+                    if (mPosition == mSongsPlaying.size() - 1) {
+                        mPosition = DEFAULT_POSITION_START;
+                    } else {
+                        mPosition++;
+                    }
+                    play(mPosition);
+                } else {
+                    if (mPositionShuffled == mSongsShuffled.size() - 1) {
+                        mPositionShuffled = DEFAULT_POSITION_START;
+                    } else {
+                        mPositionShuffled++;
+                    }
+                    play(mPositionShuffled);
+                }
+                break;
+        }
     }
 
     private MediaPlayer.OnPreparedListener mOnPrepare = new MediaPlayer.OnPreparedListener() {
