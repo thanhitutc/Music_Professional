@@ -1,6 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.retrofits
 
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
+import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountApi
 
 /**
  * Created by admin on 8/24/2018.
@@ -30,6 +31,10 @@ class APIService {
 
         fun getPlayMostAPI(): DataService.PlayMostDataService? {
             return RetrofitClient.getClient(Constants.BASE_URL)?.create(DataService.PlayMostDataService::class.java)
+        }
+
+        fun getAccountApi(): AccountApi {
+            return RetrofitClient.getClient(Constants.BASE_URL).create(AccountApi::class.java)
         }
     }
 }
