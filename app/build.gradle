@@ -42,4 +42,5 @@ dependencies {
     dependencies {
         compile 'com.eftimoff:android-viewpager-transformers:1.0.1@aar'
     }
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 }
