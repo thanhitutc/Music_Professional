@@ -24,7 +24,7 @@ class RegisterPresenter(
     }
 
     override fun register(account: Account) {
-        repository.register(account, object : AccountDataSource.OnResponseAccount {
+        repository.register(account, object : AccountDataSource.OnResponseRegister {
             override fun onSuccess() {
                 view.onRegisterSuccess()
             }

@@ -12,6 +12,6 @@ interface AccountApi {
     @POST("register.php")
     fun register(@Body body: Account): Call<String>
 
-    @POST
+    @POST("login.php")
     fun login(@Body body: Account): Call<Account>
 }

@@ -5,11 +5,19 @@ package com.example.framgianguyenvanthanhd.music_professional.data.user
  */
 interface AccountDataSource {
 
-    fun register(account: Account, onResponse: OnResponseAccount)
+    fun register(account: Account, onResponse: OnResponseRegister)
 
-    interface OnResponseAccount {
+    fun login(account: Account,onResponse: OnResponseLogin)
+
+    interface OnResponseRegister {
         fun onSuccess()
 
         fun onError()
+    }
+
+    interface OnResponseLogin {
+        fun onLoginSuccess(account: Account)
+
+        fun onLoginFail()
     }
 }

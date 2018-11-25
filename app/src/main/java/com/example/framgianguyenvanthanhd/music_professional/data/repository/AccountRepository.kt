@@ -22,7 +22,11 @@ class AccountRepository private constructor(
         }
     }
 
-    override fun register(account: Account, onResponse: AccountDataSource.OnResponseAccount) {
+    override fun register(account: Account, onResponse: AccountDataSource.OnResponseRegister) {
         remoteDataSource.register(account, onResponse)
+    }
+
+    override fun login(account: Account, onResponse: AccountDataSource.OnResponseLogin) {
+        remoteDataSource.login(account, onResponse)
     }
 }

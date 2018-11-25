@@ -26,7 +26,7 @@ public final class SettingLocalDataSource implements SettingDataSource {
     }
 
     private SettingLocalDataSource(Context context) {
-        mSharedPrefs = SharedPrefs.getInstance(context);
+        mSharedPrefs = SharedPrefs.getInstance();
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.example.framgianguyenvanthanhd.music_professional.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.framgianguyenvanthanhd.music_professional.App;
+
 /**
  * Created by MyPC on 31/01/2018.
  */
@@ -12,13 +14,13 @@ public final class SharedPrefs {
     private static SharedPrefs mInstance;
     private SharedPreferences mSharedPreferences;
 
-    private SharedPrefs(Context context) {
-        mSharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    private SharedPrefs() {
+        mSharedPreferences = App.getContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public static SharedPrefs getInstance(Context context) {
+    public static SharedPrefs getInstance() {
         if (mInstance == null) {
-            mInstance = new SharedPrefs(context);
+            mInstance = new SharedPrefs();
         }
         return mInstance;
     }

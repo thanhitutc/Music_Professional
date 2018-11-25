@@ -23,7 +23,7 @@ class AccountRemoteDataSource private constructor(
         }
     }
 
-    override fun register(account: Account, onResponse: AccountDataSource.OnResponseAccount) {
+    override fun register(account: Account, onResponse: AccountDataSource.OnResponseRegister) {
         service.register(account).enqueue(
                 object : Callback<String> {
 
@@ -38,6 +38,26 @@ class AccountRemoteDataSource private constructor(
                             onResponse.onError()
                         }
                     }
+                }
+        )
+    }
+
+    override fun login(account: Account, onResponse: AccountDataSource.OnResponseLogin) {
+        service.login(account).enqueue(
+                object : Callback<Account> {
+
+                    override fun onFailure(call: Call<Account>?, t: Throwable?) {
+                        onResponse.onLoginFail()
+                    }
+
+                    override fun onResponse(call: Call<Account>?, response: Response<Account>?) {
+                        if (response?.isSuccessful == true && response.body() != null) {
+                            onResponse.onLoginSuccess(account)
+                        } else {
+                            onResponse.onLoginFail()
+                        }
+                    }
+
                 }
         )
     }
