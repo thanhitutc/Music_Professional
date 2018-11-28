@@ -22,5 +22,9 @@ interface SongHomeDetailContract {
         fun fetchMostPlay()
 
         fun fetchFavorite()
+
+        fun updateLikeSong(idSong: String)
+
+        fun updatePlaySong(idSong: String)
     }
 }

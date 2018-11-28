@@ -13,9 +13,17 @@ interface DetailSongsCategoryContract {
 
         fun loadError(t: Throwable)
 
+        fun updateLikeSuccess()
+
+        fun updateLikeFail()
+
     }
 
     interface DetailCategoryPresenter : BasePresenter<DetailCategoryView> {
         fun fetchDetailCategory(id: String)
+
+        fun updateLikeSong(idSong: String)
+
+        fun updatePlaySong(idSong: String)
     }
 }

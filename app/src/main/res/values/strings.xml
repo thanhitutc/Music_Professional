@@ -10,7 +10,13 @@
 
     <string name="default_artists">Various Artists</string>
 
+    <string name="update_like_song_error">Xảy ra lỗi yêu thích bài hát</string>
+
     <!--menu-->
+    <string name="menu_add_playing">Thêm vào danh sách chơi</string>
+    <string name="menu_add_favorite">Yêu thích</string>
+    <string name="menu_add_playlist">Thêm vào playlist</string>
+
     <string name="menu_account">Cá nhân</string>
     <string name="menu_cd">Khám phá</string>
     <string name="menu_more">Thêm</string>

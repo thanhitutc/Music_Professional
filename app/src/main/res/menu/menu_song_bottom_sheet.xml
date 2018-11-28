@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_add_playing"
+        android:icon="@drawable/ic_song"
+        android:title="Thêm vào danh sách chơi"/>
+
+    <item android:id="@+id/menu_like_song"
+        android:icon="@drawable/ic_favorite"
+        android:title="Yêu thích"/>
+
+    <item android:id="@+id/menu_add_playlist"
+        android:icon="@drawable/ic_playlist"
+        android:title="Thêm vào playlist"/>
+
+</menu>

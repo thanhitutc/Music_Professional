@@ -18,5 +18,9 @@ interface DetailPlaylistContract {
 
     interface DetailPlPresenter : BasePresenter<DetailPlaylistView> {
         fun fetchDetailPlaylist(id: String)
+
+        fun updateLikeSong(idSong: String)
+
+        fun updatePlaySong(idSong: String)
     }
 }

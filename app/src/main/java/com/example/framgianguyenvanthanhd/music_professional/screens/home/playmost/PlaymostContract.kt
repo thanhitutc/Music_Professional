@@ -19,5 +19,9 @@ interface PlaymostContract {
     interface Presenter : BasePresenter<View> {
 
         fun getPlayMostSongs()
+
+        fun updateLikeSong(idSong: String)
+
+        fun updatePlaySong(idSong: String)
     }
 }
