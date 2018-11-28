@@ -1,6 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.retrofits
 
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
+import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterApi
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountApi
 
 /**
@@ -35,6 +36,10 @@ class APIService {
 
         fun getAccountApi(): AccountApi {
             return RetrofitClient.getClient(Constants.BASE_URL).create(AccountApi::class.java)
+        }
+
+        fun getSongParameter(): SongParameterApi {
+            return RetrofitClient.getClient(Constants.BASE_URL).create(SongParameterApi::class.java)
         }
     }
 }

@@ -10,6 +10,8 @@
 
     <string name="default_artists">Various Artists</string>
 
+    <string name="update_like_song_error">Xảy ra lỗi yêu thích bài hát</string>
+
     <!--menu-->
     <string name="menu_account">Cá nhân</string>
     <string name="menu_cd">Khám phá</string>

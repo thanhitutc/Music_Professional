@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
@@ -15,6 +16,8 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistHomeRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_detail_songs.*
 import java.util.*
@@ -97,5 +100,21 @@ DetailSongAdapter.OnItemSongClickListener{
 
     override fun onItemSongClick(song: Song) {
 
+    }
+
+    override fun onMoreBtnClick(song: Song) {
+        val dialog = BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setMenu(R.menu.menu_song_bottom_sheet)
+                .setItemClickListener(BottomSheetItemClickListener { item->
+                    when(item.itemId) {
+                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
+                        R.id.menu_like_song -> Log.e("thanhd", "Like")
+                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                    }
+                })
+                .createDialog()
+
+        dialog.show()
     }
 }

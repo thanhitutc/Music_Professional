@@ -3,6 +3,7 @@ package com.example.framgianguyenvanthanhd.music_professional.screens.home.favor
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,14 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail.SongHomeDetailActivity
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import kotlinx.android.synthetic.main.fragment_favorite_home.*
 
 /**
  * Created by admin on 10/27/2018.
  */
-class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickListener {
+class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickListener, SongHomeAdapter.OnItemSongHomeClickListener {
     private lateinit var presenter: FavoriteHomeContract.Presenter
     private lateinit var mAdapter: SongHomeAdapter
 
@@ -27,7 +30,7 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickL
     }
 
     override fun favoriteSongsSuccessfully(songHomeSongs: List<SongHome>) {
-        mAdapter = SongHomeAdapter(songHomeSongs, true)
+        mAdapter = SongHomeAdapter(songHomeSongs, true, this)
         rc_favorite_home.adapter = mAdapter
     }
 
@@ -55,5 +58,26 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickL
             R.id.txt_title_favorite_home, R.id.btn_favorite_home_more ->
                     startActivity(SongHomeDetailActivity.getInstance(context,SongHomeDetailType.SONG_HOME_FAVORITE))
         }
+    }
+
+    override fun onItemSongClick(song: SongHome) {
+
+    }
+
+    override fun onMoreBtnClick(song: SongHome) {
+        val dialog = BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setMenu(R.menu.menu_song_bottom_sheet)
+                .addItem(-1, song.nameSong,null)
+                .setItemClickListener(BottomSheetItemClickListener { item->
+                    when(item.itemId) {
+                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
+                        R.id.menu_like_song -> Log.e("thanhd", "Like ${song.nameSong}")
+                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                    }
+                })
+                .createDialog()
+
+        dialog.show()
     }
 }

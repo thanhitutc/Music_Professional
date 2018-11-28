@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
@@ -16,13 +17,16 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlayMostRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_detail_songs.*
 
 /**
  * Created by admin on 11/8/2018.
  */
-class SongHomeDetailActivity : AppCompatActivity(), SongHomeDetailContract.SongHomeDetailView {
+class SongHomeDetailActivity : AppCompatActivity(), SongHomeDetailContract.SongHomeDetailView,
+SongHomeAdapter.OnItemSongHomeClickListener{
 
     private lateinit var presenter: SongHomeDetailContract.SongHomeDetailPresenter
     private lateinit var adapter: SongHomeAdapter
@@ -94,12 +98,32 @@ class SongHomeDetailActivity : AppCompatActivity(), SongHomeDetailContract.SongH
     override fun loadSuccessfully(list: List<SongHome>) {
         progress_isloading.visibility = View.INVISIBLE
         swipe_refresh.isRefreshing = false
-        adapter = SongHomeAdapter(list, false)
+        adapter = SongHomeAdapter(list, false, this)
         rc_detail_songs.adapter = adapter
     }
 
     override fun loadError(t: Throwable) {
         progress_isloading.visibility = View.INVISIBLE
         swipe_refresh.isRefreshing = false
+    }
+
+    override fun onItemSongClick(song: SongHome) {
+
+    }
+
+    override fun onMoreBtnClick(song: SongHome) {
+        val dialog = BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setMenu(R.menu.menu_song_bottom_sheet)
+                .setItemClickListener(BottomSheetItemClickListener { item->
+                    when(item.itemId) {
+                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
+                        R.id.menu_like_song -> Log.e("thanhd", "Like")
+                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                    }
+                })
+                .createDialog()
+
+        dialog.show()
     }
 }

@@ -8,13 +8,21 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
+import com.example.framgianguyenvanthanhd.music_professional.Utils.DialogUtils
+import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.CategoryRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.layout_detail_songs.*
 
@@ -57,7 +65,7 @@ DetailSongAdapter.OnItemSongClickListener{
     }
 
     private fun initData() {
-        mPresenter = DetailSongsCategoryPresenter(CategoryRepository.getInstance(), this)
+        mPresenter = DetailSongsCategoryPresenter(CategoryRepository.getInstance(),SongParameterRepository.getInstance(), this)
         mPresenter.setView(this)
         mPresenter.onStart()
         val category: Category? = intent.getSerializableExtra(Constants.CATEGORY_ID_EXTRA) as Category
@@ -95,6 +103,51 @@ DetailSongAdapter.OnItemSongClickListener{
     }
 
     override fun onItemSongClick(song: Song) {
+        mPresenter.updatePlaySong(song.idSong.toString())
 
+    }
+
+    override fun onMoreBtnClick(song: Song) {
+        val dialog = BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
+                .addTitleItem(song.name)
+                .setMode(BottomSheetBuilder.MODE_LIST)
+                .setMenu(R.menu.menu_song_bottom_sheet)
+                .setItemClickListener(BottomSheetItemClickListener { item->
+                    when(item.itemId) {
+                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
+                        R.id.menu_like_song -> {
+                            if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                                DialogUtils.createDialogConfirm(
+                                        this,
+                                        "Lỗi",
+                                        "Hãy đăng nhập để sử dụng tính năng này",
+                                        object: DialogUtils.OnDialogClick{
+                                            override fun onClickOk() {
+                                                return
+                                            }
+
+                                            override fun onCancel() {
+
+                                            }
+                                        }
+                                )
+                                return@BottomSheetItemClickListener
+                            }
+                            mPresenter.updateLikeSong(song.idSong.toString())
+                        }
+                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                    }
+                })
+                .createDialog()
+
+        dialog.show()
+    }
+
+    override fun updateLikeSuccess() {
+
+    }
+
+    override fun updateLikeFail() {
+        Toast.makeText(this, getString(R.string.update_like_song_error),Toast.LENGTH_SHORT).show()
     }
 }
