@@ -12,10 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.framgianguyenvanthanhd.music_professional.R
-import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
-import com.example.framgianguyenvanthanhd.music_professional.Utils.DialogUtils
-import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
-import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
+import com.example.framgianguyenvanthanhd.music_professional.Utils.*
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Category
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.CategoryRepository
@@ -109,13 +106,15 @@ DetailSongAdapter.OnItemSongClickListener{
 
     override fun onMoreBtnClick(song: Song) {
         val dialog = BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
-                .addTitleItem(song.name)
                 .setMode(BottomSheetBuilder.MODE_LIST)
-                .setMenu(R.menu.menu_song_bottom_sheet)
+                .addItem(0,song.name, null)
+                .addItem(MenuBottomSheet.ADD_PLAYING.id, MenuBottomSheet.ADD_PLAYING.title, MenuBottomSheet.ADD_PLAYING.icon)
+                .addItem(MenuBottomSheet.ADD_FAVORITE.id, MenuBottomSheet.ADD_FAVORITE.title, MenuBottomSheet.ADD_FAVORITE.icon)
+                .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
                 .setItemClickListener(BottomSheetItemClickListener { item->
                     when(item.itemId) {
-                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
-                        R.id.menu_like_song -> {
+                        MenuBottomSheet.ADD_PLAYING.id -> Log.e("thanhd", "Playing")
+                        MenuBottomSheet.ADD_FAVORITE.id -> {
                             if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
                                 DialogUtils.createDialogConfirm(
                                         this,
@@ -135,7 +134,7 @@ DetailSongAdapter.OnItemSongClickListener{
                             }
                             mPresenter.updateLikeSong(song.idSong.toString())
                         }
-                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                        MenuBottomSheet.ADD_PLAYLIST.id -> Log.e("thanhd", "Play list")
                     }
                 })
                 .createDialog()

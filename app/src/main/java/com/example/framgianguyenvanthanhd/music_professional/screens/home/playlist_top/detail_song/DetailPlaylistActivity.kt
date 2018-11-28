@@ -11,10 +11,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import com.example.framgianguyenvanthanhd.music_professional.R
-import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
+import com.example.framgianguyenvanthanhd.music_professional.Utils.*
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistHomeRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
@@ -63,7 +64,7 @@ DetailSongAdapter.OnItemSongClickListener{
     }
 
     private fun initData() {
-        presenter = DetailPlaylistPresenter(PlaylistHomeRepository.getInstance(), this)
+        presenter = DetailPlaylistPresenter(PlaylistHomeRepository.getInstance(), SongParameterRepository.getInstance(), this)
         presenter.setView(this)
         presenter.onStart()
         val playlist: Playlist? = intent.getSerializableExtra(Constants.PLAYLIST_EXTRA) as Playlist
@@ -99,18 +100,40 @@ DetailSongAdapter.OnItemSongClickListener{
     }
 
     override fun onItemSongClick(song: Song) {
-
+        presenter.updatePlaySong(song.idSong.toString())
     }
 
     override fun onMoreBtnClick(song: Song) {
         val dialog = BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
-                .setMenu(R.menu.menu_song_bottom_sheet)
+                .addItem(0,song.name, null)
+                .addItem(MenuBottomSheet.ADD_PLAYING.id, MenuBottomSheet.ADD_PLAYING.title, MenuBottomSheet.ADD_PLAYING.icon)
+                .addItem(MenuBottomSheet.ADD_FAVORITE.id, MenuBottomSheet.ADD_FAVORITE.title, MenuBottomSheet.ADD_FAVORITE.icon)
+                .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
                 .setItemClickListener(BottomSheetItemClickListener { item->
                     when(item.itemId) {
-                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
-                        R.id.menu_like_song -> Log.e("thanhd", "Like")
-                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                        MenuBottomSheet.ADD_PLAYING.id -> Log.e("thanhd", "Playing")
+                        MenuBottomSheet.ADD_FAVORITE.id -> {
+                            if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                                DialogUtils.createDialogConfirm(
+                                        this,
+                                        "Lỗi",
+                                        "Hãy đăng nhập để sử dụng tính năng này",
+                                        object: DialogUtils.OnDialogClick{
+                                            override fun onClickOk() {
+                                                return
+                                            }
+
+                                            override fun onCancel() {
+
+                                            }
+                                        }
+                                )
+                                return@BottomSheetItemClickListener
+                            }
+                            presenter.updateLikeSong(song.idSong.toString())
+                        }
+                        MenuBottomSheet.ADD_PLAYLIST.id -> Log.e("thanhd", "Play list")
                     }
                 })
                 .createDialog()

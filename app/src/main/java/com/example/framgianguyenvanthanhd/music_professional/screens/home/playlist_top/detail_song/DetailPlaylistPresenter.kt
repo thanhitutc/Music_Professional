@@ -3,12 +3,15 @@ package com.example.framgianguyenvanthanhd.music_professional.screens.home.playl
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.common.OnResponseDetailSong
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistHomeRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterDataSource
 
 /**
  * Created by admin on 11/3/2018.
  */
 class DetailPlaylistPresenter(
         private val repository: PlaylistHomeRepository,
+        private val songParameterRepository: SongParameterRepository,
         private val view: DetailPlaylistContract.DetailPlaylistView
 ): DetailPlaylistContract.DetailPlPresenter {
 
@@ -31,6 +34,29 @@ class DetailPlaylistPresenter(
 
             override fun onError(t: Throwable) {
                 view.loadError(t)
+            }
+        })
+    }
+
+    override fun updateLikeSong(idSong: String) {
+        songParameterRepository.updateLikeSong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+            override fun onSuccess() {
+
+            }
+
+            override fun onFail() {
+
+            }
+        })
+    }
+
+    override fun updatePlaySong(idSong: String) {
+        songParameterRepository.updatePlaySong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+            override fun onFail() {
+            }
+
+            override fun onSuccess() {
+
             }
         })
     }

@@ -10,9 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.framgianguyenvanthanhd.music_professional.R
-import com.example.framgianguyenvanthanhd.music_professional.Utils.SongHomeDetailType
+import com.example.framgianguyenvanthanhd.music_professional.Utils.*
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlayMostRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail.SongHomeDetailActivity
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
@@ -33,7 +34,7 @@ class PlayMostFragment : Fragment(), PlaymostContract.View, View.OnClickListener
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rc_playmost_home.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        presenter = PlayMostPresenter(PlayMostRepository.getInstance())
+        presenter = PlayMostPresenter(PlayMostRepository.getInstance(), SongParameterRepository.getInstance())
         presenter.setView(this)
         presenter.onStart()
         presenter.getPlayMostSongs()
@@ -62,18 +63,40 @@ class PlayMostFragment : Fragment(), PlaymostContract.View, View.OnClickListener
     }
 
     override fun onItemSongClick(song: SongHome) {
-
+        presenter.updatePlaySong(song.idSong.toString())
     }
 
     override fun onMoreBtnClick(song: SongHome) {
-        val dialog = BottomSheetBuilder(context, R.style.AppTheme_BottomSheetDialog)
+        val dialog = BottomSheetBuilder(activity, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
-                .setMenu(R.menu.menu_song_bottom_sheet)
+                .addItem(0,song.nameSong, null)
+                .addItem(MenuBottomSheet.ADD_PLAYING.id, MenuBottomSheet.ADD_PLAYING.title, MenuBottomSheet.ADD_PLAYING.icon)
+                .addItem(MenuBottomSheet.ADD_FAVORITE.id, MenuBottomSheet.ADD_FAVORITE.title, MenuBottomSheet.ADD_FAVORITE.icon)
+                .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
                 .setItemClickListener(BottomSheetItemClickListener { item->
                     when(item.itemId) {
-                        R.id.menu_add_playing -> Log.e("thanhd", "Playing")
-                        R.id.menu_like_song -> Log.e("thanhd", "Like")
-                        R.id.menu_add_playlist -> Log.e("thanhd", "Play list")
+                        MenuBottomSheet.ADD_PLAYING.id -> Log.e("thanhd", "Playing")
+                        MenuBottomSheet.ADD_FAVORITE.id -> {
+                            if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                                DialogUtils.createDialogConfirm(
+                                        activity,
+                                        "Lỗi",
+                                        "Hãy đăng nhập để sử dụng tính năng này",
+                                        object: DialogUtils.OnDialogClick{
+                                            override fun onClickOk() {
+                                                return
+                                            }
+
+                                            override fun onCancel() {
+
+                                            }
+                                        }
+                                )
+                                return@BottomSheetItemClickListener
+                            }
+                            presenter.updateLikeSong(song.idSong.toString())
+                        }
+                        MenuBottomSheet.ADD_PLAYLIST.id -> Log.e("thanhd", "Play list")
                     }
                 })
                 .createDialog()

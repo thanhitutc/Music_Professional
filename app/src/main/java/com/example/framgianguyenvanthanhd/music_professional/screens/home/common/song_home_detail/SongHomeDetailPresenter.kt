@@ -5,6 +5,8 @@ import com.example.framgianguyenvanthanhd.music_professional.data.datasource.Pla
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlayMostRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterDataSource
 
 /**
  * Created by admin on 11/8/2018.
@@ -12,6 +14,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.repository.Pla
 class SongHomeDetailPresenter(
         private val favoriteRepository: FavoriteRepository,
         private val playMostRepository: PlayMostRepository,
+        private val songParameterRepository: SongParameterRepository,
         private val view: SongHomeDetailContract.SongHomeDetailView
 ): SongHomeDetailContract.SongHomeDetailPresenter {
 
@@ -55,6 +58,29 @@ class SongHomeDetailPresenter(
                 t?.let {
                     view.loadError(it)
                 }
+            }
+        })
+    }
+
+    override fun updateLikeSong(idSong: String) {
+        songParameterRepository.updateLikeSong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+            override fun onSuccess() {
+
+            }
+
+            override fun onFail() {
+
+            }
+        })
+    }
+
+    override fun updatePlaySong(idSong: String) {
+        songParameterRepository.updatePlaySong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+            override fun onFail() {
+            }
+
+            override fun onSuccess() {
+
             }
         })
     }

@@ -19,5 +19,9 @@ interface FavoriteHomeContract {
     interface Presenter : BasePresenter<View> {
 
         fun getFavoriteSongs()
+
+        fun updateLikeSong(idSong: String)
+
+        fun updatePlaySong(idSong: String)
     }
 }
