@@ -11,11 +11,13 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.framgianguyenvanthanhd.music_professional.MainActivity;
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Setting;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SettingRepository;
@@ -79,6 +81,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
             mSongsPlaying.clear();
         }
         mSongsPlaying = songPlaying;
+        Log.e("thanhd_init", mSongsPlaying.size() +"");
     }
 
     @Override
@@ -120,10 +123,11 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         switch (action) {
             case Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE:
                 SongPlaying songPlaying = (SongPlaying) intent.getSerializableExtra(EXTRA_INIT_SONG_SERVICE);
+                Log.e("thanhd_insert", songPlaying.toString());
                 mPlayingRepository.insertSongPlaying(songPlaying);
                 mPresenter.getSongsPlaying();
                 mPosition = mSongsPlaying.indexOf(songPlaying);
-                mSongsPlaying.add(songPlaying);
+               // mSongsPlaying.add(songPlaying);
                 if (mSetting.isShuffleMode()) {
                     shuffleSong();
                     play(mPositionShuffled);
@@ -170,24 +174,32 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     public void play(int position) {
         mMediaPlayer.reset();
         try {
-            List<SongPlaying> playings = new ArrayList<>();
+            Log.e("thanhd_position_play", position+"");
             boolean shuffleMode = mSetting.isShuffleMode();
             if (shuffleMode) {
-                playings = mSongsShuffled;
+                mMediaPlayer.setDataSource(mSongsShuffled.get(position).getResource());
+                SharedPrefs.getInstance().updateLastPlay(
+                        mSongsShuffled.get(position).getId(),
+                        mSongsShuffled.get(position).getName(),
+                        mSongsShuffled.get(position).getImage(),
+                        mSongsShuffled.get(position).getSinger(),
+                        mSongsShuffled.get(position).getResource(),
+                        mSongsShuffled.get(position).getMode().getValue()
+                );
+                Log.e("thanhd_song_play_size", mSongsShuffled.size()+"");
             } else {
-                playings = mSongsPlaying;
+                mMediaPlayer.setDataSource(mSongsPlaying.get(position).getResource());
+                SharedPrefs.getInstance().updateLastPlay(
+                        mSongsPlaying.get(position).getId(),
+                        mSongsPlaying.get(position).getName(),
+                        mSongsPlaying.get(position).getImage(),
+                        mSongsPlaying.get(position).getSinger(),
+                        mSongsPlaying.get(position).getResource(),
+                        mSongsPlaying.get(position).getMode().getValue()
+                );
+                Log.e("thanhd_song_play_size", mSongsPlaying.size()+"");
             }
-
-            switch (playings.get(position).getMode()) {
-                case ONLINE:
-                    Uri uri = Uri.parse(playings.get(position).getResource());
-                    mMediaPlayer.setDataSource(this, uri);
-                    break;
-                case OFFLINE:
-                    mMediaPlayer.setDataSource(playings.get(position).getResource());
-                    break;
-            }
-            mMediaPlayer.prepareAsync();
+            mMediaPlayer.prepare();
         } catch (IOException e) {
             Logger.getLogger(e.toString());
         }

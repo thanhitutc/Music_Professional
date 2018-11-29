@@ -42,7 +42,7 @@ import static com.example.framgianguyenvanthanhd.music_professional.Utils.Consta
  */
 
 public class PlayMusicActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int DEFAULT_DELAY = 1000;
+    private static final int DEFAULT_DELAY = 500;
     private static final String TIME_FORMAT = "mm:ss";
     private static final String TIME_DEFAULT = "00:00";
     private TextView mTextCurrentDuration;

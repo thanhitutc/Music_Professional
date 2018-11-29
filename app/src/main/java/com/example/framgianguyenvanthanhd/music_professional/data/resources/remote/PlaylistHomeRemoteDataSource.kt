@@ -20,7 +20,7 @@ class PlaylistHomeRemoteDataSource private constructor(): PlaylistHomeDataSource
         callBack.enqueue(object : Callback<List<Song>?> {
 
             override fun onResponse(call: Call<List<Song>?>?, response: Response<List<Song>?>?) {
-               if (response!!.isSuccessful) {
+               if (response?.isSuccessful == true && response.body() != null) {
                    response.body()?.let {
                        onResponse.onSuccessfully(it)
                    }
@@ -41,7 +41,9 @@ class PlaylistHomeRemoteDataSource private constructor(): PlaylistHomeDataSource
             }
 
             override fun onResponse(call: Call<List<Playlist>>?, response: Response<List<Playlist>>?) {
-                onResponse.onSuccess(response?.body())
+                if (response?.isSuccessful == true && response.body() != null){
+                    onResponse.onSuccess(response?.body())
+                }
             }
         })
     }

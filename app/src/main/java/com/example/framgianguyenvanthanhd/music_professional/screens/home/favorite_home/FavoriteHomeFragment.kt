@@ -47,7 +47,7 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
 
     override fun favoriteSongsSuccessfully(songHomeSongs: List<SongHome>) {
         mAdapter = SongHomeAdapter(songHomeSongs, true, this)
-        rc_favorite_home.adapter = mAdapter
+        rc_favorite_home?.adapter = mAdapter
     }
 
     override fun favoriteSongsError(t: Throwable?) {
@@ -78,10 +78,9 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
 
     override fun onItemSongClick(song: SongHome) {
         listener.onUpdateSongPlaying(song.nameSong ?: "", song.nameSinger, song.image ?: "")
-        SharedPrefs.getInstance().updateLastPlay(song.nameSong, song.image, song.nameSinger)
         presenter.updatePlaySong(song.idSong.toString())
         val linkSong = song.link ?: ""
-        val songPlaying = SongPlaying(song.idSong.toString(), song.nameSinger, song.nameSinger, song.image, linkSong, SongMode.ONLINE)
+        val songPlaying = SongPlaying(song.idSong.toString(), song.nameSong ?: "", song.nameSinger, song.image, linkSong, SongMode.ONLINE)
         activity.startService(MediaService.getInstance(activity, songPlaying, 0))
     }
 

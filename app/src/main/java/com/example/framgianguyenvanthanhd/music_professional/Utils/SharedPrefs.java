@@ -25,10 +25,13 @@ public final class SharedPrefs {
         return mInstance;
     }
 
-    public void updateLastPlay(String title, String image, String singer) {
+    public void updateLastPlay(String id, String title, String image, String singer, String resource, int mode) {
+        put(KeysPref.ID_SONG_PLAYING.name(), id);
         put(KeysPref.NAME_PLAYING.name(), title);
         put(KeysPref.IMAGE_PLAYING.name(), image);
         put(KeysPref.SINGER_PLAYING.name(), singer);
+        put(KeysPref.RESOURCE_PLAYING.name(), resource);
+        put(KeysPref.MODE_PLAYING_SONG.name(), mode);
     }
 
     public <T> T get(String key, Class<T> anonymousClass) {

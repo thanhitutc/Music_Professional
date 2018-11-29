@@ -18,7 +18,9 @@ class SlideRemoteDataSource private constructor() : SlideDataSource {
         var callBack: Call<List<Slide>>? = slideDataService?.getSlide()
         callBack?.enqueue(object: Callback<List<Slide>> {
             override fun onResponse(call: Call<List<Slide>>?, response: Response<List<Slide>>?) {
-                onResultGetSlide.onSuccess(response?.body())
+                if (response?.isSuccessful == true && response.body() != null){
+                    onResultGetSlide.onSuccess(response?.body())
+                }
             }
 
             override fun onFailure(call: Call<List<Slide>>?, t: Throwable?) {

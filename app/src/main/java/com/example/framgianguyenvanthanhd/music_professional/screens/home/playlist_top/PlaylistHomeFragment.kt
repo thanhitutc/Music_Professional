@@ -28,8 +28,10 @@ class PlaylistHomeFragment : Fragment(), PlaylistHomeContract.PlaylistHomeView,
 
     override fun loadSuccessfully(list: List<Playlist>?) {
         plHomeAdapter = PlaylistHomeAdapter(list, this)
-        rc_playlist_home.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
-        rc_playlist_home.adapter = plHomeAdapter
+        rc_playlist_home?.let {
+            it.layoutManager = LinearLayoutManager(activity, LinearLayout.VERTICAL, false)
+            it.adapter = plHomeAdapter
+        }
     }
 
     override fun loadError() {

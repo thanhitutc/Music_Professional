@@ -38,7 +38,7 @@ class TopicRemoteDataSource private constructor() : TopicDataSource {
             }
 
             override fun onResponse(call: Call<List<Topic>>?, response: Response<List<Topic>>?) {
-                if (response!!.isSuccessful) {
+                if (response?.isSuccessful == true && response?.body() != null) {
                     onResponse.onSuccess(response.body())
                 }
             }
