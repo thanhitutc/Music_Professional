@@ -8,5 +8,9 @@ enum class KeysPref {
     LOGIN_TYPE,
     FIRST_NAME,
     LAST_NAME,
-    AVATAR
+    AVATAR,
+
+    IMAGE_PLAYING,
+    NAME_PLAYING,
+    SINGER_PLAYING
 }

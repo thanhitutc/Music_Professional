@@ -25,6 +25,12 @@ public final class SharedPrefs {
         return mInstance;
     }
 
+    public void updateLastPlay(String title, String image, String singer) {
+        put(KeysPref.NAME_PLAYING.name(), title);
+        put(KeysPref.IMAGE_PLAYING.name(), image);
+        put(KeysPref.SINGER_PLAYING.name(), singer);
+    }
+
     public <T> T get(String key, Class<T> anonymousClass) {
         if (anonymousClass == String.class) {
             return (T) mSharedPreferences.getString(key, "");

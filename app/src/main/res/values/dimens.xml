@@ -24,6 +24,7 @@
     <dimen name="space_10">10dp</dimen>
     <dimen name="space_12">12dp</dimen>
     <dimen name="space_16">16dp</dimen>
+    <dimen name="space_48">48dp</dimen>
     <dimen name="space_160">160dp</dimen>
 
     <dimen name="text_sie_18">18sp</dimen>

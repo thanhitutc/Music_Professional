@@ -4,17 +4,24 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
+import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.HomeFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.PersonalFragment
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_playing.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         initiateBottomNavigation()
+
+        initPlaying()
     }
 
     private fun initiateBottomNavigation() {
@@ -45,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         if (frag != null && frag.isVisible) return
 
         val fragmentManager = supportFragmentManager
-        if (fragmentManager.backStackEntryCount>0) {
+        if (fragmentManager.backStackEntryCount > 0) {
             fragmentManager.popBackStack()
         }
         val ft = fragmentManager.beginTransaction()
@@ -65,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         bottom_navigation.selectedItemId = R.id.menu_account
     }
 
-    fun isDisplayBottomNavigation(isDisplay : Boolean) {
+    fun isDisplayBottomNavigation(isDisplay: Boolean) {
         bottom_navigation.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
@@ -73,4 +80,24 @@ class MainActivity : AppCompatActivity() {
         toolbar_main.visibility = if (isDisplay) View.VISIBLE else View.GONE
     }
 
+    private fun initPlaying() {
+        val title = SharedPrefs.getInstance().get(KeysPref.NAME_PLAYING.name, String::class.java)
+        val image = SharedPrefs.getInstance().get(KeysPref.IMAGE_PLAYING.name, String::class.java)
+        val singer = SharedPrefs.getInstance().get(KeysPref.SINGER_PLAYING.name, String::class.java)
+        if (title.isNotBlank()) {
+            layout_playing_song.visibility = View.VISIBLE
+            txt_song_playing.text = title
+            txt_singer_playing.text = singer
+            Picasso.with(this).load(image).into(image_playing)
+        }
+    }
+
+    override fun onUpdateSongPlaying(title: String, singer: String, image: String) {
+        if (layout_playing_song.visibility != View.VISIBLE) {
+            layout_playing_song.visibility = View.VISIBLE
+        }
+        txt_song_playing.text = title
+        txt_singer_playing.text = singer
+        Picasso.with(this).load(image).into(image_playing)
+    }
 }
