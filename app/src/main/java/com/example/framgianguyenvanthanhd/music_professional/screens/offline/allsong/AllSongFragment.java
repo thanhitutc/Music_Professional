@@ -22,9 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-
 import com.example.framgianguyenvanthanhd.music_professional.R;
-import com.example.framgianguyenvanthanhd.music_professional.Utils.SongMode;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongOffline;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository;
@@ -51,7 +49,7 @@ public class AllSongFragment extends Fragment
     private RecyclerView mRecycler;
 
     public static final String[] PERMISSION_READ_EXTERNAL =
-            new String[] { Manifest.permission.READ_EXTERNAL_STORAGE };
+            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Nullable
     @Override
@@ -64,7 +62,7 @@ public class AllSongFragment extends Fragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView();
         requestPermission();
-        if (checkPermission()){
+        if (checkPermission()) {
             initPresenter();
         }
         super.onViewCreated(view, savedInstanceState);
@@ -117,7 +115,7 @@ public class AllSongFragment extends Fragment
     public void onItemClickSong(List<SongOffline> songOfflines, int position) {
         SongOffline songOffline = songOfflines.get(position);
         SongPlaying songPlaying = new SongPlaying(songOffline.getId(), songOffline.getTitle(), songOffline.getSinger(),
-                null, songOffline.getData(), SongMode.OFFLINE);
+                null, songOffline.getData());
         getActivity().startService(MediaService.getInstance(getActivity(), songPlaying, position));
         getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
 
@@ -143,10 +141,10 @@ public class AllSongFragment extends Fragment
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length == 1) {
             initPresenter();
-            Log.e("DONG Y","ROI");
+            Log.e("DONG Y", "ROI");
         } else {
             requestPermission();
         }
@@ -213,7 +211,7 @@ public class AllSongFragment extends Fragment
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         REQUEST_READ_STORAGE);
             }
         }

@@ -1,6 +1,5 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.model
 
-import com.example.framgianguyenvanthanhd.music_professional.Utils.SongMode
 import java.io.Serializable
 
 /**
@@ -16,8 +15,5 @@ data class SongPlaying(
 
         val image: String?,
 
-        val resource: String,
-
-        val mode: SongMode?
-
+        val resource: String
 ) : Serializable

@@ -34,7 +34,7 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnUpdateDataPlayingListener ){
+        if (context is OnUpdateDataPlayingListener) {
             listener = context as OnUpdateDataPlayingListener
         } else {
             throw Throwable("do not attach")
@@ -80,7 +80,8 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
         listener.onUpdateSongPlaying(song.nameSong ?: "", song.nameSinger, song.image ?: "")
         presenter.updatePlaySong(song.idSong.toString())
         val linkSong = song.link ?: ""
-        val songPlaying = SongPlaying(song.idSong.toString(), song.nameSong ?: "", song.nameSinger, song.image, linkSong, SongMode.ONLINE)
+        val songPlaying = SongPlaying(song.idSong.toString(), song.nameSong
+                ?: "", song.nameSinger, song.image, linkSong)
         activity.startService(MediaService.getInstance(activity, songPlaying, 0))
     }
 

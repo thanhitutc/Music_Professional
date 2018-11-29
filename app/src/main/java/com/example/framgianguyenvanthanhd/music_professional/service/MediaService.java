@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -48,6 +47,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     private static final String ACTION_CHANGE_MEDIA_STATE = "ACTION_CHANGE_MEDIA_STATE";
     private static final String ACTION_MEDIA_CLEAR = "ACTION_MEDIA_CLEAR";
     private static final int DEFAULT_POSITION_START = 0;
+    public static final int FLAG_NOT_PLAY = 1010;
     private static final int ID_NOTIFICATION = 183;
     private List<SongPlaying> mSongsPlaying;
     private List<SongPlaying> mSongsShuffled;
@@ -66,7 +66,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         Intent intent = new Intent(context, MediaService.class);
         intent.setAction(Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE);
         intent.putExtra(EXTRA_INIT_SONG_SERVICE, songPlaying);
-        intent.putExtra(Constants.ConstantIntent.EXTRA_INIT_POSITION_SONG_SERVICE, position);
+        intent.putExtra(Constants.ConstantIntent.FLAG_PLAY_SONG_SERVICE, position);
         return intent;
     }
 
@@ -127,7 +127,12 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                 mPlayingRepository.insertSongPlaying(songPlaying);
                 mPresenter.getSongsPlaying();
                 mPosition = mSongsPlaying.indexOf(songPlaying);
-               // mSongsPlaying.add(songPlaying);
+                if (intent.getIntExtra(Constants.ConstantIntent.FLAG_PLAY_SONG_SERVICE,-1) == FLAG_NOT_PLAY) {
+                    if (mSetting.isShuffleMode()){
+                        shuffleSong();
+                    }
+                    break;
+                }
                 if (mSetting.isShuffleMode()) {
                     shuffleSong();
                     play(mPositionShuffled);
@@ -183,9 +188,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                         mSongsShuffled.get(position).getName(),
                         mSongsShuffled.get(position).getImage(),
                         mSongsShuffled.get(position).getSinger(),
-                        mSongsShuffled.get(position).getResource(),
-                        mSongsShuffled.get(position).getMode().getValue()
-                );
+                        mSongsShuffled.get(position).getResource());
                 Log.e("thanhd_song_play_size", mSongsShuffled.size()+"");
             } else {
                 mMediaPlayer.setDataSource(mSongsPlaying.get(position).getResource());
@@ -194,8 +197,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                         mSongsPlaying.get(position).getName(),
                         mSongsPlaying.get(position).getImage(),
                         mSongsPlaying.get(position).getSinger(),
-                        mSongsPlaying.get(position).getResource(),
-                        mSongsPlaying.get(position).getMode().getValue()
+                        mSongsPlaying.get(position).getResource()
                 );
                 Log.e("thanhd_song_play_size", mSongsPlaying.size()+"");
             }
@@ -356,7 +358,6 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     }
 
     private void initMediaPlayer() {
-        mPosition = -1;
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setOnPreparedListener(mOnPrepare);

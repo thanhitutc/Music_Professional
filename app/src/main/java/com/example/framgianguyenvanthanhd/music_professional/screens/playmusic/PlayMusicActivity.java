@@ -22,10 +22,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
-import com.example.framgianguyenvanthanhd.music_professional.Utils.SongMode;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType;
@@ -301,11 +299,11 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     private void startAnimationImagePlaying() {
         mAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image_playing);
-       // mImagePlaying.startAnimation(mAnimation);
+        // mImagePlaying.startAnimation(mAnimation);
     }
 
     private void clearAnimationImagePlaying() {
-       // mImagePlaying.clearAnimation();
+        // mImagePlaying.clearAnimation();
     }
 
     private SeekBar.OnSeekBarChangeListener mOnSeekChange = new SeekBar.OnSeekBarChangeListener() {

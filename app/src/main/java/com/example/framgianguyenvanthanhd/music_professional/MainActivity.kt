@@ -1,18 +1,23 @@
 package com.example.framgianguyenvanthanhd.music_professional
 
+import android.app.ActivityManager
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
 import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.HomeFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.PersonalFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playing.*
+
 
 class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnClickListener {
 
@@ -30,7 +35,7 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
         initPlaying()
     }
 
-    private fun initListener(){
+    private fun initListener() {
         layout_playing_song.setOnClickListener(this)
     }
 
@@ -99,7 +104,7 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
             layout_playing_song.visibility = View.VISIBLE
             txt_song_playing.text = title
             txt_singer_playing.text = singer
-            if (image.isBlank()){
+            if (image.isBlank()) {
                 Picasso.with(this).load(R.drawable.ic_song).into(image_playing)
             } else {
                 Picasso.with(this).load(image).into(image_playing)
@@ -117,10 +122,29 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
     }
 
     override fun onClick(view: View?) {
-        when(view?.id){
+        when (view?.id) {
             R.id.layout_playing_song -> {
+                val id = SharedPrefs.getInstance().get(KeysPref.ID_SONG_PLAYING.name, String::class.java)
+                val title = SharedPrefs.getInstance().get(KeysPref.NAME_PLAYING.name, String::class.java)
+                val image = SharedPrefs.getInstance().get(KeysPref.IMAGE_PLAYING.name, String::class.java)
+                val singer = SharedPrefs.getInstance().get(KeysPref.SINGER_PLAYING.name, String::class.java)
+                val resource = SharedPrefs.getInstance().get(KeysPref.RESOURCE_PLAYING.name, String::class.java)
+                val playing = SongPlaying(id, title, singer, image, resource)
                 startActivity(PlayMusicActivity.getInstance(this))
+                if (!isServiceRunning(MediaService::class.java)) {
+                    startService(MediaService.getInstance(this, playing, MediaService.FLAG_NOT_PLAY))
+                }
             }
         }
+    }
+
+    private fun isServiceRunning(serviceClass: Class<*>): Boolean {
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        for (service in manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 }
