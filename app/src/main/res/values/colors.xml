@@ -20,6 +20,8 @@
     <color name="color_grey_900">#212121</color>
     <color name="color_grey_400">#727272</color>
     <color name="color_grey_50">#FAFAFA</color>
+    <color name="color_grey_100">#F5F5F5</color>
+    <color name="color_grey_200">#EEEEEE</color>
     <color name="color_blue_500">#2196F3</color>
     <color name="color_grey_700">#616161</color>
 </resources>

@@ -510,4 +510,11 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
             return MediaService.this;
         }
     }
+
+    public String getIdSongPlaying(){
+        if (mSetting.isShuffleMode()) {
+            return mSongsShuffled.get(mPositionShuffled).getId();
+        }
+        return mSongsPlaying.get(mPosition).getId();
+    }
 }

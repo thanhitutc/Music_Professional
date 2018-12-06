@@ -4,6 +4,7 @@ package com.example.framgianguyenvanthanhd.music_professional.Utils
  * Created by admin on 11/25/2018.
  */
 enum class KeysPref {
+    ID_ACCOUNT,
     USER_NAME,
     LOGIN_TYPE,
     FIRST_NAME,

@@ -9,28 +9,48 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
+import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref;
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs;
+import com.example.framgianguyenvanthanhd.music_professional.data.comment.Comment;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.CommentRepository;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentAdapter;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentContract;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentPresenter;
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import es.dmoral.toasty.Toasty;
 
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.Constants.ConstantBroadcast.ACTION_STATE_MEDIA;
 
@@ -39,7 +59,7 @@ import static com.example.framgianguyenvanthanhd.music_professional.Utils.Consta
  * Created by MyPC on 31/01/2018.
  */
 
-public class PlayMusicActivity extends AppCompatActivity implements View.OnClickListener {
+public class PlayMusicActivity extends AppCompatActivity implements View.OnClickListener, CommentContract.CommentView {
     private static final int DEFAULT_DELAY = 500;
     private static final String TIME_FORMAT = "mm:ss";
     private static final String TIME_DEFAULT = "00:00";
@@ -60,6 +80,16 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private Animation mAnimation;
 
     private OnChangeSongListener mOnChangeSongListener;
+
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private TextView mBtnCloseComment;
+    private TextView mTxtComment;
+
+    private CommentContract.CommentPresenter mCommentPresenter;
+    private CommentAdapter mCommentAdapter;
+    private RecyclerView mRecyclerViewComment;
+    private ProgressBar mProgressBarComment;
+    private EditText edtComment;
 
     public static Intent getInstance(Context context) {
         Intent intent = new Intent(context, PlayMusicActivity.class);
@@ -90,6 +120,136 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         initComponents();
         initListeners();
         receiveStateMedia();
+        initCommentBottomSheet();
+    }
+
+    private void initCommentBottomSheet() {
+        edtComment = findViewById(R.id.edt_content);
+        View bottomSheetComment = findViewById(R.id.layout_comment);
+
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheetComment);
+
+        mBtnCloseComment = findViewById(R.id.btn_close);
+        mTxtComment = findViewById(R.id.txt_comment);
+        mBtnCloseComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                View v = getCurrentFocus();
+                if (view != null){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        });
+
+        bottomSheetComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+            }
+        });
+
+        mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                switch (newState) {
+                    case BottomSheetBehavior.STATE_COLLAPSED:
+                        mBtnCloseComment.setVisibility(View.INVISIBLE);
+                        mTxtComment.setVisibility(View.VISIBLE);
+                        break;
+
+                    case BottomSheetBehavior.STATE_EXPANDED:
+                        mBtnCloseComment.setVisibility(View.VISIBLE);
+                        mTxtComment.setVisibility(View.INVISIBLE);
+                        findViewById(R.id.txt_no_comment).setVisibility(View.INVISIBLE);
+                        mCommentPresenter.fetchComment(mService.getIdSongPlaying());
+                        mProgressBarComment.setVisibility(View.VISIBLE);
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+
+        mRecyclerViewComment = findViewById(R.id.rv_comment);
+        mProgressBarComment = findViewById(R.id.progress_bar_comment);
+        mRecyclerViewComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRecyclerViewComment.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        mCommentPresenter = new CommentPresenter(CommentRepository.getInstance(), this);
+        mCommentPresenter.setView(this);
+
+        findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = SharedPrefs.getInstance().get(KeysPref.USER_NAME.name(), String.class);
+                if (username == null || username.isEmpty()){
+                    Toasty.warning(getBaseContext(), getResources().getString(R.string.txt_login_to_comment), Toast.LENGTH_SHORT, true).show();
+                    return;
+                }
+
+                if (edtComment.getText().toString().isEmpty()) {
+                    return;
+                }
+                findViewById(R.id.txt_no_comment).setVisibility(View.INVISIBLE);
+                mCommentPresenter.postComment(mService.getIdSongPlaying(), edtComment.getText().toString());
+                String avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name(), String.class);
+                String firstName = SharedPrefs.getInstance().get(KeysPref.FIRST_NAME.name(), String.class);
+                String lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name(), String.class);
+                if (firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty()) {
+                    username = firstName + lastName;
+                }
+                Comment comment = new Comment(
+                        avatar,
+                        username,
+                        firstName,
+                        lastName,
+                        edtComment.getText().toString(),
+                        getResources().getString(R.string.txt_posting));
+                mCommentAdapter.postComment(comment);
+                edtComment.setText("");
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(edtComment.getWindowToken(), 0);
+            }
+        });
+
+    }
+
+    @Override
+    public void postCommentSuccess() {
+        mCommentAdapter.updatePostSuccess(getResources().getString(R.string.txt_just_now));
+    }
+
+    @Override
+    public void postCommentError() {
+        Toasty.error(this, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show();
+    }
+
+    @Override
+    public void fetchCommentSuccess(@NotNull List<Comment> comments) {
+        mProgressBarComment.setVisibility(View.INVISIBLE);
+        if (comments.size() == 0) {
+            findViewById(R.id.txt_no_comment).setVisibility(View.VISIBLE);
+        }
+        mCommentAdapter = new CommentAdapter(comments);
+        mRecyclerViewComment.setAdapter(mCommentAdapter);
+    }
+
+    @Override
+    public void fetchCommentFail() {
+        mProgressBarComment.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void setPresenter(CommentContract.CommentPresenter presenter) {
+
     }
 
     @Override

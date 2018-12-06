@@ -52,7 +52,9 @@ class AccountRemoteDataSource private constructor(
 
                     override fun onResponse(call: Call<Account>?, response: Response<Account>?) {
                         if (response?.isSuccessful == true && response.body() != null) {
-                            onResponse.onLoginSuccess(account)
+                            response.body()?.let {
+                                onResponse.onLoginSuccess(it)
+                            }
                         } else {
                             onResponse.onLoginFail()
                         }
