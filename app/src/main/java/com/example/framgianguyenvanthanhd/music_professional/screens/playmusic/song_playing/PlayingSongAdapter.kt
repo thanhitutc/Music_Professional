@@ -7,9 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.example.framgianguyenvanthanhd.music_professional.App
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.squareup.picasso.Picasso
+import android.util.SparseBooleanArray
+
+
 
 /**
  * Created by admin on 11/3/2018.
@@ -19,6 +24,8 @@ class PlayingSongAdapter(
         private var onItemSongClickListener: OnItemSongClickListener
 ) : RecyclerView.Adapter<PlayingSongAdapter.SongDetailHolder>() {
 
+    var positionPlayed : Int = -1
+    private val selectedItems = SparseBooleanArray()
 
     interface OnItemSongClickListener {
 
@@ -27,7 +34,7 @@ class PlayingSongAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SongDetailHolder {
-        return SongDetailHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_song_rv, parent, false))
+        return SongDetailHolder(LayoutInflater.from(parent?.context).inflate(R.layout.item_song_playing, parent, false))
     }
 
 
@@ -40,6 +47,11 @@ class PlayingSongAdapter(
         holder?.itemView?.setOnClickListener{
             onItemSongClickListener.onItemSongClick(songs[position], position)
         }
+        if (selectedItems.get(position, false)) {
+            holder?.btnMore?.visibility = View.VISIBLE
+        } else {
+            holder?.btnMore?.visibility = View.INVISIBLE
+        }
     }
 
     class SongDetailHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -47,7 +59,7 @@ class PlayingSongAdapter(
         private val imgSong = itemView?.findViewById<ImageView>(R.id.song_image)
         private val txtSongName = itemView?.findViewById<TextView>(R.id.song_name)
         private val txtSingerName = itemView?.findViewById<TextView>(R.id.song_singer)
-        private val btnMore = itemView?.findViewById<ImageView>(R.id.song_more)
+        val btnMore = itemView?.findViewById<ImageView>(R.id.song_more)
 
         fun bindData(song: SongPlaying) {
             song.image?.let {
@@ -55,6 +67,7 @@ class PlayingSongAdapter(
             }
             txtSongName?.text = song.name
             txtSingerName?.text = song.singer
+            Glide.with(itemView?.context).asGif().load(R.drawable.playing).into(btnMore)
         }
 
     }
@@ -68,11 +81,20 @@ class PlayingSongAdapter(
                 }
             }
         }
+        songs.clear()
         songs.addAll(books)
         notifyDataSetChanged()
     }
 
     fun getPositionSong(song: SongPlaying): Int {
         return songs.indexOf(song)
+    }
+
+    fun showIconPlaying(position: Int){
+        selectedItems.delete(positionPlayed)
+        positionPlayed = position
+        selectedItems.put(position, true)
+
+        notifyDataSetChanged()
     }
 }

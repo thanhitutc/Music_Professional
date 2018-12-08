@@ -1,5 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.home.favorite_home
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -11,10 +12,13 @@ import android.widget.Toast
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.*
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail.SongHomeDetailActivity
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import kotlinx.android.synthetic.main.fragment_favorite_home.*
@@ -22,9 +26,20 @@ import kotlinx.android.synthetic.main.fragment_favorite_home.*
 /**
  * Created by admin on 10/27/2018.
  */
-class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickListener, SongHomeAdapter.OnItemSongHomeClickListener {
+class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClickListener, SongHomeAdapter.OnItemSongHomeClickListener {
     private lateinit var presenter: FavoriteHomeContract.Presenter
     private lateinit var mAdapter: SongHomeAdapter
+
+    private lateinit var listener: OnUpdateDataPlayingListener
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is OnUpdateDataPlayingListener) {
+            listener = context as OnUpdateDataPlayingListener
+        } else {
+            throw Throwable("do not attach")
+        }
+    }
 
     override fun setPresenter(presenter: FavoriteHomeContract.Presenter) {
         this.presenter = presenter
@@ -32,7 +47,7 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickL
 
     override fun favoriteSongsSuccessfully(songHomeSongs: List<SongHome>) {
         mAdapter = SongHomeAdapter(songHomeSongs, true, this)
-        rc_favorite_home.adapter = mAdapter
+        rc_favorite_home?.adapter = mAdapter
     }
 
     override fun favoriteSongsError(t: Throwable?) {
@@ -55,25 +70,30 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickL
     }
 
     override fun onClick(p0: View?) {
-        when(p0?.id) {
+        when (p0?.id) {
             R.id.txt_title_favorite_home, R.id.btn_favorite_home_more ->
-                    startActivity(SongHomeDetailActivity.getInstance(context,SongHomeDetailType.SONG_HOME_FAVORITE))
+                startActivity(SongHomeDetailActivity.getInstance(context, SongHomeDetailType.SONG_HOME_FAVORITE))
         }
     }
 
     override fun onItemSongClick(song: SongHome) {
+        listener.onUpdateSongPlaying(song.nameSong ?: "", song.nameSinger, song.image ?: "")
         presenter.updatePlaySong(song.idSong.toString())
+        val linkSong = song.link ?: ""
+        val songPlaying = SongPlaying(song.idSong.toString(), song.nameSong
+                ?: "", song.nameSinger, song.image, linkSong)
+        activity.startService(MediaService.getInstance(activity, songPlaying, 0))
     }
 
     override fun onMoreBtnClick(song: SongHome) {
         val dialog = BottomSheetBuilder(activity, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
-                .addItem(0,song.nameSong, null)
+                .addItem(0, song.nameSong, null)
                 .addItem(MenuBottomSheet.ADD_PLAYING.id, MenuBottomSheet.ADD_PLAYING.title, MenuBottomSheet.ADD_PLAYING.icon)
                 .addItem(MenuBottomSheet.ADD_FAVORITE.id, MenuBottomSheet.ADD_FAVORITE.title, MenuBottomSheet.ADD_FAVORITE.icon)
                 .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
-                .setItemClickListener(BottomSheetItemClickListener { item->
-                    when(item.itemId) {
+                .setItemClickListener(BottomSheetItemClickListener { item ->
+                    when (item.itemId) {
                         MenuBottomSheet.ADD_PLAYING.id -> Log.e("thanhd", "Playing")
                         MenuBottomSheet.ADD_FAVORITE.id -> {
                             if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
@@ -81,7 +101,7 @@ class FavoriteHomeFragment: Fragment(), FavoriteHomeContract.View, View.OnClickL
                                         activity,
                                         "Lỗi",
                                         "Hãy đăng nhập để sử dụng tính năng này",
-                                        object: DialogUtils.OnDialogClick{
+                                        object : DialogUtils.OnDialogClick {
                                             override fun onClickOk() {
                                                 return
                                             }

@@ -12,6 +12,7 @@
     <color name="background_color_slide_end">#d00b0b0b</color>
     <color name="slide_name_song_color">#ffffff</color>
     <color name="slide_content_color">#efebeb</color>
+    <color name="background_playing">#E0E0E0</color>
     <color name="while_color">#ffffff</color>
 
     <color name="sub_title_color">#727272</color>
@@ -19,6 +20,8 @@
     <color name="color_grey_900">#212121</color>
     <color name="color_grey_400">#727272</color>
     <color name="color_grey_50">#FAFAFA</color>
+    <color name="color_grey_100">#F5F5F5</color>
+    <color name="color_grey_200">#EEEEEE</color>
     <color name="color_blue_500">#2196F3</color>
     <color name="color_grey_700">#616161</color>
 </resources>

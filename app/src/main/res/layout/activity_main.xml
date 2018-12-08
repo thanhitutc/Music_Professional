@@ -11,24 +11,24 @@
         android:id="@+id/toolbar_main"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:src="@drawable/ic_search_24dp"
-            android:scaleType="centerInside"
             android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize" />
+            android:layout_height="?attr/actionBarSize"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_search_24dp" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:text="@string/search_title"
-            android:textSize="@dimen/text_sie_18"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
+            android:textSize="@dimen/text_sie_18" />
     </LinearLayout>
 
     <FrameLayout
@@ -44,10 +44,20 @@
         android:id="@+id/main_containetr"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintBottom_toTopOf="@id/layout_playing_song"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_main" />
+
+    <include
+        android:id="@+id/layout_playing_song"
+        layout="@layout/layout_playing"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/space_48"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        android:visibility="gone"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"

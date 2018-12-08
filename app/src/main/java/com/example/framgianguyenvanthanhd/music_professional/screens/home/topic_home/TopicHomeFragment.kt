@@ -28,8 +28,10 @@ OnItemTopicClickListener{
 
     override fun topicsSuccessfully(topics: List<Topic>) {
         topicAdapter = TopicAdapter(topics, TopicType.TOPIC_TOP, this)
-        rc_topic_home.layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
-        rc_topic_home.adapter = topicAdapter
+        rc_topic_home?.let {
+            it.layoutManager = LinearLayoutManager(activity, LinearLayout.HORIZONTAL, false)
+            it.adapter = topicAdapter
+        }
     }
 
     override fun topicError(t: Throwable?) {

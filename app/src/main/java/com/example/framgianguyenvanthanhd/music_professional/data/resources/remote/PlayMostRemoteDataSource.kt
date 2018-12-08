@@ -36,7 +36,7 @@ class PlayMostRemoteDataSource private constructor(
                 }
 
                 override fun onResponse(call: Call<List<SongHome>?>?, response: Response<List<SongHome>?>?) {
-                    if (response!!.isSuccessful) {
+                    if (response?.isSuccessful == true && response.body() != null) {
                         onResponse.onSuccess(response.body())
                     }
                 }

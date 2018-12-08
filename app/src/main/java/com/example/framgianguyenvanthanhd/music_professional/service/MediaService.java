@@ -7,15 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.framgianguyenvanthanhd.music_professional.MainActivity;
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Setting;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SettingRepository;
@@ -46,6 +47,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     private static final String ACTION_CHANGE_MEDIA_STATE = "ACTION_CHANGE_MEDIA_STATE";
     private static final String ACTION_MEDIA_CLEAR = "ACTION_MEDIA_CLEAR";
     private static final int DEFAULT_POSITION_START = 0;
+    public static final int FLAG_NOT_PLAY = 1010;
     private static final int ID_NOTIFICATION = 183;
     private List<SongPlaying> mSongsPlaying;
     private List<SongPlaying> mSongsShuffled;
@@ -64,7 +66,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         Intent intent = new Intent(context, MediaService.class);
         intent.setAction(Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE);
         intent.putExtra(EXTRA_INIT_SONG_SERVICE, songPlaying);
-        intent.putExtra(Constants.ConstantIntent.EXTRA_INIT_POSITION_SONG_SERVICE, position);
+        intent.putExtra(Constants.ConstantIntent.FLAG_PLAY_SONG_SERVICE, position);
         return intent;
     }
 
@@ -79,6 +81,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
             mSongsPlaying.clear();
         }
         mSongsPlaying = songPlaying;
+        Log.e("thanhd_init", mSongsPlaying.size() +"");
     }
 
     @Override
@@ -120,10 +123,16 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         switch (action) {
             case Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE:
                 SongPlaying songPlaying = (SongPlaying) intent.getSerializableExtra(EXTRA_INIT_SONG_SERVICE);
+                Log.e("thanhd_insert", songPlaying.toString());
                 mPlayingRepository.insertSongPlaying(songPlaying);
                 mPresenter.getSongsPlaying();
                 mPosition = mSongsPlaying.indexOf(songPlaying);
-                mSongsPlaying.add(songPlaying);
+                if (intent.getIntExtra(Constants.ConstantIntent.FLAG_PLAY_SONG_SERVICE,-1) == FLAG_NOT_PLAY) {
+                    if (mSetting.isShuffleMode()){
+                        shuffleSong();
+                    }
+                    break;
+                }
                 if (mSetting.isShuffleMode()) {
                     shuffleSong();
                     play(mPositionShuffled);
@@ -170,24 +179,29 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     public void play(int position) {
         mMediaPlayer.reset();
         try {
-            List<SongPlaying> playings = new ArrayList<>();
+            Log.e("thanhd_position_play", position+"");
             boolean shuffleMode = mSetting.isShuffleMode();
             if (shuffleMode) {
-                playings = mSongsShuffled;
+                mMediaPlayer.setDataSource(mSongsShuffled.get(position).getResource());
+                SharedPrefs.getInstance().updateLastPlay(
+                        mSongsShuffled.get(position).getId(),
+                        mSongsShuffled.get(position).getName(),
+                        mSongsShuffled.get(position).getImage(),
+                        mSongsShuffled.get(position).getSinger(),
+                        mSongsShuffled.get(position).getResource());
+                Log.e("thanhd_song_play_size", mSongsShuffled.size()+"");
             } else {
-                playings = mSongsPlaying;
+                mMediaPlayer.setDataSource(mSongsPlaying.get(position).getResource());
+                SharedPrefs.getInstance().updateLastPlay(
+                        mSongsPlaying.get(position).getId(),
+                        mSongsPlaying.get(position).getName(),
+                        mSongsPlaying.get(position).getImage(),
+                        mSongsPlaying.get(position).getSinger(),
+                        mSongsPlaying.get(position).getResource()
+                );
+                Log.e("thanhd_song_play_size", mSongsPlaying.size()+"");
             }
-
-            switch (playings.get(position).getMode()) {
-                case ONLINE:
-                    Uri uri = Uri.parse(playings.get(position).getResource());
-                    mMediaPlayer.setDataSource(this, uri);
-                    break;
-                case OFFLINE:
-                    mMediaPlayer.setDataSource(playings.get(position).getResource());
-                    break;
-            }
-            mMediaPlayer.prepareAsync();
+            mMediaPlayer.prepare();
         } catch (IOException e) {
             Logger.getLogger(e.toString());
         }
@@ -344,7 +358,6 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     }
 
     private void initMediaPlayer() {
-        mPosition = -1;
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mMediaPlayer.setOnPreparedListener(mOnPrepare);
@@ -496,5 +509,12 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         public MediaService getMediaService() {
             return MediaService.this;
         }
+    }
+
+    public String getIdSongPlaying(){
+        if (mSetting.isShuffleMode()) {
+            return mSongsShuffled.get(mPositionShuffled).getId();
+        }
+        return mSongsPlaying.get(mPosition).getId();
     }
 }

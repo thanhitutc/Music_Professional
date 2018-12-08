@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.framgianguyenvanthanhd.music_professional.Utils.SongMode;
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.common.SongPlayingDataSource;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 
@@ -14,7 +13,6 @@ import java.util.List;
 
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.BaseColumsDatabase.ID;
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.BaseColumsDatabase.IMAGE;
-import static com.example.framgianguyenvanthanhd.music_professional.Utils.BaseColumsDatabase.MODE;
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.BaseColumsDatabase.RESOURCE;
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.BaseColumsDatabase.SINGER;
 import static com.example.framgianguyenvanthanhd.music_professional.Utils.BaseColumsDatabase.TITLE;
@@ -45,7 +43,7 @@ public class SongPlayingLocalDataSource extends DatabaseHelper implements SongPl
     public List<SongPlaying> getSongsPlaying() {
         List<SongPlaying> playings = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] project = {ID, TITLE, SINGER, IMAGE, RESOURCE, MODE};
+        String[] project = {ID, TITLE, SINGER, IMAGE, RESOURCE};
         Cursor cursor = db.query(TABLE_PLAYING, project, null, null, null, null, null);
         if (cursor == null) {
             return null;
@@ -57,12 +55,7 @@ public class SongPlayingLocalDataSource extends DatabaseHelper implements SongPl
                 String singer = cursor.getString(cursor.getColumnIndex(SINGER));
                 String image = cursor.getString(cursor.getColumnIndex(IMAGE));
                 String resource = cursor.getString(cursor.getColumnIndex(RESOURCE));
-                int mode = cursor.getInt(cursor.getColumnIndex(MODE));
-                if (mode == SongMode.OFFLINE.getValue()) {
-                    playings.add(new SongPlaying(id, title, singer, image, resource, SongMode.OFFLINE));
-                } else {
-                    playings.add(new SongPlaying(id, title, singer, image, resource, SongMode.ONLINE));
-                }
+                playings.add(new SongPlaying(id, title, singer, image, resource));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -82,7 +75,6 @@ public class SongPlayingLocalDataSource extends DatabaseHelper implements SongPl
             contentValues.put(SINGER, songPlaying.getSinger());
             contentValues.put(IMAGE, songPlaying.getImage());
             contentValues.put(RESOURCE, songPlaying.getResource());
-            contentValues.put(MODE, songPlaying.getMode().getValue());
             result = db.insert(TABLE_PLAYING, null, contentValues);
         } finally {
             db.close();
@@ -96,7 +88,7 @@ public class SongPlayingLocalDataSource extends DatabaseHelper implements SongPl
         SQLiteDatabase db = getWritableDatabase();
         try {
             result = db.delete(TABLE_PLAYING,
-                    ID + "=?", new String[] { songPlaying.getId() });
+                    ID + "=?", new String[]{songPlaying.getId()});
         } finally {
             db.close();
         }

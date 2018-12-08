@@ -23,8 +23,10 @@ class SlideFragment : Fragment(), SlideContract.View {
 
     override fun showSlidesSuccess(slides: List<Slide>) {
         slideAdapter = SlidePagerAdapter(slides)
-        slide_pager.adapter = slideAdapter
-        slide_indicator.setViewPager(slide_pager)
+        slide_pager?.let {
+            it.adapter = slideAdapter
+        }
+        slide_indicator?.setViewPager(slide_pager)
         update()
     }
 

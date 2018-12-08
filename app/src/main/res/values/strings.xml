@@ -33,6 +33,15 @@
     <string name="register_txt">Đăng ký</string>
     <string name="register_title">Bạn chưa có tài khoản?</string>
 
+    <string name="commentRequest">Bình luận</string>
+    <string name="close">Đóng</string>
+    <string name="txt_text_hint_message">Viết bình luận</string>
+    <string name="txt_login_to_comment">Hãy đăng nhập để bình luận!</string>
+    <string name="txt_just_now">Vừa xong</string>
+    <string name="txt_posting">Đang viết</string>
+    <string name="txt_error">Đã có lỗi xảy ra</string>
+    <string name="txt_no_comment">Bài hát chưa có bình luận</string>
+
     <!--OFFLINE-->
     <string name="title_all_song">Song</string>
     <string name="title_album">Album</string>

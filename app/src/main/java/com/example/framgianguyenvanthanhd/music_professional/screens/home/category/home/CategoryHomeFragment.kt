@@ -29,7 +29,7 @@ class CategoryHomeFragment : Fragment(), CategoryContract.View, OnItemCategoryCl
 
     override fun categorySuccessfully(Categorys: List<Category>) {
         CategoryHomeAdapter = CategoryHomeAdapter(Categorys, this)
-        rc_category_home.adapter = CategoryHomeAdapter
+        rc_category_home?.adapter = CategoryHomeAdapter
     }
 
     override fun categoryError(t: Throwable?) {

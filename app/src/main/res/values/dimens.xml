@@ -16,6 +16,7 @@
     <dimen name="image_detail_size">96dp</dimen>
     <dimen name="category_height_item">202dp</dimen>
     <dimen name="category_with_item">296dp</dimen>
+    <dimen name="height_title_sheet_comment">40dp</dimen>
     <dimen name="space_30">30dp</dimen>
     <dimen name="space_2">2dp</dimen>
     <dimen name="space_4">4dp</dimen>
@@ -24,8 +25,10 @@
     <dimen name="space_10">10dp</dimen>
     <dimen name="space_12">12dp</dimen>
     <dimen name="space_16">16dp</dimen>
+    <dimen name="space_48">48dp</dimen>
     <dimen name="space_160">160dp</dimen>
 
+    <dimen name="text_sie_20">20sp</dimen>
     <dimen name="text_sie_18">18sp</dimen>
     <dimen name="text_sie_16">16sp</dimen>
     <dimen name="text_sie_15">15sp</dimen>

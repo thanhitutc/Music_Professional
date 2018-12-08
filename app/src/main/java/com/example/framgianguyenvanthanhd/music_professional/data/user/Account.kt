@@ -8,23 +8,27 @@ import com.google.gson.annotations.SerializedName
  */
 data class Account(
 
-        @SerializedName("user_name")
+        @SerializedName("idAccount")
+        @Expose
+        val idAccount: String? = null,
+
+        @SerializedName("username")
         @Expose
         val userName: String,
 
-        @SerializedName("pass_word")
+        @SerializedName("password")
         @Expose
         val password: String? = null,
 
-        @SerializedName("login_type")
+        @SerializedName("idLoginProvider")
         @Expose
         val loginType: Int? = null,
 
-        @SerializedName("first_name")
+        @SerializedName("firstName")
         @Expose
         val firstName: String? = null,
 
-        @SerializedName("last_name")
+        @SerializedName("lastName")
         @Expose
         val lastName: String? = null,
 

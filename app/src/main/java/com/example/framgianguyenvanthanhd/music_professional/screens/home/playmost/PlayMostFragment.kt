@@ -44,7 +44,7 @@ class PlayMostFragment : Fragment(), PlaymostContract.View, View.OnClickListener
 
     override fun playMostSongsSuccessfully(songHomeSongs: List<SongHome>) {
         adapter = SongHomeAdapter(songHomeSongs, true, this)
-        rc_playmost_home.adapter = adapter
+        rc_playmost_home?.adapter = adapter
     }
 
     override fun playMostSongsError(t: Throwable?) {

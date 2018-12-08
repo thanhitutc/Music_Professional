@@ -41,7 +41,7 @@ class CategoryRemoteDataSource private constructor() : CategoryDataSource {
             }
 
             override fun onResponse(call: Call<List<Category>>?, response: Response<List<Category>>?) {
-                if (response!!.isSuccessful) {
+                if (response?.isSuccessful == true && response?.body() != null) {
                     onResponse.onSuccess(response.body())
                 }
             }
