@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
         val image = SharedPrefs.getInstance().get(KeysPref.IMAGE_PLAYING.name, String::class.java)
         val singer = SharedPrefs.getInstance().get(KeysPref.SINGER_PLAYING.name, String::class.java)
         val resource = SharedPrefs.getInstance().get(KeysPref.RESOURCE_PLAYING.name, String::class.java)
-        if (title.isNotBlank()) {
+        if (title.isNotBlank() && isServiceRunning(MediaService::class.java)) {
             layout_playing_song.visibility = View.VISIBLE
             txt_song_playing.text = title
             txt_singer_playing.text = singer

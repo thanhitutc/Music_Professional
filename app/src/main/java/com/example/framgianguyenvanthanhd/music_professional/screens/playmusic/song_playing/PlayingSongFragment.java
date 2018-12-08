@@ -76,7 +76,9 @@ public class PlayingSongFragment extends Fragment implements PlayingSongAdapter.
 
     @Override
     public void onUpdateSong(SongPlaying songPlaying) {
-        mRecyclerView.smoothScrollToPosition(mSongAdapter.getPositionSong(songPlaying));
+        int position = mSongAdapter.getPositionSong(songPlaying);
+        mRecyclerView.smoothScrollToPosition(position);
+        mSongAdapter.showIconPlaying(position);
         mSongAdapter.notifyDataSetChanged();
     }
 
