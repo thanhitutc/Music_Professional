@@ -1,5 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail
 
+import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.FavoriteDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.PlayMostDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
@@ -63,7 +65,8 @@ class SongHomeDetailPresenter(
     }
 
     override fun updateLikeSong(idSong: String) {
-        songParameterRepository.updateLikeSong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+        val idAccount = SharedPrefs.getInstance().get(KeysPref.ID_ACCOUNT.name, String::class.java)
+        songParameterRepository.updateLikeSong(idSong, idAccount, object : SongParameterDataSource.OnResponseSongParameter{
             override fun onSuccess() {
 
             }

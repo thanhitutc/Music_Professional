@@ -22,8 +22,8 @@ class SongParameterRepository private constructor(
         }
     }
 
-    override fun updateLikeSong(idSongLike: String, onResponse: SongParameterDataSource.OnResponseSongParameter) {
-        songParameterRemoteDataSource.updateLikeSong(idSongLike, onResponse)
+    override fun updateLikeSong(idSongLike: String, idAccount: String, onResponse: SongParameterDataSource.OnResponseSongParameter) {
+        songParameterRemoteDataSource.updateLikeSong(idSongLike, idAccount, onResponse)
     }
 
     override fun updatePlaySong(idPlaySong: String, onResponse: SongParameterDataSource.OnResponseSongParameter) {
