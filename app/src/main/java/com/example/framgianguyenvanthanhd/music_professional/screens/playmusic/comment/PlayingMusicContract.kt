@@ -7,9 +7,9 @@ import com.example.framgianguyenvanthanhd.music_professional.data.comment.Commen
 /**
  * Created by admin on 12/6/2018.
  */
-interface CommentContract {
+interface PlayingMusicContract {
 
-    interface CommentView : BaseView<CommentPresenter> {
+    interface PlayingView : BaseView<PlayingPresenter> {
 
         fun postCommentSuccess()
 
@@ -19,12 +19,24 @@ interface CommentContract {
 
         fun fetchCommentFail()
 
+        fun checkLikeSuccess()
+
+        fun checkLikeFailure()
+
+        fun updateLikeSongSuccess()
+
+        fun updateLikeSongFail()
+
     }
 
-    interface CommentPresenter : BasePresenter<CommentView> {
+    interface PlayingPresenter : BasePresenter<PlayingView> {
 
         fun fetchComment(idSong: String)
 
         fun postComment(idSong: String, content: String)
+
+        fun checkLikeSong(idSong: String)
+
+        fun updateLikeSong(idSong: String, isLike: Boolean)
     }
 }

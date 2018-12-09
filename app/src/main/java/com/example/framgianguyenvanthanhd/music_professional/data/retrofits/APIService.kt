@@ -4,6 +4,7 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.CommentApi
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterApi
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountApi
+import com.example.framgianguyenvanthanhd.music_professional.data.user.personal.PersonalApi
 
 /**
  * Created by admin on 8/24/2018.
@@ -45,6 +46,10 @@ class APIService {
 
         fun getComment(): CommentApi {
             return RetrofitClient.getClient(Constants.BASE_URL).create(CommentApi::class.java)
+        }
+
+        fun getPersonal(): PersonalApi {
+            return RetrofitClient.getClient(Constants.BASE_URL).create(PersonalApi::class.java)
         }
     }
 }

@@ -18,12 +18,15 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -38,9 +41,11 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs;
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.Comment;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.CommentRepository;
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalRepository;
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentAdapter;
-import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentContract;
-import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentPresenter;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicContract;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicPresenter;
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType;
 
@@ -59,7 +64,7 @@ import static com.example.framgianguyenvanthanhd.music_professional.Utils.Consta
  * Created by MyPC on 31/01/2018.
  */
 
-public class PlayMusicActivity extends AppCompatActivity implements View.OnClickListener, CommentContract.CommentView {
+public class PlayMusicActivity extends AppCompatActivity implements View.OnClickListener, PlayingMusicContract.PlayingView {
     private static final int DEFAULT_DELAY = 500;
     private static final String TIME_FORMAT = "mm:ss";
     private static final String TIME_DEFAULT = "00:00";
@@ -85,11 +90,12 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private TextView mBtnCloseComment;
     private TextView mTxtComment;
 
-    private CommentContract.CommentPresenter mCommentPresenter;
+    private PlayingMusicContract.PlayingPresenter mPlayingPresenter;
     private CommentAdapter mCommentAdapter;
     private RecyclerView mRecyclerViewComment;
     private ProgressBar mProgressBarComment;
     private EditText edtComment;
+    private CheckBox cboLike;
 
     public static Intent getInstance(Context context) {
         Intent intent = new Intent(context, PlayMusicActivity.class);
@@ -104,6 +110,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             update();
             initSettingService();
             initStatePlaying();
+            initLikeSong();
         }
 
         @Override
@@ -165,7 +172,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                         mBtnCloseComment.setVisibility(View.VISIBLE);
                         mTxtComment.setVisibility(View.INVISIBLE);
                         findViewById(R.id.txt_no_comment).setVisibility(View.INVISIBLE);
-                        mCommentPresenter.fetchComment(mService.getIdSongPlaying());
+                        mPlayingPresenter.fetchComment(mService.getIdSongPlaying());
                         mProgressBarComment.setVisibility(View.VISIBLE);
                         break;
 
@@ -183,8 +190,12 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         mRecyclerViewComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRecyclerViewComment.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        mCommentPresenter = new CommentPresenter(CommentRepository.getInstance(), this);
-        mCommentPresenter.setView(this);
+        mPlayingPresenter = new PlayingMusicPresenter(
+                CommentRepository.getInstance(),
+                PersonalRepository.getInstance(),
+                SongParameterRepository.getInstance(),
+                this);
+        mPlayingPresenter.setView(this);
 
         findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +210,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                     return;
                 }
                 findViewById(R.id.txt_no_comment).setVisibility(View.INVISIBLE);
-                mCommentPresenter.postComment(mService.getIdSongPlaying(), edtComment.getText().toString());
+                mPlayingPresenter.postComment(mService.getIdSongPlaying(), edtComment.getText().toString());
                 String avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name(), String.class);
                 String firstName = SharedPrefs.getInstance().get(KeysPref.FIRST_NAME.name(), String.class);
                 String lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name(), String.class);
@@ -220,6 +231,23 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+    }
+
+    private void initLikeSong() {
+        cboLike = findViewById(R.id.cbo_like);
+        mPlayingPresenter.checkLikeSong(mService.getIdSongPlaying());
+
+        cboLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!cboLike.isChecked()) {
+                    mPlayingPresenter.updateLikeSong(mService.getIdSongPlaying(), false);
+                }
+                if (cboLike.isChecked()){
+                    mPlayingPresenter.updateLikeSong(mService.getIdSongPlaying(), true);
+                }
+            }
+        });
     }
 
     @Override
@@ -248,8 +276,34 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void setPresenter(CommentContract.CommentPresenter presenter) {
+    public void setPresenter(PlayingMusicContract.PlayingPresenter presenter) {
 
+    }
+
+    @Override
+    public void checkLikeSuccess() {
+        if (!cboLike.isChecked()){
+            cboLike.setChecked(true);
+        }
+    }
+
+    @Override
+    public void checkLikeFailure() {
+        cboLike.setChecked(false);
+    }
+
+    @Override
+    public void updateLikeSongSuccess() {
+    }
+
+    @Override
+    public void updateLikeSongFail() {
+        Toasty.error(this, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show();
+        if (cboLike.isChecked()) {
+            cboLike.setChecked(false);
+        } else {
+            cboLike.setChecked(true);
+        }
     }
 
     @Override
@@ -424,6 +478,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                 mTextDuration.setText(convertToTime(mService.getDuration()));
                 mTextCurrentDuration.setText(TIME_DEFAULT);
                 mOnChangeSongListener.onUpdateSong(mService.getSongPlaying());
+                mPlayingPresenter.checkLikeSong(mService.getIdSongPlaying());
             }
             if (mService.isPlay()) {
                 long currentPercent = 100 * mService.getCurrentDuration() / mService.getDuration();

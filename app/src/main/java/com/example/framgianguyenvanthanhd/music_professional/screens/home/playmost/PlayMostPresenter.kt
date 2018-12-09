@@ -45,7 +45,7 @@ class PlayMostPresenter(
 
     override fun updateLikeSong(idSong: String) {
         val idAccount = SharedPrefs.getInstance().get(KeysPref.ID_ACCOUNT.name, String::class.java);
-        songParameterRepository.updateLikeSong(idSong, idAccount, object : SongParameterDataSource.OnResponseSongParameter {
+        songParameterRepository.updateLikeSong(idSong, idAccount, true, object : SongParameterDataSource.OnResponseSongParameter {
             override fun onSuccess() {
 
             }

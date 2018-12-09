@@ -24,8 +24,8 @@ class SongParameterRemoteDataSource private constructor(
         }
     }
 
-    override fun updateLikeSong(idSongLike: String,idAccount: String, onResponse: SongParameterDataSource.OnResponseSongParameter) {
-        service.updateLikeSong(idSongLike, idAccount).enqueue(
+    override fun updateLikeSong(idSongLike: String,idAccount: String, isLike: Boolean, onResponse: SongParameterDataSource.OnResponseSongParameter) {
+        service.updateLikeSong(idSongLike, idAccount, isLike).enqueue(
                 object: Callback<String> {
 
                     override fun onFailure(call: Call<String>?, t: Throwable?) {
