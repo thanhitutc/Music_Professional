@@ -5,7 +5,7 @@ package com.example.framgianguyenvanthanhd.music_professional.data.song_paramete
  */
 interface SongParameterDataSource {
 
-    fun updateLikeSong(idSongLike : String, onResponse: OnResponseSongParameter)
+    fun updateLikeSong(idSongLike : String,idAccount: String, isLike: Boolean, onResponse: OnResponseSongParameter)
 
     fun updatePlaySong(idPlaySong : String, onResponse: OnResponseSongParameter)
 

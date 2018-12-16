@@ -29,6 +29,18 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar_play_music" />
 
+        <CheckBox
+            android:id="@+id/cbo_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:background="@drawable/like_state"
+            android:stateListAnimator="@animator/anim_scale"
+            app:layout_constraintBottom_toTopOf="@id/text_title_playing"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pager_playing" />
+
         <TextView
             android:id="@+id/text_title_playing"
             android:layout_width="0dp"

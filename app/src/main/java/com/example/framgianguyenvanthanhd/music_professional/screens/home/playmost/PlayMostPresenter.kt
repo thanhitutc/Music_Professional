@@ -1,5 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.home.playmost
 
+import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.PlayMostDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlayMostRepository
@@ -12,7 +14,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter
 class PlayMostPresenter(
         private val repository: PlayMostRepository,
         private val songParameterRepository: SongParameterRepository
-): PlaymostContract.Presenter {
+) : PlaymostContract.Presenter {
     private lateinit var view: PlaymostContract.View
 
     override fun setView(view: PlaymostContract.View) {
@@ -28,7 +30,7 @@ class PlayMostPresenter(
     }
 
     override fun getPlayMostSongs() {
-        repository.fetchPlayMost(object: PlayMostDataSource.OnResponsePlayMost{
+        repository.fetchPlayMost(object : PlayMostDataSource.OnResponsePlayMost {
             override fun onSuccess(songHomes: List<SongHome>?) {
                 songHomes?.let {
                     view.playMostSongsSuccessfully(songHomes)
@@ -42,7 +44,8 @@ class PlayMostPresenter(
     }
 
     override fun updateLikeSong(idSong: String) {
-        songParameterRepository.updateLikeSong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+        val idAccount = SharedPrefs.getInstance().get(KeysPref.ID_ACCOUNT.name, String::class.java);
+        songParameterRepository.updateLikeSong(idSong, idAccount, true, object : SongParameterDataSource.OnResponseSongParameter {
             override fun onSuccess() {
 
             }
@@ -54,7 +57,7 @@ class PlayMostPresenter(
     }
 
     override fun updatePlaySong(idSong: String) {
-        songParameterRepository.updatePlaySong(idSong, object : SongParameterDataSource.OnResponseSongParameter{
+        songParameterRepository.updatePlaySong(idSong, object : SongParameterDataSource.OnResponseSongParameter {
             override fun onFail() {
             }
 

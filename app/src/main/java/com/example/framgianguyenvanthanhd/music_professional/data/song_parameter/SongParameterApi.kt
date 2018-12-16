@@ -12,7 +12,9 @@ interface SongParameterApi {
 
     @POST("update_song_parameter.php")
     @FormUrlEncoded
-    fun updateLikeSong(@Field("idSongLike") idSong : String) : Call<String>
+    fun updateLikeSong(@Field("idSongLike") idSong : String,
+                       @Field("idAccount") idAccount : String,
+                       @Field("isLike") isLike : Boolean): Call<String>
 
     @POST("update_song_parameter.php")
     @FormUrlEncoded
