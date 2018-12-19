@@ -13,6 +13,7 @@ import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDat
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.HomeFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.PersonalFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity
+import com.example.framgianguyenvanthanhd.music_professional.screens.search.SearchFragment
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
 
     private fun initListener() {
         layout_playing_song.setOnClickListener(this)
+        toolbar_main.setOnClickListener(this)
     }
 
     private fun initiateBottomNavigation() {
@@ -62,17 +64,15 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
         bottom_navigation.selectedItemId = R.id.menu_account
     }
 
-    fun replaceFragment(fragment: Fragment, tag: String) {
-        val frag = supportFragmentManager.findFragmentByTag(tag)
-        if (frag != null && frag.isVisible) return
+    fun replaceFragment(fragment: Fragment) {
 
         val fragmentManager = supportFragmentManager
         if (fragmentManager.backStackEntryCount > 0) {
             fragmentManager.popBackStack()
         }
         val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.main_containetr, fragment, tag)
-        ft.addToBackStack(null)
+        ft.replace(R.id.main_container, fragment, fragment.tag)
+        ft.addToBackStack(fragment.tag)
         ft.commit()
     }
 
@@ -80,6 +80,14 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
         val fragmentManager = supportFragmentManager
         val ft = fragmentManager.beginTransaction()
         ft.replace(R.id.main_containetr, fragment)
+        ft.commit()
+    }
+
+    fun addFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val ft = fragmentManager.beginTransaction()
+        ft.replace(R.id.main_containetr, fragment)
+        ft.addToBackStack(fragment.tag)
         ft.commit()
     }
 
@@ -134,6 +142,9 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
                 if (!isServiceRunning(MediaService::class.java)) {
                     startService(MediaService.getInstance(this, playing, MediaService.FLAG_NOT_PLAY))
                 }
+            }
+            R.id.toolbar_main -> {
+                addFragment(SearchFragment())
             }
         }
     }
