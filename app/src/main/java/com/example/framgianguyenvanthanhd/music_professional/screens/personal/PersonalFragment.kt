@@ -13,6 +13,7 @@ import com.example.framgianguyenvanthanhd.music_professional.screens.offline.Mai
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.login.LoginFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.favorite_user.FavoritePersonalFragment
+import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.PlaylistPersonalFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_personal.*
 
@@ -30,7 +31,7 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
         mainActivity = activity as MainActivity
         mainActivity.isDisplayBottomNavigation(true)
         mainActivity.isDisplayToolbar(true)
-//        mainActivity.setDefaultPersonalTab()
+        mainActivity.updateToolbar(true)
         val fistName = SharedPrefs.getInstance().get(KeysPref.FIRST_NAME.name, String::class.java)
         val lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name, String::class.java)
         val avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name, String::class.java)
@@ -61,6 +62,10 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
 
             R.id.menu_favorite_online -> {
                 replaceFragment(FavoritePersonalFragment())
+                return
+            }
+            R.id.menu_playlist_online -> {
+                replaceFragment(PlaylistPersonalFragment())
                 return
             }
         }

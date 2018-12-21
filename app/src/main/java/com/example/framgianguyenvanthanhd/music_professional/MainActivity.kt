@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
 
     private fun initListener() {
         layout_playing_song.setOnClickListener(this)
-        toolbar_main.setOnClickListener(this)
+        btn_home_up.setOnClickListener(this)
+        title_toolbar.setOnClickListener(this)
+        btn_back.setOnClickListener(this)
     }
 
     private fun initiateBottomNavigation() {
@@ -89,6 +91,23 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
         ft.replace(R.id.main_containetr, fragment)
         ft.addToBackStack(fragment.tag)
         ft.commit()
+    }
+
+    fun updateToolbar(isMainScreen: Boolean, title: String = "") {
+        if (isMainScreen) {
+            btn_back.visibility = View.INVISIBLE
+            title_toolbar_detail.visibility = View.INVISIBLE
+            btn_home_up.visibility = View.VISIBLE
+            title_toolbar.visibility = View.VISIBLE
+            title_toolbar.text = getString(R.string.search_title)
+        } else {
+            btn_home_up.visibility = View.INVISIBLE
+            title_toolbar.visibility = View.INVISIBLE
+            btn_back.visibility = View.VISIBLE
+            title_toolbar_detail.visibility = View.VISIBLE
+            title_toolbar_detail.text = title
+        }
+
     }
 
     fun setDefaultPersonalTab() {
@@ -143,8 +162,11 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
                     startService(MediaService.getInstance(this, playing, MediaService.FLAG_NOT_PLAY))
                 }
             }
-            R.id.toolbar_main -> {
+            R.id.btn_home_up, R.id.title_toolbar -> {
                 addFragment(SearchFragment())
+            }
+            R.id.btn_back -> {
+                onBackPressed()
             }
         }
     }
