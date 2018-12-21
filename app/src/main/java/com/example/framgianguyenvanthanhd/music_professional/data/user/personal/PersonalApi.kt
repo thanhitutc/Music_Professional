@@ -1,6 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.user.personal
 
-import com.example.framgianguyenvanthanhd.music_professional.data.user.Account
+import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -11,5 +11,8 @@ import retrofit2.http.POST
 interface PersonalApi {
 
     @POST("personal.php")
-    fun checkLikeInfo(@Body body: LikeCheckRequest): Call<String>
+    fun checkLikeInfo(@Body body: LikeRequest): Call<String>
+
+    @POST("personal.php")
+    fun getLikeSongUser(@Body body: LikeRequest): Call<List<Song>>
 }

@@ -20,7 +20,7 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog
  * Created by admin on 11/3/2018.
  */
 class DetailSongAdapter(
-        private val songs: List<Song>,
+        private val songs: MutableList<Song>,
         private val onItemSongClickListener: OnItemSongClickListener
 ) : RecyclerView.Adapter<DetailSongAdapter.SongDetailHolder>() {
 
@@ -49,6 +49,11 @@ class DetailSongAdapter(
         holder?.btnMore?.setOnClickListener {
             onItemSongClickListener.onMoreBtnClick(songs[position])
         }
+    }
+
+    fun removeSong(idSong: String) {
+        songs.remove(songs.single { result -> result.idSong == idSong.toInt() })
+        notifyDataSetChanged()
     }
 
     class SongDetailHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {

@@ -7,17 +7,17 @@ import com.example.framgianguyenvanthanhd.music_professional.data.comment.Commen
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.CommentDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.CommentRequest
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.CommentRepository
-import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalLikeRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterDataSource
-import com.example.framgianguyenvanthanhd.music_professional.data.user.personal.LikeCheckRequest
+import com.example.framgianguyenvanthanhd.music_professional.data.user.personal.LikeRequest
 
 /**
  * Created by admin on 12/6/2018.
  */
 class PlayingMusicPresenter constructor(
         private val commentRepository: CommentRepository,
-        private val personalRepository: PersonalRepository,
+        private val personalRepository: PersonalLikeRepository,
         private val songParameterRepository: SongParameterRepository,
         private val view: PlayingMusicContract.PlayingView
 ): PlayingMusicContract.PlayingPresenter {
@@ -62,7 +62,7 @@ class PlayingMusicPresenter constructor(
 
     override fun checkLikeSong(idSong: String) {
         val idAccount = SharedPrefs.getInstance().get(KeysPref.ID_ACCOUNT.name, String::class.java)
-        val likeCheckRequest = LikeCheckRequest(idAccount, idSong)
+        val likeCheckRequest = LikeRequest(idAccount, idSong)
         personalRepository.checkLikeInfo(likeCheckRequest, object : OnCommonResponse{
             override fun onSuccess() {
                 view.checkLikeSuccess()

@@ -149,5 +149,67 @@
             android:text="@string/Download" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/space_10"
+        android:layout_marginTop="@dimen/space_16"
+        android:text="NHẠC ONLINE"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_sie_18"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/menu_favorite_online"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_4"
+        android:paddingLeft="@dimen/pading_insdie_top"
+        android:paddingStart="@dimen/space_10"
+        android:paddingTop="@dimen/space_4">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favorite" />
+
+        <TextView
+            style="@style/menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_10"
+            android:text="@string/favorite" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/menu_playlist_online"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_4"
+        android:paddingLeft="@dimen/pading_insdie_top"
+        android:paddingStart="@dimen/space_10"
+        android:paddingTop="@dimen/space_4">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_playlist" />
+
+        <TextView
+            style="@style/menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_10"
+            android:text="@string/playlist" />
+    </LinearLayout>
+
 
 </LinearLayout>

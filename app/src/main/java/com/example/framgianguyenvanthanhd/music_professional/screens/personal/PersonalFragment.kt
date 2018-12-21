@@ -12,6 +12,7 @@ import com.example.framgianguyenvanthanhd.music_professional.screens.offline.Mai
 import com.example.framgianguyenvanthanhd.music_professional.screens.offline.MainType
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.login.LoginFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragment
+import com.example.framgianguyenvanthanhd.music_professional.screens.personal.favorite_user.FavoritePersonalFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_personal.*
 
@@ -47,12 +48,19 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
         menu_songs.setOnClickListener(this)
         menu_download.setOnClickListener(this)
         menu_favorite.setOnClickListener(this)
+        menu_favorite_online.setOnClickListener(this)
+        menu_playlist_online.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.menu_login -> {
                 replaceFragment(LoginFragment())
+                return
+            }
+
+            R.id.menu_favorite_online -> {
+                replaceFragment(FavoritePersonalFragment())
                 return
             }
         }

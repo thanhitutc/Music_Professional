@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by admin on 12/9/2018.
  */
-data class LikeCheckRequest(
+data class LikeRequest(
 
         @SerializedName("idAccount")
         @Expose
