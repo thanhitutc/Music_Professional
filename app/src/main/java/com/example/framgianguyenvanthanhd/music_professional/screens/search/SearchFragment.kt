@@ -51,7 +51,7 @@ class SearchFragment : Fragment(), SearchContract.SearchView, DetailSongAdapter.
             Toasty.warning(context, getString(R.string.txt_search_no_result),Toast.LENGTH_SHORT, true).show()
         }
         isloading_search.visibility = View.INVISIBLE
-        adapter = DetailSongAdapter(songs, this)
+        adapter = DetailSongAdapter(songs.toMutableList(), this)
         rv_search.adapter = adapter
     }
 
@@ -121,5 +121,7 @@ class SearchFragment : Fragment(), SearchContract.SearchView, DetailSongAdapter.
             }
         })
     }
+
+
 
 }

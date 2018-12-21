@@ -18,7 +18,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +25,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,7 +39,7 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs;
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.Comment;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.CommentRepository;
-import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalRepository;
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalLikeRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentAdapter;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicContract;
@@ -192,7 +190,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
         mPlayingPresenter = new PlayingMusicPresenter(
                 CommentRepository.getInstance(),
-                PersonalRepository.getInstance(),
+                PersonalLikeRepository.getInstance(),
                 SongParameterRepository.getInstance(),
                 this);
         mPlayingPresenter.setView(this);

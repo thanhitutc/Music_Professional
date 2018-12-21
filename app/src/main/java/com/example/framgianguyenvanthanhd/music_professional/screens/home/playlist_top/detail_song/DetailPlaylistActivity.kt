@@ -90,7 +90,7 @@ DetailSongAdapter.OnItemSongClickListener{
     override fun loadSuccessfully(list: List<Song>) {
         progress_isloading.visibility = View.INVISIBLE
         swipe_refresh.isRefreshing = false
-        adapter = DetailSongAdapter(list, this)
+        adapter = DetailSongAdapter(list.toMutableList(), this)
         rc_detail_songs.adapter = adapter
     }
 
