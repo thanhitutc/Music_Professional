@@ -10,7 +10,7 @@
         android:textAlignment="center"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/background_toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
         app:layout_constraintBottom_toTopOf="@id/recycler_add_song_favorite"
         app:layout_constraintLeft_toLeftOf="parent"
