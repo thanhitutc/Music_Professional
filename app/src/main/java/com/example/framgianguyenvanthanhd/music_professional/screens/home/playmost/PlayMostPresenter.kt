@@ -4,8 +4,10 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
 import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.PlayMostDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlayMostRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterDataSource
 
 /**
@@ -13,7 +15,8 @@ import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter
  */
 class PlayMostPresenter(
         private val repository: PlayMostRepository,
-        private val songParameterRepository: SongParameterRepository
+        private val songParameterRepository: SongParameterRepository,
+        private val songPlayingRepository: SongPlayingRepository
 ) : PlaymostContract.Presenter {
     private lateinit var view: PlaymostContract.View
 
@@ -26,7 +29,6 @@ class PlayMostPresenter(
     }
 
     override fun onStop() {
-        TODO("not implemented")
     }
 
     override fun getPlayMostSongs() {
@@ -65,5 +67,9 @@ class PlayMostPresenter(
 
             }
         })
+    }
+
+    override fun insertToPlaying(songPlaying: SongPlaying) {
+        songPlayingRepository.insertSongPlaying(songPlaying)
     }
 }

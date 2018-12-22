@@ -38,12 +38,7 @@ class FavoritePersonalFragment : BaseFragment(), FavoritePersonalContract.FavPer
 
     override fun initiateView() {
         val mainActivity = activity as MainActivity
-        mainActivity.setSupportActionBar(toolbar_favorite_personal)
-        val actionBar = mainActivity.supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.title = getString(R.string.favorite)
-        mainActivity.isDisplayToolbar(false)
-        mainActivity.isDisplayBottomNavigation(false)
+        mainActivity.updateToolbar(false, getString(R.string.favorite))
 
         presenter = FavoritePersonalPresenter(
                 PersonalLikeRepository.getInstance(),
@@ -54,6 +49,10 @@ class FavoritePersonalFragment : BaseFragment(), FavoritePersonalContract.FavPer
         presenter.getSongsFavorite()
         rv_favorite_personal.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         isloading_fav_personal.visibility = View.VISIBLE
+
+        swipe_fav_personal.setOnRefreshListener {
+            presenter.getSongsFavorite()
+        }
     }
 
     override fun setPresenter(presenter: FavoritePersonalContract.FavPersonalPresenter) {
@@ -61,13 +60,16 @@ class FavoritePersonalFragment : BaseFragment(), FavoritePersonalContract.FavPer
     }
 
     override fun songsFavoriteSuccess(songs: List<Song>) {
+        swipe_fav_personal.isRefreshing = false
         isloading_fav_personal.visibility = View.INVISIBLE
         adapter = DetailSongAdapter(songs.toMutableList(), this)
         rv_favorite_personal.adapter = adapter
     }
 
     override fun songsFavoriteFail() {
+        swipe_fav_personal.isRefreshing = false
         isloading_fav_personal.visibility = View.INVISIBLE
+        Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
     override fun removeFavoriteSuccess(idSong: String) {
@@ -104,20 +106,6 @@ class FavoritePersonalFragment : BaseFragment(), FavoritePersonalContract.FavPer
                 .createDialog()
 
         dialog.show()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                activity.onBackPressed()
-                return true
-            }
-        }
-        return true
     }
 
 }

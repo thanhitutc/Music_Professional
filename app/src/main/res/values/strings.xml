@@ -22,6 +22,7 @@
     <string name="menu_cd">Khám phá</string>
     <string name="menu_more">Thêm</string>
     <string name="playlist">Playlist</string>
+    <string name="add_song_playlist">Thêm bài hát vào Playlist</string>
     <string name="song">Bài hát</string>
     <string name="favorite">Yêu thích</string>
     <string name="Download">download</string>
@@ -43,6 +44,8 @@
     <string name="txt_error">Đã có lỗi xảy ra</string>
     <string name="txt_no_comment">Bài hát chưa có bình luận</string>
     <string name="txt_search_no_result">Không có kết quả tìm kiếm</string>
+    <string name="txt_add_playlist">Tạo mới playlist</string>
+    <string name="txt_success">Thành công</string>
 
     <!--OFFLINE-->
     <string name="title_all_song">Song</string>

@@ -6,6 +6,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.search.SearchA
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterApi
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountApi
 import com.example.framgianguyenvanthanhd.music_professional.data.user.personal.PersonalApi
+import com.example.framgianguyenvanthanhd.music_professional.data.user.playlist_personal.PlaylistPersonalApi
 
 /**
  * Created by admin on 8/24/2018.
@@ -55,6 +56,10 @@ class APIService {
 
         fun getSearch(): SearchApi {
             return RetrofitClient.getClient(Constants.BASE_URL).create(SearchApi::class.java)
+        }
+
+        fun getPlaylistPersonal(): PlaylistPersonalApi {
+            return RetrofitClient.getClient(Constants.BASE_URL).create(PlaylistPersonalApi::class.java)
         }
     }
 }

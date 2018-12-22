@@ -35,6 +35,7 @@
         <activity android:name=".screens.offline.listsongaddplaylist.ListAddPlaylistOffActivity"/>
         <service android:name=".service.MediaService"/>
         <activity android:name=".screens.playmusic.PlayMusicActivity"/>
+        <activity android:name=".screens.personal.playlist.add_song.PlaylistForAddActivity"/>
     </application>
 
 </manifest>

@@ -8,20 +8,24 @@ import java.io.Serializable
 /**
  * Created by admin on 10/2/2018.
  */
-class Playlist : Serializable{
+data class Playlist(
     @SerializedName("idPlaylist")
     @Expose
-    val idPlaylist: String? = null
+    val idPlaylist: String? = null,
+
     @SerializedName("name")
     @Expose
-    val name: String? = null
+    val name: String? = null,
+
     @SerializedName("image")
     @Expose
-    val image: String? = null
+    val image: String? = null,
+
     @SerializedName("background")
     @Expose
-    val background: String? = null
+    val background: String? = null,
+
     @SerializedName("idAccount")
     @Expose
     val idAccount: String? = null
-}
+) : Serializable

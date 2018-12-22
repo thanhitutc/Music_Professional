@@ -14,9 +14,12 @@ import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.*
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistHomeRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
+import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.add_song.PlaylistForAddActivity
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import com.squareup.picasso.Picasso
@@ -64,7 +67,11 @@ DetailSongAdapter.OnItemSongClickListener{
     }
 
     private fun initData() {
-        presenter = DetailPlaylistPresenter(PlaylistHomeRepository.getInstance(), SongParameterRepository.getInstance(), this)
+        presenter = DetailPlaylistPresenter(
+                PlaylistHomeRepository.getInstance(),
+                SongParameterRepository.getInstance(),
+                SongPlayingRepository.getInstance(this),
+                this)
         presenter.setView(this)
         presenter.onStart()
         val playlist: Playlist? = intent.getSerializableExtra(Constants.PLAYLIST_EXTRA) as Playlist
@@ -112,7 +119,17 @@ DetailSongAdapter.OnItemSongClickListener{
                 .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
                 .setItemClickListener(BottomSheetItemClickListener { item->
                     when(item.itemId) {
-                        MenuBottomSheet.ADD_PLAYING.id -> Log.e("thanhd", "Playing")
+                        MenuBottomSheet.ADD_PLAYING.id -> {
+                            val songPlaying = SongPlaying(
+                                    song.idSong.toString(),
+                                    song.name ?: "",
+                                    song.nameSinger ?: "",
+                                    song.image,
+                                    song.link ?: "-1"
+                            )
+                            presenter.insertToPlaying(songPlaying)
+                        }
+
                         MenuBottomSheet.ADD_FAVORITE.id -> {
                             if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
                                 DialogUtils.createDialogConfirm(
@@ -133,7 +150,29 @@ DetailSongAdapter.OnItemSongClickListener{
                             }
                             presenter.updateLikeSong(song.idSong.toString())
                         }
-                        MenuBottomSheet.ADD_PLAYLIST.id -> Log.e("thanhd", "Play list")
+
+                        MenuBottomSheet.ADD_PLAYLIST.id -> {
+                            if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                                DialogUtils.createDialogConfirm(
+                                        this,
+                                        "Lỗi",
+                                        "Hãy đăng nhập để sử dụng tính năng này",
+                                        object : DialogUtils.OnDialogClick {
+                                            override fun onClickOk() {
+                                                return
+                                            }
+
+                                            override fun onCancel() {
+
+                                            }
+                                        }
+                                )
+                                return@BottomSheetItemClickListener
+                            }
+                            startActivity(PlaylistForAddActivity.getInstance(
+                                    this,
+                                    song.idSong.toString()))
+                        }
                     }
                 })
                 .createDialog()

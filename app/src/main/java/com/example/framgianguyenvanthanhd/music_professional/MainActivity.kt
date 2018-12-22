@@ -5,13 +5,17 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
+import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants.ConstantIntent.ID_SONG_ADD_PLAYLIST
 import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
 import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
+import com.example.framgianguyenvanthanhd.music_professional.screens.OnFragmentManager
 import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.HomeFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.PersonalFragment
+import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.add_song.PlaylistsForAddFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity
 import com.example.framgianguyenvanthanhd.music_professional.screens.search.SearchFragment
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
@@ -20,7 +24,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_playing.*
 
 
-class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnClickListener {
+class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnClickListener,
+OnFragmentManager{
+
+    var idSongAddPlaylist : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +45,9 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
 
     private fun initListener() {
         layout_playing_song.setOnClickListener(this)
-        toolbar_main.setOnClickListener(this)
+        btn_home_up.setOnClickListener(this)
+        title_toolbar.setOnClickListener(this)
+        btn_back.setOnClickListener(this)
     }
 
     private fun initiateBottomNavigation() {
@@ -71,7 +80,7 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
             fragmentManager.popBackStack()
         }
         val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.main_container, fragment, fragment.tag)
+        ft.replace(R.id.main_containetr, fragment, fragment.tag)
         ft.addToBackStack(fragment.tag)
         ft.commit()
     }
@@ -91,6 +100,23 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
         ft.commit()
     }
 
+    fun updateToolbar(isMainScreen: Boolean, title: String = "") {
+        if (isMainScreen) {
+            btn_back.visibility = View.INVISIBLE
+            title_toolbar_detail.visibility = View.INVISIBLE
+            btn_home_up.visibility = View.VISIBLE
+            title_toolbar.visibility = View.VISIBLE
+            title_toolbar.text = getString(R.string.search_title)
+        } else {
+            btn_home_up.visibility = View.INVISIBLE
+            title_toolbar.visibility = View.INVISIBLE
+            btn_back.visibility = View.VISIBLE
+            title_toolbar_detail.visibility = View.VISIBLE
+            title_toolbar_detail.text = title
+        }
+
+    }
+
     fun setDefaultPersonalTab() {
         bottom_navigation.selectedItemId = R.id.menu_account
     }
@@ -101,6 +127,11 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
 
     fun isDisplayToolbar(isDisplay: Boolean) {
         toolbar_main.visibility = if (isDisplay) View.VISIBLE else View.GONE
+    }
+
+    override fun onDataIdSong(idSong: String) {
+        idSongAddPlaylist = idSong
+        replaceFragment(PlaylistsForAddFragment())
     }
 
     private fun initPlaying() {
@@ -143,8 +174,11 @@ class MainActivity : AppCompatActivity(), OnUpdateDataPlayingListener, View.OnCl
                     startService(MediaService.getInstance(this, playing, MediaService.FLAG_NOT_PLAY))
                 }
             }
-            R.id.toolbar_main -> {
+            R.id.btn_home_up, R.id.title_toolbar -> {
                 addFragment(SearchFragment())
+            }
+            R.id.btn_back -> {
+                onBackPressed()
             }
         }
     }

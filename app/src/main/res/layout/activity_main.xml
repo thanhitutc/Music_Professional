@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.framgianguyenvanthanhd.music_professional.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/toolbar_main"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
@@ -18,18 +18,39 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/btn_home_up"
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
             android:scaleType="centerInside"
             android:src="@drawable/ic_search_24dp" />
 
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back_24dp"
+            android:visibility="invisible"/>
+
         <TextView
+            android:id="@+id/title_toolbar"
+            android:layout_toRightOf="@id/btn_home_up"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:text="@string/search_title"
             android:textSize="@dimen/text_sie_18" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/title_toolbar_detail"
+            android:layout_toRightOf="@id/btn_home_up"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:text="@string/search_title"
+            android:textSize="@dimen/text_sie_18"
+            android:visibility="invisible"/>
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/main_full_container"
