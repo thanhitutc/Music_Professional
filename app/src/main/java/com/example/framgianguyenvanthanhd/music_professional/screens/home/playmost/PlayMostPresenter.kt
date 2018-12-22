@@ -29,7 +29,6 @@ class PlayMostPresenter(
     }
 
     override fun onStop() {
-        TODO("not implemented")
     }
 
     override fun getPlayMostSongs() {

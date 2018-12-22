@@ -5,9 +5,11 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.FavoriteDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.datasource.PlayMostDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlayMostRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterDataSource
 
 /**
@@ -17,6 +19,7 @@ class SongHomeDetailPresenter(
         private val favoriteRepository: FavoriteRepository,
         private val playMostRepository: PlayMostRepository,
         private val songParameterRepository: SongParameterRepository,
+        private val songPlayingRepository: SongPlayingRepository,
         private val view: SongHomeDetailContract.SongHomeDetailView
 ): SongHomeDetailContract.SongHomeDetailPresenter {
 
@@ -86,5 +89,9 @@ class SongHomeDetailPresenter(
 
             }
         })
+    }
+
+    override fun insertToPlaying(songPlaying: SongPlaying) {
+        songPlayingRepository.insertSongPlaying(songPlaying)
     }
 }

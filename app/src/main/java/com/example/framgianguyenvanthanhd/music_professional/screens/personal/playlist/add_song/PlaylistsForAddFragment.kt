@@ -11,29 +11,25 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.framgianguyenvanthanhd.music_professional.MainActivity
 import com.example.framgianguyenvanthanhd.music_professional.R
-import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants.ConstantIntent.ID_SONG_ADD_PLAYLIST
 import com.example.framgianguyenvanthanhd.music_professional.Utils.MenuBottomSheet
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistPersonalRepository
 import com.example.framgianguyenvanthanhd.music_professional.helper.GridSpacingItemDecoration
 import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.OnItemPlaylistClick
-import com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.detail_song.DetailPlaylistActivity
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.PlaylistPersonalAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.PlaylistPersonalContract
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.PlaylistPersonalPresenter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import es.dmoral.toasty.Toasty
-import kotlinx.android.synthetic.main.fragment_playlist_personal.*
 import kotlinx.android.synthetic.main.fragment_playlist_song_add.*
 
 /**
  * Created by admin on 12/22/2018.
  */
-class PlaylistsForAddFragment: BaseFragment(), PlaylistPersonalContract.PlaylistPersonalView,
-        OnItemPlaylistClick, PlaylistPersonalAdapter.OnClickPlaylistMoreButton, View.OnClickListener
-{
+class PlaylistsForAddFragment : BaseFragment(), PlaylistPersonalContract.PlaylistPersonalView,
+        OnItemPlaylistClick, PlaylistPersonalAdapter.OnClickPlaylistMoreButton, View.OnClickListener {
 
     private lateinit var presenter: PlaylistPersonalContract.PlaylistPersonalPresenter
     private lateinit var adapter: PlaylistPersonalAdapter
@@ -44,10 +40,20 @@ class PlaylistsForAddFragment: BaseFragment(), PlaylistPersonalContract.Playlist
         return inflater?.inflate(R.layout.fragment_playlist_song_add, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (context is MainActivity) {
+            val mainActivity = activity as MainActivity
+            mainActivity.updateToolbar(false, getString(R.string.add_song_playlist))
+            idSong = mainActivity.idSongAddPlaylist
+        } else if (context is PlaylistForAddActivity) {
+            idSong = (activity as PlaylistForAddActivity).idSongAddPlaylist
+        }
+        Log.e("thanh_ss", idSong)
+    }
+
     override fun initiateView() {
-        val mainActivity = activity as MainActivity
-        mainActivity.updateToolbar(false, getString(R.string.add_song_playlist))
-        idSong = mainActivity.idSongAddPlaylist
+
 
         presenter = PlaylistPersonalPresenter(
                 PlaylistPersonalRepository.getInstance(),
@@ -60,7 +66,7 @@ class PlaylistsForAddFragment: BaseFragment(), PlaylistPersonalContract.Playlist
         rv_playlist_personal_add.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context, 10), true))
         isloading_playlist_personal_add.visibility = View.VISIBLE
 
-        btn_add_playlist_addsong.setOnClickListener (this)
+        btn_add_playlist_addsong.setOnClickListener(this)
 
         playlist_personal_add_swipe.setOnRefreshListener {
             presenter.fetchPlaylists()
@@ -78,10 +84,10 @@ class PlaylistsForAddFragment: BaseFragment(), PlaylistPersonalContract.Playlist
     override fun onClickMoreBtn(playlist: Playlist) {
         val dialog = BottomSheetBuilder(activity, R.style.AppTheme_BottomSheetDialog)
                 .setMode(BottomSheetBuilder.MODE_LIST)
-                .addItem(0,playlist.name, null)
+                .addItem(0, playlist.name, null)
                 .addItem(MenuBottomSheet.DELETE.id, MenuBottomSheet.DELETE.title, MenuBottomSheet.DELETE.icon)
-                .setItemClickListener(BottomSheetItemClickListener { item->
-                    when(item.itemId) {
+                .setItemClickListener(BottomSheetItemClickListener { item ->
+                    when (item.itemId) {
                         MenuBottomSheet.DELETE.id -> {
                             presenter.deletePlaylist(playlist.idPlaylist ?: "-1")
                             isloading_playlist_personal_add.visibility = View.VISIBLE
@@ -143,8 +149,6 @@ class PlaylistsForAddFragment: BaseFragment(), PlaylistPersonalContract.Playlist
     override fun insertSongSuccess() {
         Toasty.success(context, getString(R.string.txt_success), Toast.LENGTH_SHORT, true).show()
         isloading_playlist_personal_add.visibility = View.INVISIBLE
-        val mainActivity = activity as MainActivity
-        mainActivity.onBackPressed()
     }
 
     override fun insertSongFail() {

@@ -3,6 +3,7 @@ package com.example.framgianguyenvanthanhd.music_professional.screens.home.commo
 import com.example.framgianguyenvanthanhd.music_professional.BasePresenter
 import com.example.framgianguyenvanthanhd.music_professional.BaseView
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 
 /**
  * Created by admin on 11/8/2018.
@@ -26,5 +27,7 @@ interface SongHomeDetailContract {
         fun updateLikeSong(idSong: String)
 
         fun updatePlaySong(idSong: String)
+
+        fun insertToPlaying(songPlaying: SongPlaying)
     }
 }

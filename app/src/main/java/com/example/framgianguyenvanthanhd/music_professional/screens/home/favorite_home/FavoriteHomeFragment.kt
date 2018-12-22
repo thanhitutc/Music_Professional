@@ -15,6 +15,8 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongHome
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
+import com.example.framgianguyenvanthanhd.music_professional.screens.OnFragmentManager
 import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail.SongHomeDetailActivity
@@ -31,6 +33,7 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
     private lateinit var mAdapter: SongHomeAdapter
 
     private lateinit var listener: OnUpdateDataPlayingListener
+    private lateinit var listenerInsertSongPlaylist: OnFragmentManager
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -38,6 +41,12 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
             listener = context as OnUpdateDataPlayingListener
         } else {
             throw Throwable("do not attach")
+        }
+
+        if (context is OnFragmentManager){
+            listenerInsertSongPlaylist=  context as OnFragmentManager
+        } else {
+            throw RuntimeException()
         }
     }
 
@@ -61,7 +70,9 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rc_favorite_home.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        presenter = FavoriteHomePresenter(FavoriteRepository.getInstance(), SongParameterRepository.getInstance())
+        presenter = FavoriteHomePresenter(FavoriteRepository.getInstance(),
+                SongParameterRepository.getInstance(),
+                SongPlayingRepository.getInstance(context))
         presenter.setView(this)
         presenter.onStart()
         presenter.getFavoriteSongs()
@@ -94,7 +105,16 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
                 .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
                 .setItemClickListener(BottomSheetItemClickListener { item ->
                     when (item.itemId) {
-                        MenuBottomSheet.ADD_PLAYING.id -> Log.e("thanhd", "Playing")
+                        MenuBottomSheet.ADD_PLAYING.id -> {
+                            val songPlaying = SongPlaying(
+                                    song.idSong ?: "-1",
+                                    song.nameSong ?: "",
+                                    song.nameSinger,
+                                    song.image,
+                                    song.link ?: "-1"
+                            )
+                            presenter.insertToPlaying(songPlaying)
+                        }
                         MenuBottomSheet.ADD_FAVORITE.id -> {
                             if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
                                 DialogUtils.createDialogConfirm(
@@ -115,7 +135,26 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
                             }
                             presenter.updateLikeSong(song.idSong.toString())
                         }
-                        MenuBottomSheet.ADD_PLAYLIST.id -> Log.e("thanhd", "Play list")
+                        MenuBottomSheet.ADD_PLAYLIST.id -> {
+                            if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                                DialogUtils.createDialogConfirm(
+                                        activity,
+                                        "Lỗi",
+                                        "Hãy đăng nhập để sử dụng tính năng này",
+                                        object: DialogUtils.OnDialogClick{
+                                            override fun onClickOk() {
+                                                return
+                                            }
+
+                                            override fun onCancel() {
+
+                                            }
+                                        }
+                                )
+                                return@BottomSheetItemClickListener
+                            }
+                            listenerInsertSongPlaylist.onDataIdSong(song.idSong ?: "-1")
+                        }
                     }
                 })
                 .createDialog()

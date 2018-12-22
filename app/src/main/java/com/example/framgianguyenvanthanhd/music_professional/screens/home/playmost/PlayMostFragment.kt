@@ -19,10 +19,12 @@ import com.example.framgianguyenvanthanhd.music_professional.data.repository.Son
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.OnFragmentManager
+import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.SongHomeAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.song_home_detail.SongHomeDetailActivity
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.PlaylistPersonalFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.add_song.PlaylistsForAddFragment
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import kotlinx.android.synthetic.main.fragment_playmost.*
@@ -34,6 +36,7 @@ class PlayMostFragment : BaseFragment(), PlaymostContract.View, View.OnClickList
     private lateinit var presenter: PlaymostContract.Presenter
     private lateinit var adapter: SongHomeAdapter
     private lateinit var listener: OnFragmentManager
+    private lateinit var listenerUpdatePlaying: OnUpdateDataPlayingListener
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_playmost, container, false)
@@ -49,6 +52,12 @@ class PlayMostFragment : BaseFragment(), PlaymostContract.View, View.OnClickList
             listener=  context as OnFragmentManager
         } else {
             throw RuntimeException()
+        }
+
+        if (context is OnUpdateDataPlayingListener) {
+            listenerUpdatePlaying = context as OnUpdateDataPlayingListener
+        } else {
+            throw Throwable("do not attach")
         }
     }
 
@@ -87,6 +96,11 @@ class PlayMostFragment : BaseFragment(), PlaymostContract.View, View.OnClickList
 
     override fun onItemSongClick(song: SongHome) {
         presenter.updatePlaySong(song.idSong.toString())
+        listenerUpdatePlaying.onUpdateSongPlaying(song.nameSong ?: "", song.nameSinger, song.image ?: "")
+        val linkSong = song.link ?: ""
+        val songPlaying = SongPlaying(song.idSong.toString(), song.nameSong
+                ?: "", song.nameSinger, song.image, linkSong)
+        activity.startService(MediaService.getInstance(activity, songPlaying, 0))
     }
 
     override fun onMoreBtnClick(song: SongHome) {
