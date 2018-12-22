@@ -25,6 +25,10 @@ interface PlaylistPersonalContract {
         fun deleteSongPlaylistSuccess()
 
         fun deleteSongPlaylistFail()
+
+        fun insertSongSuccess()
+
+        fun insertSongFail()
     }
 
     interface PlaylistPersonalPresenter: BasePresenter<PlaylistPersonalView> {
@@ -36,5 +40,7 @@ interface PlaylistPersonalContract {
         fun deletePlaylist(idPlaylist: String)
 
         fun deleteSongFromPlaylist(idSong : String, idPlaylist: String)
+
+        fun insertSongToPlaylist(idPlaylist: String, idSong: String)
     }
 }

@@ -27,6 +27,7 @@ class HomeFragment : Fragment() {
         val mainActivity = activity as MainActivity
         mainActivity.isDisplayToolbar(true)
         mainActivity.isDisplayBottomNavigation(true)
+        mainActivity.updateToolbar(true)
     }
 
     override fun onDestroyView() {

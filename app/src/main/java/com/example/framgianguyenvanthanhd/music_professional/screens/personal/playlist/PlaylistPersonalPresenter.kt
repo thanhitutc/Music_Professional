@@ -85,4 +85,17 @@ class PlaylistPersonalPresenter(
             }
         })
     }
+
+    override fun insertSongToPlaylist(idPlaylist: String, idSong: String) {
+        val request = PlaylistPersonalRequest(idSong = idSong, idPlaylist = idPlaylist)
+        playlistPersonalRepository.addSongToPlaylist(request, object : OnCommonResponse{
+            override fun onSuccess() {
+                view.insertSongSuccess()
+            }
+
+            override fun onFailure() {
+                view.insertSongFail()
+            }
+        })
+    }
 }

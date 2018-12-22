@@ -48,6 +48,8 @@ class Constants {
         const val FLAG_PLAY_SONG_SERVICE = "com.framgia.music5.extra_init_position_song_service"
         const val EXTRA_ID_ALBUM_FOR_ADD_LIST_SONG = "com.framgia.music5.extra_id_album_for_add_list_song"
         const val MAIN_TYPE = "main_type"
+
+        const val ID_SONG_ADD_PLAYLIST = "id_song_add_playlist_online"
     }
 
     /**
