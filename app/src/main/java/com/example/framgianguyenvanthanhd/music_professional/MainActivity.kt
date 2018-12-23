@@ -14,6 +14,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlay
 import com.example.framgianguyenvanthanhd.music_professional.screens.OnFragmentManager
 import com.example.framgianguyenvanthanhd.music_professional.screens.OnUpdateDataPlayingListener
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.HomeFragment
+import com.example.framgianguyenvanthanhd.music_professional.screens.more_setting.MoreSettingFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.PersonalFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.add_song.PlaylistsForAddFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity
@@ -63,6 +64,7 @@ OnFragmentManager{
                     true
                 }
                 R.id.menu_more -> {
+                    initFragment(MoreSettingFragment())
                     true
                 }
                 else -> {

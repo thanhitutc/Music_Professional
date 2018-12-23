@@ -31,7 +31,6 @@ class SlideFragment : Fragment(), SlideContract.View {
     }
 
     override fun showSlidesFailure(t: Throwable) {
-        Toast.makeText(context, getString(R.string.txt_error), Toast.LENGTH_LONG).show()
     }
 
     override fun setPresenter(presenter: SlideContract.Prensenter) {

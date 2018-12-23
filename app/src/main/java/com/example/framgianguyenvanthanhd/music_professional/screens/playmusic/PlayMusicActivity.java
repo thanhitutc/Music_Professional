@@ -37,10 +37,13 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs;
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.Comment;
+import com.example.framgianguyenvanthanhd.music_professional.data.model.Setting;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.CommentRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalLikeRepository;
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SettingRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository;
+import com.example.framgianguyenvanthanhd.music_professional.data.resources.local.SettingLocalDataSource;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentAdapter;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicContract;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicPresenter;
@@ -106,7 +109,6 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             MediaService.MediaBinder mediaBinder = (MediaService.MediaBinder) iBinder;
             mService = mediaBinder.getMediaService();
             update();
-            initSettingService();
             initStatePlaying();
             initLikeSong();
         }
@@ -123,6 +125,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_play_music);
         initToolbar();
         initComponents();
+        initSettingService();
         initListeners();
         receiveStateMedia();
         initCommentBottomSheet();
@@ -395,6 +398,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         Toolbar toolbar = findViewById(R.id.toolbar_play_music);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_24dp);
         setTitle(getResources().getString(R.string.title_toolbar_playmusic));
     }
 
@@ -449,12 +453,13 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initSettingService() {
-        if (mService.isShuff()) {
+        Setting setting = SettingRepository.getInstance(SettingLocalDataSource.getInstance(this)).getSetting();
+        if (setting.isShuffleMode()) {
             mButtonShuffle.setImageResource(R.drawable.ic_shuffle_on);
         } else {
             mButtonShuffle.setImageResource(R.drawable.ic_shuffle_off);
         }
-        int repeatMode = mService.getRepeat();
+        int repeatMode = setting.getRepeatMode();
         switch (repeatMode) {
             case RepeatType.NO_REPEAT:
                 mButtonRepeat.setImageResource(R.drawable.ic_repeat_off);
