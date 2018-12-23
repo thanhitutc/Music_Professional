@@ -7,6 +7,7 @@
     <string name="playmost_home_title">Nghe nhiều nhất trong tuần</string>
     <string name="more">Xem thêm</string>
     <string name="play_shuffle">Nghe ngẫu nhiên</string>
+    <string name="play_repeat">Lặp bài hát</string>
 
     <string name="default_artists">Various Artists</string>
 
@@ -46,6 +47,9 @@
     <string name="txt_search_no_result">Không có kết quả tìm kiếm</string>
     <string name="txt_add_playlist">Tạo mới playlist</string>
     <string name="txt_success">Thành công</string>
+    <string name="txt_repeat_one">Một bài</string>
+    <string name="txt_repeat_all">Tất cả</string>
+    <string name="txt_repeat_none">Không</string>
 
     <!--OFFLINE-->
     <string name="title_all_song">Song</string>

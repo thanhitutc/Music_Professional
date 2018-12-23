@@ -39,7 +39,7 @@ class PlaylistMoreActivity : AppCompatActivity(), PlayMoreContract.PlayMoreView,
     private fun initView() {
         setSupportActionBar(toolbar_detail_grid)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Playlist"
+        supportActionBar?.title = getString(R.string.playlist)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back_24dp)
         toolbar_detail_grid.setNavigationOnClickListener { view ->
             finish()
