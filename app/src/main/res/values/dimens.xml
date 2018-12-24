@@ -50,8 +50,8 @@
     <dimen name="height_image_album">140dp</dimen>
     <dimen name="height_image_notification">56dp</dimen>
     <dimen name="width_image_notification">56dp</dimen>
-    <dimen name="width_image_playing">256dp</dimen>
-    <dimen name="height_image_playing">256dp</dimen>
+    <dimen name="width_image_playing">300dp</dimen>
+    <dimen name="height_image_playing">300dp</dimen>
     <dimen name="width_seekbar">0dp</dimen>
     <dimen name="width_border_image_playing">2dp</dimen>
 </resources>

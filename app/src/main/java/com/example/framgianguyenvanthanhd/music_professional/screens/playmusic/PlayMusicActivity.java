@@ -22,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -87,6 +86,8 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     private OnChangeSongListener mOnChangeSongListener;
 
+    private OnStatePlayingListener mOnStatePlayingListener;
+
     private BottomSheetBehavior mBottomSheetBehavior;
     private TextView mBtnCloseComment;
     private TextView mTxtComment;
@@ -123,6 +124,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_music);
+        initService();
         initToolbar();
         initComponents();
         initSettingService();
@@ -311,7 +313,15 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     protected void onResume() {
         super.onResume();
         registerReceiver(mBroadcastReceiver, mIntentFilter);
+        initService();
         update();
+        initStatePlaying();
+        initLikeSong();
+    }
+
+    private void initService(){
+        Intent intent = new Intent(this, MediaService.class);
+        bindService(intent, mMediaConnection, BIND_AUTO_CREATE);
     }
 
     @Override
@@ -381,8 +391,6 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         mViewPager = findViewById(R.id.pager_playing);
         mViewPager.setAdapter(new PlayingPagerAdapter(getSupportFragmentManager()));
         mHandler = new Handler();
-        Intent intent = new Intent(this, MediaService.class);
-        bindService(intent, mMediaConnection, BIND_AUTO_CREATE);
     }
 
     private void initListeners() {
@@ -445,10 +453,10 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private void initStatePlaying() {
         if (mService.isPlay()) {
             mButtonState.setImageResource(R.drawable.ic_pause);
-            startAnimationImagePlaying();
+            mOnStatePlayingListener.onSongPlaying();
         } else {
             mButtonState.setImageResource(R.drawable.ic_play);
-            clearAnimationImagePlaying();
+            mOnStatePlayingListener.onSongPause();
         }
     }
 
@@ -505,23 +513,14 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                     if (intent.getBooleanExtra(Constants.ConstantBroadcast.EXTRA_STATE_MEDIA,
                             false)) {
                         mButtonState.setImageResource(R.drawable.ic_pause);
-                        startAnimationImagePlaying();
+                        mOnStatePlayingListener.onSongPlaying();
                     } else {
                         mButtonState.setImageResource(R.drawable.ic_play);
-                        clearAnimationImagePlaying();
+                        mOnStatePlayingListener.onSongPause();
                     }
                 }
             }
         };
-    }
-
-    private void startAnimationImagePlaying() {
-        mAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_image_playing);
-        // mImagePlaying.startAnimation(mAnimation);
-    }
-
-    private void clearAnimationImagePlaying() {
-        // mImagePlaying.clearAnimation();
     }
 
     private SeekBar.OnSeekBarChangeListener mOnSeekChange = new SeekBar.OnSeekBarChangeListener() {
@@ -553,6 +552,10 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     public void setOnChangeSongListener(OnChangeSongListener listener) {
         mOnChangeSongListener = listener;
+    }
+
+    public void setOnStatePlayingListener(OnStatePlayingListener onStatePlayingListener) {
+        mOnStatePlayingListener = onStatePlayingListener;
     }
 
     public MediaService getService() {
