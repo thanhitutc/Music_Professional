@@ -126,6 +126,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) return START_STICKY;
         String action = intent.getAction();
         if (action == null) {
             return START_STICKY;

@@ -64,7 +64,7 @@ class PlayingSongAdapter(
         fun bindData(song: SongPlaying) {
             song.image?.let {
                 Picasso.with(itemView?.context).load(song.image).into(imgSong)
-            }
+            } ?: Picasso.with(itemView?.context).load(R.drawable.ic_song_playing).into(imgSong)
             txtSongName?.text = song.name
             txtSingerName?.text = song.singer
             Glide.with(itemView?.context).asGif().load(R.drawable.playing).into(btnMore)

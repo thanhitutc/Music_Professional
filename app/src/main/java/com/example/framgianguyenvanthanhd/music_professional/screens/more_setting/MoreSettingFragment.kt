@@ -18,6 +18,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.Setting
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SettingRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.resources.local.SettingLocalDataSource
 import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragment
+import com.example.framgianguyenvanthanhd.music_professional.screens.personal.login.LoginFragment
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_more_setting.*
@@ -92,9 +93,17 @@ class MoreSettingFragment : BaseFragment() {
         }
 
         txt_version.text = getAppVersion()
+
+        menu_login_more.setOnClickListener {
+            if (txt_account_name_setting.text != getString(R.string.login)) {
+
+            } else {
+                replaceFragment(LoginFragment())
+            }
+        }
     }
 
-    fun getAppVersion(): String? {
+    private fun getAppVersion(): String? {
         val manager = App.getContext().packageManager
         val info: PackageInfo
         return try {
