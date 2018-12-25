@@ -20,6 +20,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.repository.Son
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.add_song.PlaylistForAddActivity
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import com.squareup.picasso.Picasso
@@ -107,6 +108,9 @@ class DetailSongsCategoryActivity : AppCompatActivity(), DetailSongsCategoryCont
 
     override fun onItemSongClick(song: Song) {
         mPresenter.updatePlaySong(song.idSong.toString())
+        val songPlaying = SongPlaying(song.idSong.toString(), song.name
+                ?: "", song.nameSinger ?: "", song.image, song.link?:"")
+        startService(MediaService.getInstance(this, songPlaying, 0))
 
     }
 

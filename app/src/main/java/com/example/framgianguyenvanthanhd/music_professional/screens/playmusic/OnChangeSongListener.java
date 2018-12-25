@@ -9,4 +9,10 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlay
 public interface OnChangeSongListener {
 
     void onUpdateSong(SongPlaying songPlaying);
+
+    interface OnUpdateImageSong {
+
+        void onUpdateImageSong(SongPlaying songPlaying);
+
+    }
 }

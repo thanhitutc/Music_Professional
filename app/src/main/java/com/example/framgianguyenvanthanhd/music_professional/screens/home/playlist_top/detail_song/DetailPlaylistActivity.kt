@@ -16,10 +16,12 @@ import com.example.framgianguyenvanthanhd.music_professional.data.model.Playlist
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistHomeRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistPersonalRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.screens.home.common.DetailSongAdapter
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.add_song.PlaylistForAddActivity
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.github.rubensousa.bottomsheetbuilder.adapter.BottomSheetItemClickListener
 import com.squareup.picasso.Picasso
@@ -35,6 +37,8 @@ DetailSongAdapter.OnItemSongClickListener{
 
     private lateinit var presenter: DetailPlaylistContract.DetailPlPresenter
     private lateinit var adapter : DetailSongAdapter
+    private  var isRemoveable = false
+    private lateinit var idPlaylist: String
 
     companion object {
         @JvmStatic
@@ -71,10 +75,13 @@ DetailSongAdapter.OnItemSongClickListener{
                 PlaylistHomeRepository.getInstance(),
                 SongParameterRepository.getInstance(),
                 SongPlayingRepository.getInstance(this),
+                PlaylistPersonalRepository.getInstance(),
                 this)
         presenter.setView(this)
         presenter.onStart()
         val playlist: Playlist? = intent.getSerializableExtra(Constants.PLAYLIST_EXTRA) as Playlist
+        idPlaylist = playlist?.idPlaylist ?:"-1"
+        isRemoveable = playlist?.idAccount != "1"
         playlist?.let {
             Picasso.with(baseContext).load(playlist.background).fit().into(backdrop)
             Picasso.with(baseContext).load(playlist.image).into(image_detail)
@@ -82,10 +89,10 @@ DetailSongAdapter.OnItemSongClickListener{
             collapsing_toolbar.setCollapsedTitleTextColor(Color.WHITE)
             presenter.fetchDetailPlaylist(playlist.idPlaylist.orEmpty())
         }
-        rc_detail_songs.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
-        rc_detail_songs.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
-        swipe_refresh.setOnRefreshListener {
-            swipe_refresh.isRefreshing = true
+        rc_detail_songs?.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false)
+        rc_detail_songs?.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
+        swipe_refresh?.setOnRefreshListener {
+            swipe_refresh?.isRefreshing = true
             presenter.fetchDetailPlaylist(playlist?.idPlaylist.orEmpty())
         }
     }
@@ -95,29 +102,36 @@ DetailSongAdapter.OnItemSongClickListener{
     }
 
     override fun loadSuccessfully(list: List<Song>) {
-        progress_isloading.visibility = View.INVISIBLE
-        swipe_refresh.isRefreshing = false
+        progress_isloading?.visibility = View.INVISIBLE
+        swipe_refresh?.isRefreshing = false
         adapter = DetailSongAdapter(list.toMutableList(), this)
-        rc_detail_songs.adapter = adapter
+        rc_detail_songs?.adapter = adapter
     }
 
     override fun loadError(t: Throwable) {
-        swipe_refresh.isRefreshing = false
-        progress_isloading.visibility = View.INVISIBLE
+        swipe_refresh?.isRefreshing = false
+        progress_isloading?.visibility = View.INVISIBLE
     }
 
     override fun onItemSongClick(song: Song) {
         presenter.updatePlaySong(song.idSong.toString())
+        val songPlaying = SongPlaying(song.idSong.toString(), song.name
+                ?: "", song.nameSinger ?: "", song.image, song.link?:"")
+        startService(MediaService.getInstance(this, songPlaying, 0))
     }
 
     override fun onMoreBtnClick(song: Song) {
         val dialog = BottomSheetBuilder(this, R.style.AppTheme_BottomSheetDialog)
-                .setMode(BottomSheetBuilder.MODE_LIST)
-                .addItem(0,song.name, null)
-                .addItem(MenuBottomSheet.ADD_PLAYING.id, MenuBottomSheet.ADD_PLAYING.title, MenuBottomSheet.ADD_PLAYING.icon)
-                .addItem(MenuBottomSheet.ADD_FAVORITE.id, MenuBottomSheet.ADD_FAVORITE.title, MenuBottomSheet.ADD_FAVORITE.icon)
-                .addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
-                .setItemClickListener(BottomSheetItemClickListener { item->
+        dialog.setMode(BottomSheetBuilder.MODE_LIST)
+        dialog.addItem(0,song.name, null)
+        dialog.addItem(MenuBottomSheet.ADD_PLAYING.id, MenuBottomSheet.ADD_PLAYING.title, MenuBottomSheet.ADD_PLAYING.icon)
+        dialog.addItem(MenuBottomSheet.ADD_FAVORITE.id, MenuBottomSheet.ADD_FAVORITE.title, MenuBottomSheet.ADD_FAVORITE.icon)
+        if (!isRemoveable){
+            dialog.addItem(MenuBottomSheet.ADD_PLAYLIST.id, MenuBottomSheet.ADD_PLAYLIST.title, MenuBottomSheet.ADD_PLAYLIST.icon)
+        } else {
+            dialog.addItem(MenuBottomSheet.DELETE.id, MenuBottomSheet.DELETE.title, MenuBottomSheet.DELETE.icon)
+        }
+        dialog.setItemClickListener(BottomSheetItemClickListener { item->
                     when(item.itemId) {
                         MenuBottomSheet.ADD_PLAYING.id -> {
                             val songPlaying = SongPlaying(
@@ -173,10 +187,22 @@ DetailSongAdapter.OnItemSongClickListener{
                                     this,
                                     song.idSong.toString()))
                         }
+
+                        MenuBottomSheet.DELETE.id -> {
+                            presenter.deleteSongFromPlaylist(song.idSong.toString(), idPlaylist )
+                            progress_isloading?.visibility = View.VISIBLE
+                        }
                     }
                 })
-                .createDialog()
+                dialog.createDialog().show()
+    }
 
-        dialog.show()
+    override fun deleteSongSuccess(idSong: String) {
+        progress_isloading?.visibility = View.INVISIBLE
+        adapter.removeSong(idSong)
+    }
+
+    override fun deleteSongFail() {
+        progress_isloading?.visibility = View.INVISIBLE
     }
 }

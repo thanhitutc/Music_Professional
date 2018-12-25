@@ -85,6 +85,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private Animation mAnimation;
 
     private OnChangeSongListener mOnChangeSongListener;
+    private OnChangeSongListener.OnUpdateImageSong mOnUpDateImageSongListener;
 
     private OnStatePlayingListener mOnStatePlayingListener;
 
@@ -112,6 +113,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             update();
             initStatePlaying();
             initLikeSong();
+            mService.getmPresenter().getSongsPlaying();
         }
 
         @Override
@@ -315,8 +317,6 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         registerReceiver(mBroadcastReceiver, mIntentFilter);
         initService();
         update();
-        initStatePlaying();
-        initLikeSong();
     }
 
     private void initService(){
@@ -451,13 +451,22 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initStatePlaying() {
-        if (mService.isPlay()) {
-            mButtonState.setImageResource(R.drawable.ic_pause);
-            mOnStatePlayingListener.onSongPlaying();
-        } else {
-            mButtonState.setImageResource(R.drawable.ic_play);
-            mOnStatePlayingListener.onSongPause();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mService.isPlay()) {
+                    mButtonState.setImageResource(R.drawable.ic_pause);
+                    if (mOnStatePlayingListener != null) {
+                        mOnStatePlayingListener.onSongPlaying();
+                    }
+                } else {
+                    mButtonState.setImageResource(R.drawable.ic_play);
+                    if (mOnStatePlayingListener != null) {
+                        mOnStatePlayingListener.onSongPause();
+                    }
+                }
+            }
+        }, 1000);
     }
 
     private void initSettingService() {
@@ -489,6 +498,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                 mTextDuration.setText(convertToTime(mService.getDuration()));
                 mTextCurrentDuration.setText(TIME_DEFAULT);
                 mOnChangeSongListener.onUpdateSong(mService.getSongPlaying());
+                mOnUpDateImageSongListener.onUpdateImageSong(mService.getSongPlaying());
                 mPlayingPresenter.checkLikeSong(mService.getIdSongPlaying());
             }
             if (mService.isPlay()) {
@@ -556,6 +566,10 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     public void setOnStatePlayingListener(OnStatePlayingListener onStatePlayingListener) {
         mOnStatePlayingListener = onStatePlayingListener;
+    }
+
+    public void setmOnUpDateImageSongListener(OnChangeSongListener.OnUpdateImageSong mOnUpDateImageSongListener) {
+        this.mOnUpDateImageSongListener = mOnUpDateImageSongListener;
     }
 
     public MediaService getService() {

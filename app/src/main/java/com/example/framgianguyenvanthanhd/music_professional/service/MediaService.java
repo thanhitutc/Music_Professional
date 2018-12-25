@@ -68,6 +68,10 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     private SongPlayingRepository mPlayingRepository;
     private ContractSongPlaying.SongPlayingPresenter mPresenter;
 
+    public ContractSongPlaying.SongPlayingPresenter getmPresenter() {
+        return mPresenter;
+    }
+
     public static Intent getInstance(Context context, SongPlaying songPlaying, int position) {
         Intent intent = new Intent(context, MediaService.class);
         intent.setAction(Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE);

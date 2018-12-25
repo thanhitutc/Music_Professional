@@ -1,6 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.playmusic;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -27,7 +28,7 @@ import static android.content.Context.BIND_AUTO_CREATE;
  * Created by admin on 11/19/2018.
  */
 
-public class PlayingDiscFragment extends Fragment implements OnChangeSongListener, OnStatePlayingListener{
+public class PlayingDiscFragment extends Fragment implements OnChangeSongListener.OnUpdateImageSong, OnStatePlayingListener{
 
     private Animation mAnimation;
     private PlayMusicActivity mActivity;
@@ -40,12 +41,21 @@ public class PlayingDiscFragment extends Fragment implements OnChangeSongListene
         return inflater.inflate(R.layout.fragment_playing_disc, container, false);
     }
 
+//    @Override
+//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        mActivity = (PlayMusicActivity) getActivity();
+//        mImageView = getView().findViewById(R.id.image_playing);
+//        mActivity.setOnChangeSongListener(this);
+//        mActivity.setOnStatePlayingListener(this);
+//    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mActivity = (PlayMusicActivity) getActivity();
         mImageView = getView().findViewById(R.id.image_playing);
-        mActivity.setOnChangeSongListener(this);
+        mActivity.setmOnUpDateImageSongListener(this);
         mActivity.setOnStatePlayingListener(this);
     }
 
@@ -60,7 +70,7 @@ public class PlayingDiscFragment extends Fragment implements OnChangeSongListene
     }
 
     @Override
-    public void onUpdateSong(SongPlaying songPlaying) {
+    public void onUpdateImageSong(SongPlaying songPlaying) {
         if (!TextUtils.isEmpty(songPlaying.getImage())){
             Picasso.with(getContext()).load(songPlaying.getImage()).into(mImageView);
         } else {

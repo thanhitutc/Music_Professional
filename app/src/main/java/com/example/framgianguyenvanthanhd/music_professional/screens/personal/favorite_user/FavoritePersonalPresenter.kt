@@ -4,8 +4,10 @@ import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
 import com.example.framgianguyenvanthanhd.music_professional.Utils.OnResponseCommonSong
 import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.model.Song
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PersonalLikeRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongParameterRepository
+import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongPlayingRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.user.personal.LikeRequest
 
@@ -15,6 +17,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.user.personal.
 class FavoritePersonalPresenter(
         private val likeRepository: PersonalLikeRepository,
         private val updateSongRepository: SongParameterRepository,
+        private val songPlayingRepository: SongPlayingRepository,
         private val view: FavoritePersonalContract.FavPersonalView
 ) : FavoritePersonalContract.FavPersonalPresenter {
 
@@ -54,5 +57,33 @@ class FavoritePersonalPresenter(
                 view.removeFavoriteFail()
             }
         })
+    }
+
+    override fun updateLikeSong(idSong: String) {
+        val idAccount = SharedPrefs.getInstance().get(KeysPref.ID_ACCOUNT.name, String::class.java);
+        updateSongRepository.updateLikeSong(idSong, idAccount, true, object : SongParameterDataSource.OnResponseSongParameter {
+            override fun onSuccess() {
+
+            }
+
+            override fun onFail() {
+
+            }
+        })
+    }
+
+    override fun updatePlaySong(idSong: String) {
+        updateSongRepository.updatePlaySong(idSong, object : SongParameterDataSource.OnResponseSongParameter {
+            override fun onFail() {
+            }
+
+            override fun onSuccess() {
+
+            }
+        })
+    }
+
+    override fun insertToPlaying(songPlaying: SongPlaying) {
+        songPlayingRepository.insertSongPlaying(songPlaying)
     }
 }
