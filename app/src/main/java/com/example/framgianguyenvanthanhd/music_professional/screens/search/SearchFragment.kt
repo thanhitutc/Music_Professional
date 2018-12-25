@@ -55,7 +55,7 @@ class SearchFragment : Fragment(), SearchContract.SearchView, DetailSongAdapter.
         mainActivity.isDisplayBottomNavigation(false)
         presenter = SearchPresenter(SearchRepository.getInstance(), SongParameterRepository.getInstance(),this)
         presenter.onStart()
-        rv_search.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv_search?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun setPresenter(presenter: SearchContract.SearchPresenter) {
@@ -66,9 +66,9 @@ class SearchFragment : Fragment(), SearchContract.SearchView, DetailSongAdapter.
         if (songs.isEmpty()) {
             Toasty.warning(context, getString(R.string.txt_search_no_result), Toast.LENGTH_SHORT, true).show()
         }
-        isloading_search.visibility = View.INVISIBLE
+        isloading_search?.visibility = View.INVISIBLE
         adapter = DetailSongAdapter(songs.toMutableList(), this)
-        rv_search.adapter = adapter
+        rv_search?.adapter = adapter
     }
 
     override fun searchFail() {
@@ -100,7 +100,7 @@ class SearchFragment : Fragment(), SearchContract.SearchView, DetailSongAdapter.
         mSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
                 presenter.search(text ?: "")
-                isloading_search.visibility = View.VISIBLE
+                isloading_search?.visibility = View.VISIBLE
                 return true
             }
 
@@ -132,7 +132,7 @@ class SearchFragment : Fragment(), SearchContract.SearchView, DetailSongAdapter.
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(text: String?): Boolean {
                 presenter.search(text ?: "")
-                isloading_search.visibility = View.VISIBLE
+                isloading_search?.visibility = View.VISIBLE
                 val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
                 imm!!.hideSoftInputFromWindow(searchView.windowToken, 0)
                 return true

@@ -48,8 +48,8 @@ OnItemTopicClickListener{
         presenter.setView(this)
         presenter.onStart()
         presenter.getTopicsHome()
-        txt_title_topic_home.setOnClickListener(this)
-        btn_topic_home_more.setOnClickListener(this)
+        txt_title_topic_home?.setOnClickListener(this)
+        btn_topic_home_more?.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {

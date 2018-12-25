@@ -62,13 +62,13 @@ class PlaylistsForAddFragment : BaseFragment(), PlaylistPersonalContract.Playlis
         presenter.setView(this)
         presenter.onStart()
         presenter.fetchPlaylists()
-        rv_playlist_personal_add.layoutManager = GridLayoutManager(context, 2)
-        rv_playlist_personal_add.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context, 10), true))
-        isloading_playlist_personal_add.visibility = View.VISIBLE
+        rv_playlist_personal_add?.layoutManager = GridLayoutManager(context, 2)
+        rv_playlist_personal_add?.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context, 10), true))
+        isloading_playlist_personal_add?.visibility = View.VISIBLE
 
-        btn_add_playlist_addsong.setOnClickListener(this)
+        btn_add_playlist_addsong?.setOnClickListener(this)
 
-        playlist_personal_add_swipe.setOnRefreshListener {
+        playlist_personal_add_swipe?.setOnRefreshListener {
             presenter.fetchPlaylists()
         }
     }
@@ -86,73 +86,73 @@ class PlaylistsForAddFragment : BaseFragment(), PlaylistPersonalContract.Playlis
                 .setMode(BottomSheetBuilder.MODE_LIST)
                 .addItem(0, playlist.name, null)
                 .addItem(MenuBottomSheet.DELETE.id, MenuBottomSheet.DELETE.title, MenuBottomSheet.DELETE.icon)
-                .setItemClickListener(BottomSheetItemClickListener { item ->
+                .setItemClickListener { item ->
                     when (item.itemId) {
                         MenuBottomSheet.DELETE.id -> {
                             presenter.deletePlaylist(playlist.idPlaylist ?: "-1")
-                            isloading_playlist_personal_add.visibility = View.VISIBLE
+                            isloading_playlist_personal_add?.visibility = View.VISIBLE
                         }
                     }
-                })
+                }
                 .createDialog()
 
         dialog.show()
     }
 
     override fun fetchPlaylistSuccess(playlist: List<Playlist>) {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
-        playlist_personal_add_swipe.isRefreshing = false
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
+        playlist_personal_add_swipe?.isRefreshing = false
         adapter = PlaylistPersonalAdapter(
                 playlist.toMutableList(),
                 this,
                 this
         )
-        rv_playlist_personal_add.adapter = adapter
+        rv_playlist_personal_add?.adapter = adapter
     }
 
     override fun fetchPlaylistsFail() {
-        playlist_personal_add_swipe.isRefreshing = false
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        playlist_personal_add_swipe?.isRefreshing = false
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
         Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
     override fun createPlaylistSuccess(playlist: Playlist) {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
         adapter.addPlaylist(playlist)
     }
 
     override fun createPlaylistFail() {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
         Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
     override fun deletePlaylistSuccess(idPlaylist: String) {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
         adapter.deletePlaylist(idPlaylist)
     }
 
     override fun deletePlaylistFail() {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
         Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
     override fun deleteSongPlaylistSuccess() {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
 
     }
 
     override fun deleteSongPlaylistFail() {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
 
     }
 
     override fun insertSongSuccess() {
         Toasty.success(context, getString(R.string.txt_success), Toast.LENGTH_SHORT, true).show()
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
     }
 
     override fun insertSongFail() {
-        isloading_playlist_personal_add.visibility = View.INVISIBLE
+        isloading_playlist_personal_add?.visibility = View.INVISIBLE
         Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
@@ -174,7 +174,7 @@ class PlaylistsForAddFragment : BaseFragment(), PlaylistPersonalContract.Playlis
         dialog.setNegativeButton(activity.resources.getString(android.R.string.ok)
         ) { dialog, which ->
             presenter.createPlaylist(editTextNewAlbum.text.toString())
-            isloading_playlist_personal_add.visibility = View.VISIBLE
+            isloading_playlist_personal_add?.visibility = View.VISIBLE
         }
 
         dialog.setPositiveButton(activity.resources.getString(android.R.string.cancel)

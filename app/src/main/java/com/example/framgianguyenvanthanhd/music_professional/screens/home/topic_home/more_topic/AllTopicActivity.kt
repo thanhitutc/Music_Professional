@@ -45,15 +45,15 @@ class AllTopicActivity : AppCompatActivity(), TopicMoreContract.TopicMoreView, O
         toolbar_detail_grid.setNavigationOnClickListener { view ->
             finish()
         }
-        rc_detail_grid.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rc_detail_grid?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         presenter = TopicMorePresenter(TopicRepository.getInstance(), this)
         presenter.setView(this)
         presenter.onStart()
         presenter.fetchMoreTopic()
-        progress_isloading_grid.visibility = View.VISIBLE
-        swipe_refresh_grid.setOnRefreshListener {
+        progress_isloading_grid?.visibility = View.VISIBLE
+        swipe_refresh_grid?.setOnRefreshListener {
             presenter.fetchMoreTopic()
-            swipe_refresh_grid.isRefreshing = true
+            swipe_refresh_grid?.isRefreshing = true
         }
     }
 
@@ -62,15 +62,15 @@ class AllTopicActivity : AppCompatActivity(), TopicMoreContract.TopicMoreView, O
     }
 
     override fun loadSuccessfully(list: List<Topic>) {
-        progress_isloading_grid.visibility = View.INVISIBLE
-        swipe_refresh_grid.isRefreshing = false
+        progress_isloading_grid?.visibility = View.INVISIBLE
+        swipe_refresh_grid?.isRefreshing = false
         adapter = TopicAdapter(list, TopicType.TOPIC_DETAIL, this)
-        rc_detail_grid.adapter = adapter
+        rc_detail_grid?.adapter = adapter
     }
 
     override fun loadError(t: Throwable) {
-        progress_isloading_grid.visibility = View.INVISIBLE
-        swipe_refresh_grid.isRefreshing = false
+        progress_isloading_grid?.visibility = View.INVISIBLE
+        swipe_refresh_grid?.isRefreshing = false
     }
 
     override fun onItemTopicClick(topic: Topic) {

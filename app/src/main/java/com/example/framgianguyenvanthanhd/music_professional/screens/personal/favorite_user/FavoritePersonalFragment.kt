@@ -60,26 +60,26 @@ class FavoritePersonalFragment : BaseFragment(), FavoritePersonalContract.FavPer
     }
 
     override fun songsFavoriteSuccess(songs: List<Song>) {
-        swipe_fav_personal.isRefreshing = false
-        isloading_fav_personal.visibility = View.INVISIBLE
-        adapter = DetailSongAdapter(songs.toMutableList(), this)
-        rv_favorite_personal.adapter = adapter
+            swipe_fav_personal?.isRefreshing = false
+            isloading_fav_personal?.visibility = View.INVISIBLE
+            adapter = DetailSongAdapter(songs.toMutableList(), this)
+            rv_favorite_personal?.adapter = adapter
     }
 
     override fun songsFavoriteFail() {
-        swipe_fav_personal.isRefreshing = false
-        isloading_fav_personal.visibility = View.INVISIBLE
-        Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
+            swipe_fav_personal?.isRefreshing = false
+            isloading_fav_personal?.visibility = View.INVISIBLE
+            Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
     override fun removeFavoriteSuccess(idSong: String) {
-        adapter.removeSong(idSong)
-        isloading_fav_personal.visibility = View.INVISIBLE
+            adapter.removeSong(idSong)
+            isloading_fav_personal?.visibility = View.INVISIBLE
     }
 
     override fun removeFavoriteFail() {
-        isloading_fav_personal.visibility = View.INVISIBLE
-        Toasty.error(context, getString(R.string.txt_error),Toast.LENGTH_SHORT,true).show()
+            isloading_fav_personal?.visibility = View.INVISIBLE
+            Toasty.error(context, getString(R.string.txt_error), Toast.LENGTH_SHORT, true).show()
     }
 
     override fun onItemSongClick(song: Song) {

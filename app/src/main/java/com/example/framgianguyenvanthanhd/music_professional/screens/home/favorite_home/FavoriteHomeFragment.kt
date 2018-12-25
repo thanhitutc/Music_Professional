@@ -69,7 +69,7 @@ class FavoriteHomeFragment : Fragment(), FavoriteHomeContract.View, View.OnClick
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rc_favorite_home.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rc_favorite_home?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         presenter = FavoriteHomePresenter(FavoriteRepository.getInstance(),
                 SongParameterRepository.getInstance(),
                 SongPlayingRepository.getInstance(context))

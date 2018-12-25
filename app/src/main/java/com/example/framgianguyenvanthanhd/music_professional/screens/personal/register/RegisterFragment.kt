@@ -50,7 +50,7 @@ class RegisterFragment : BaseFragment(), View.OnClickListener, RegisterContract.
         presenter.setView(this)
         presenter.onStart()
 
-        btn_register.setOnClickListener(this)
+        btn_register?.setOnClickListener(this)
 
     }
 
@@ -97,7 +97,7 @@ class RegisterFragment : BaseFragment(), View.OnClickListener, RegisterContract.
                         password = edt_password.text.toString(),
                         loginType = LoginType.NONE.value)
                 presenter.register(accountRequest)
-                isloading_register.visibility = View.VISIBLE
+                isloading_register?.visibility = View.VISIBLE
             }
         }
     }
@@ -107,13 +107,13 @@ class RegisterFragment : BaseFragment(), View.OnClickListener, RegisterContract.
     }
 
     override fun onRegisterSuccess() {
-        isloading_register.visibility = View.INVISIBLE
+        isloading_register?.visibility = View.INVISIBLE
         Toast.makeText(activity,"Đăng ký thành công", Toast.LENGTH_SHORT).show()
         backFragment(LoginFragment())
     }
 
     override fun onRegisterError() {
-        isloading_register.visibility = View.INVISIBLE
+        isloading_register?.visibility = View.INVISIBLE
         Toast.makeText(activity,"Đăng ký thất bại", Toast.LENGTH_SHORT).show()
     }
 }

@@ -31,8 +31,8 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginContract.LoginV
         mainActivity = activity as MainActivity
         mainActivity.isDisplayBottomNavigation(false)
         mainActivity.isDisplayToolbar(false)
-        txt_register.setOnClickListener(this)
-        btn_login.setOnClickListener(this)
+        txt_register?.setOnClickListener(this)
+        btn_login?.setOnClickListener(this)
 
         presenter = LoginPresenter(AccountRepository.getInstance(), this)
         presenter.onStart()
@@ -43,7 +43,7 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginContract.LoginV
         when (p0?.id) {
             R.id.txt_register -> replaceFragment(RegisterFragment())
             R.id.btn_login -> {
-                if (edt_username.text.toString().isEmpty() || edt_password.text.toString().isEmpty()) {
+                if (edt_username?.text.toString().isEmpty() || edt_password?.text.toString().isEmpty()) {
                     DialogUtils.createDialogConfirm(
                             activity,
                             "Lỗi",
@@ -61,11 +61,11 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginContract.LoginV
                     return
                 }
                 val account = Account(
-                        userName = edt_username.text.toString(),
-                        password = edt_password.text.toString(),
+                        userName = edt_username?.text.toString(),
+                        password = edt_password?.text.toString(),
                         loginType = LoginType.NONE.value)
                 presenter.login(account)
-                isloading_login.visibility = View.VISIBLE
+                isloading_login?.visibility = View.VISIBLE
             }
         }
     }
@@ -75,12 +75,12 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginContract.LoginV
     }
 
     override fun loginSuccess() {
-        isloading_login.visibility = View.INVISIBLE
+        isloading_login?.visibility = View.INVISIBLE
         backFragment(PersonalFragment())
     }
 
     override fun loginFail() {
-        isloading_login.visibility = View.INVISIBLE
+        isloading_login?.visibility = View.INVISIBLE
         Toast.makeText(activity, "Tài khoản hoặc mật khẩu không chính xác", Toast.LENGTH_SHORT).show()
     }
 }

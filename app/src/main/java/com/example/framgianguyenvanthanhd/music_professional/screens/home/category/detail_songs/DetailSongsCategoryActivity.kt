@@ -79,10 +79,10 @@ class DetailSongsCategoryActivity : AppCompatActivity(), DetailSongsCategoryCont
             collapsing_toolbar.setCollapsedTitleTextColor(Color.WHITE)
             mPresenter.fetchDetailCategory(category.idCategory)
         }
-        rc_detail_songs.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rc_detail_songs.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
-        swipe_refresh.setOnRefreshListener {
-            swipe_refresh.isRefreshing = true
+        rc_detail_songs?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rc_detail_songs?.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
+        swipe_refresh?.setOnRefreshListener {
+            swipe_refresh?.isRefreshing = true
             category?.idCategory?.let {
                 mPresenter.fetchDetailCategory(it)
             }
@@ -94,15 +94,15 @@ class DetailSongsCategoryActivity : AppCompatActivity(), DetailSongsCategoryCont
     }
 
     override fun loadSuccessfully(list: List<Song>) {
-        progress_isloading.visibility = View.INVISIBLE
-        swipe_refresh.isRefreshing = false
+        progress_isloading?.visibility = View.INVISIBLE
+        swipe_refresh?.isRefreshing = false
         adapter = DetailSongAdapter(list.toMutableList(), this)
-        rc_detail_songs.adapter = adapter
+        rc_detail_songs?.adapter = adapter
     }
 
     override fun loadError(t: Throwable) {
-        swipe_refresh.isRefreshing = false
-        progress_isloading.visibility = View.INVISIBLE
+        swipe_refresh?.isRefreshing = false
+        progress_isloading?.visibility = View.INVISIBLE
     }
 
     override fun onItemSongClick(song: Song) {
