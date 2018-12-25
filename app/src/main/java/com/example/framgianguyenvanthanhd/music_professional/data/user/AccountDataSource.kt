@@ -9,6 +9,8 @@ interface AccountDataSource {
 
     fun login(account: Account,onResponse: OnResponseLogin)
 
+    fun updateUser(account: Account, onResponse: OnResponseLogin)
+
     interface OnResponseRegister {
         fun onSuccess()
 

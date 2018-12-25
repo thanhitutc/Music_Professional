@@ -14,4 +14,7 @@ interface AccountApi {
 
     @POST("login.php")
     fun login(@Body body: Account): Call<Account>
+
+    @POST("user_update.php")
+    fun userUpdate(@Body body: Account): Call<Account>
 }

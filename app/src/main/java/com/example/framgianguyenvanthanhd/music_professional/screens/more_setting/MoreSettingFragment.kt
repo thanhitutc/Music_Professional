@@ -3,18 +3,14 @@ package com.example.framgianguyenvanthanhd.music_professional.screens.more_setti
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import android.widget.RadioGroup
 import com.example.framgianguyenvanthanhd.music_professional.App
 import com.example.framgianguyenvanthanhd.music_professional.MainActivity
 import com.example.framgianguyenvanthanhd.music_professional.R
 import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
 import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
-import com.example.framgianguyenvanthanhd.music_professional.data.model.Setting
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SettingRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.resources.local.SettingLocalDataSource
 import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragment
@@ -22,7 +18,9 @@ import com.example.framgianguyenvanthanhd.music_professional.screens.personal.lo
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_more_setting.*
-import kotlinx.android.synthetic.main.fragment_personal.*
+import android.content.Intent
+import android.net.Uri
+
 
 /**
  * Created by admin on 12/23/2018.
@@ -96,11 +94,15 @@ class MoreSettingFragment : BaseFragment() {
 
         menu_login_more.setOnClickListener {
             if (txt_account_name_setting.text != getString(R.string.login)) {
-
+                replaceFragment(UserInformationFragment())
             } else {
                 replaceFragment(LoginFragment())
             }
         }
+
+         btn_feedback_dev.setOnClickListener {
+             createSendEmailToDeveloper()
+         }
     }
 
     private fun getAppVersion(): String? {
@@ -114,5 +116,15 @@ class MoreSettingFragment : BaseFragment() {
             e.printStackTrace()
             null
         }
+    }
+
+    private fun createSendEmailToDeveloper() {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.data = Uri.parse("mailto:")
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf("thanhitutc@gmail.com"))
+        intent.putExtra(Intent.EXTRA_PHONE_NUMBER, arrayOf("+84"))
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback music application")
+        startActivity(intent)
     }
 }

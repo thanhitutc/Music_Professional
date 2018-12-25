@@ -29,4 +29,8 @@ class AccountRepository private constructor(
     override fun login(account: Account, onResponse: AccountDataSource.OnResponseLogin) {
         remoteDataSource.login(account, onResponse)
     }
+
+    override fun updateUser(account: Account, onResponse: AccountDataSource.OnResponseLogin) {
+        remoteDataSource.updateUser(account, onResponse)
+    }
 }

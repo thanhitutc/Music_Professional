@@ -76,7 +76,7 @@ class LoginFragment : BaseFragment(), View.OnClickListener, LoginContract.LoginV
 
     override fun loginSuccess() {
         isloading_login?.visibility = View.INVISIBLE
-        backFragment(PersonalFragment())
+        (context as MainActivity).onBackPressed()
     }
 
     override fun loginFail() {
