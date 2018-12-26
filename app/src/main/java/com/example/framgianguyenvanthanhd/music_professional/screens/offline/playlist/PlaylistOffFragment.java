@@ -18,6 +18,7 @@ import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.PlaylistOffline;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.PlaylistOfflineRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongInPlaylistRepository;
+import com.example.framgianguyenvanthanhd.music_professional.helper.GridSpacingItemDecoration;
 import com.example.framgianguyenvanthanhd.music_professional.screens.offline.detailplaylistoff.DetailPlaylistOffActivity;
 
 import java.util.List;
@@ -139,6 +140,7 @@ public class PlaylistOffFragment extends Fragment
         mButtonAddAlbum.setOnClickListener(this);
         mRecyclerViewAlbum = getView().findViewById(R.id.recycler_album);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), SPAN_COUNT);
+        mRecyclerViewAlbum.addItemDecoration(new GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(getContext(),10), true));
         mRecyclerViewAlbum.setLayoutManager(layoutManager);
     }
 

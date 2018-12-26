@@ -1,5 +1,8 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.more_setting
 
+import com.example.framgianguyenvanthanhd.music_professional.OnCommonResponse
+import com.example.framgianguyenvanthanhd.music_professional.Utils.KeysPref
+import com.example.framgianguyenvanthanhd.music_professional.Utils.SharedPrefs
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.AccountRepository
 import com.example.framgianguyenvanthanhd.music_professional.data.user.Account
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountDataSource
@@ -27,6 +30,12 @@ class UserInfoPresenter(
     override fun updateInfoUser(account: Account) {
         userRepo.updateUser(account, object: AccountDataSource.OnResponseLogin{
             override fun onLoginSuccess(account: com.example.framgianguyenvanthanhd.music_professional.data.user.Account) {
+                SharedPrefs.getInstance().put(KeysPref.ID_ACCOUNT.name, account.idAccount)
+                SharedPrefs.getInstance().put(KeysPref.USER_NAME.name, account.userName)
+                SharedPrefs.getInstance().put(KeysPref.LOGIN_TYPE.name, account.loginType)
+                SharedPrefs.getInstance().put(KeysPref.FIRST_NAME.name, account.firstName)
+                SharedPrefs.getInstance().put(KeysPref.LAST_NAME.name, account.lastName)
+                SharedPrefs.getInstance().put(KeysPref.AVATAR.name, account.avatar)
                 view.updateInfoSuccess(account)
             }
 
@@ -37,6 +46,16 @@ class UserInfoPresenter(
     }
 
     override fun updatePassword(newPass: String) {
+        val username = SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java)
+        val account = Account(userName = username, password = newPass)
+        userRepo.updatePassword(account, object : OnCommonResponse{
+            override fun onSuccess() {
+                view.updatePassSuccess()
+            }
 
+            override fun onFailure() {
+                view.updatePassFail()
+            }
+        })
     }
 }

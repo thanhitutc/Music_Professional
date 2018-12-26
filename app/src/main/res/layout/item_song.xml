@@ -6,7 +6,7 @@
     android:layout_margin="@dimen/margin_layout"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/image_avatar_song"
         android:layout_width="@dimen/width_avatar_song"
         android:layout_height="@dimen/height_item_song"

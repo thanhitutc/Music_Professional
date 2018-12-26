@@ -1,5 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.user
 
+import com.example.framgianguyenvanthanhd.music_professional.OnCommonResponse
 import com.example.framgianguyenvanthanhd.music_professional.Utils.ResponseType
 import com.example.framgianguyenvanthanhd.music_professional.data.retrofits.APIService
 import retrofit2.Call
@@ -78,6 +79,24 @@ class AccountRemoteDataSource private constructor(
                             }
                         } else {
                             onResponse.onLoginFail()
+                        }
+                    }
+                }
+        )
+    }
+
+    override fun updatePassword(account: Account, onResponse: OnCommonResponse) {
+        service.updatePassWord(account).enqueue(
+                object : Callback<String> {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
+                        onResponse.onFailure()
+                    }
+
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
+                        if (response.isSuccessful && response.body() == ResponseType.OK.name) {
+                            onResponse.onSuccess()
+                        } else {
+                            onResponse.onFailure()
                         }
                     }
                 }
