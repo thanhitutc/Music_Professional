@@ -1,6 +1,7 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.more_setting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,9 +40,19 @@ class UserInformationFragment : BaseFragment(), UserInfoContract.UserInfoView{
         val lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name, String::class.java)
         val avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name, String::class.java)
         val username = SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java)
-        edt_firstname?.setText(fistName)
-        edt_lastname?.setText(lastName)
-        txt_username.text = username
+        val firstNameShow = if (fistName == "") {
+            "N/A"
+        } else {
+            fistName
+        }
+        val lastnameShow = if (lastName == "") {
+            "N/A"
+        } else {
+            lastName
+        }
+        edt_firstname?.setText(firstNameShow)
+        edt_lastname?.setText(lastnameShow)
+        txt_username?.text = username
         if (avatar.isNotEmpty()) {
             Picasso.with(activity).load(avatar).into(img_avatar)
         } else{
@@ -60,11 +71,29 @@ class UserInformationFragment : BaseFragment(), UserInfoContract.UserInfoView{
                 val account = Account(firstName = first, lastName = last, userName = username)
                 presenter.updateInfoUser(account)
             } else {
-                if (edt_new_pass_again.text.isEmpty() || edt_new_pass.text.isEmpty()) {
+                if (edt_new_pass_again.text.isEmpty() || edt_new_pass.text.isEmpty() || edt_current_pass.text.isEmpty()) {
                     DialogUtils.createDialogConfirm(
                             activity,
                             "Lỗi",
                             "Bạn chưa nhập đủ thông tin",
+                            object: DialogUtils.OnDialogClick{
+                                override fun onClickOk() {
+                                    return
+                                }
+
+                                override fun onCancel() {
+
+                                }
+                            }
+                    )
+                    return@setOnClickListener
+                }
+                Log.e("thanhd_pa", SharedPrefs.getInstance().get(KeysPref.PASS_USER.name, String::class.java))
+                if (edt_current_pass.text.toString() != SharedPrefs.getInstance().get(KeysPref.PASS_USER.name, String::class.java)) {
+                    DialogUtils.createDialogConfirm(
+                            activity,
+                            "Lỗi",
+                            "Mật khẩu hiện tại chưa đúng.",
                             object: DialogUtils.OnDialogClick{
                                 override fun onClickOk() {
                                     return
@@ -100,10 +129,18 @@ class UserInformationFragment : BaseFragment(), UserInfoContract.UserInfoView{
         }
 
         btn_change_pass.setOnClickListener {
-            btn_change_pass.visibility = View.GONE
-            btn_logout.visibility = View.GONE
-            edt_new_pass.visibility = View.VISIBLE
-            edt_new_pass_again.visibility = View.VISIBLE
+            btn_change_pass?.visibility = View.GONE
+            btn_logout?.visibility = View.GONE
+            text_layout_current_pass?.visibility = View.VISIBLE
+            text_layout_newpass?.visibility = View.VISIBLE
+            text_layout_againpass?.visibility = View.VISIBLE
+            edt_current_pass?.visibility = View.VISIBLE
+            edt_new_pass?.visibility = View.VISIBLE
+            edt_new_pass_again?.visibility = View.VISIBLE
+            text_layout_firstname?.visibility = View.GONE
+            text_layout_lastname?.visibility = View.GONE
+            edt_firstname?.visibility = View.GONE
+            edt_lastname?.visibility = View.GONE
         }
     }
 

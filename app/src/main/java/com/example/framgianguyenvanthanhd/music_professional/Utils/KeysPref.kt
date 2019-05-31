@@ -6,6 +6,7 @@ package com.example.framgianguyenvanthanhd.music_professional.Utils
 enum class KeysPref {
     ID_ACCOUNT,
     USER_NAME,
+    PASS_USER,
     LOGIN_TYPE,
     FIRST_NAME,
     LAST_NAME,
