@@ -213,6 +213,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                 Log.e("thanhd_song_play_size", mSongsPlaying.size() + "");
             }
             mMediaPlayer.prepare();
+//            mMediaPlayer.prepareAsync();
         } catch (IOException e) {
             Logger.getLogger(e.toString());
         }

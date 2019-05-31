@@ -1,17 +1,21 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.playmusic;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -46,6 +50,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.resources.loca
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.CommentAdapter;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicContract;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.comment.PlayingMusicPresenter;
+import com.example.framgianguyenvanthanhd.music_professional.service.DownloadService;
 import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 import com.example.framgianguyenvanthanhd.music_professional.service.RepeatType;
 
@@ -68,6 +73,9 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private static final int DEFAULT_DELAY = 500;
     private static final String TIME_FORMAT = "mm:ss";
     private static final String TIME_DEFAULT = "00:00";
+    private static final int PERMISSION_REQUEST_CODE = 15;
+    public static final String URL_SONG_DOWNLOAD = "URL_SONG_DOWNLOAD";
+    public static final String NAME_SONG_DOWNLOAD = "NAME_SONG_DOWNLOAD";
     private TextView mTextCurrentDuration;
     private TextView mTextDuration;
     private TextView mTextTitleSong;
@@ -114,6 +122,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             initStatePlaying();
             initLikeSong();
             mService.getmPresenter().getSongsPlaying();
+
         }
 
         @Override
@@ -148,8 +157,8 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             public void onClick(View view) {
                 mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 View v = getCurrentFocus();
-                if (view != null){
-                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
@@ -206,7 +215,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 String username = SharedPrefs.getInstance().get(KeysPref.USER_NAME.name(), String.class);
-                if (username == null || username.isEmpty()){
+                if (username == null || username.isEmpty()) {
                     Toasty.warning(getBaseContext(), getResources().getString(R.string.txt_login_to_comment), Toast.LENGTH_SHORT, true).show();
                     return;
                 }
@@ -231,7 +240,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                         getResources().getString(R.string.txt_posting));
                 mCommentAdapter.postComment(comment);
                 edtComment.setText("");
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(edtComment.getWindowToken(), 0);
             }
         });
@@ -248,7 +257,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                 if (!cboLike.isChecked()) {
                     mPlayingPresenter.updateLikeSong(mService.getIdSongPlaying(), false);
                 }
-                if (cboLike.isChecked()){
+                if (cboLike.isChecked()) {
                     mPlayingPresenter.updateLikeSong(mService.getIdSongPlaying(), true);
                 }
             }
@@ -287,7 +296,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void checkLikeSuccess() {
-        if (!cboLike.isChecked()){
+        if (!cboLike.isChecked()) {
             cboLike.setChecked(true);
         }
     }
@@ -319,7 +328,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         update();
     }
 
-    private void initService(){
+    private void initService() {
         Intent intent = new Intent(this, MediaService.class);
         bindService(intent, mMediaConnection, BIND_AUTO_CREATE);
     }
@@ -358,6 +367,13 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.image_repeat:
                 repeatMode();
+                break;
+            case R.id.btn_download:
+                if (checkPermission()) {
+                    downloadSong();
+                } else {
+                    requestPermission();
+                }
                 break;
         }
     }
@@ -399,6 +415,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         mButtonState.setOnClickListener(this);
         mButtonNext.setOnClickListener(this);
         mButtonRepeat.setOnClickListener(this);
+        findViewById(R.id.btn_download).setOnClickListener(this);
         mSeekBar.setOnSeekBarChangeListener(mOnSeekChange);
     }
 
@@ -493,13 +510,18 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
     private Runnable mTimeCounter = new Runnable() {
         @Override
         public void run() {
-            if (!mTextTitleSong.getText().toString().equals(mService.getTitleSongPlaying())) {
+            if (mService != null && !mTextTitleSong.getText().toString().equals(mService.getTitleSongPlaying())) {
                 mTextTitleSong.setText(mService.getTitleSongPlaying());
                 mTextDuration.setText(convertToTime(mService.getDuration()));
                 mTextCurrentDuration.setText(TIME_DEFAULT);
                 mOnChangeSongListener.onUpdateSong(mService.getSongPlaying());
                 mOnUpDateImageSongListener.onUpdateImageSong(mService.getSongPlaying());
                 mPlayingPresenter.checkLikeSong(mService.getIdSongPlaying());
+                if (mService.getSongPlaying().getResource().contains("https://thanhitutcfile.000webhostapp.com/")) {
+                    findViewById(R.id.btn_download).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.btn_download).setVisibility(View.GONE);
+                }
             }
             if (mService.isPlay()) {
                 long currentPercent = 100 * mService.getCurrentDuration() / mService.getDuration();
@@ -578,6 +600,39 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     public void playWithSong(SongPlaying songPlaying) {
         mService.playWithSongClick(songPlaying);
+    }
+
+    private void requestPermission() {
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    downloadSong();
+                } else {
+                    Toasty.warning(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+
+                }
+                break;
+        }
+    }
+
+    private void downloadSong() {
+        Intent intent = new Intent(this, DownloadService.class);
+        intent.putExtra(URL_SONG_DOWNLOAD, mService.getSongPlaying().getResource());
+        intent.putExtra(NAME_SONG_DOWNLOAD, mService.getSongPlaying().getName());
+        startService(intent);
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
     }
 
 }

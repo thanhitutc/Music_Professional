@@ -7,7 +7,7 @@ import android.Manifest
  */
 class Constants {
     companion object {
-        val BASE_URL: String = "https://thanhitutc.000webhostapp.com/Server/"
+        const val BASE_URL: String = "https://thanhitutc.000webhostapp.com/Server/"
 
         val READ_TIME_OUT: Long = 10000
         val WRITE_TIME_OUT: Long = 10000

@@ -2,6 +2,7 @@ package com.example.framgianguyenvanthanhd.music_professional.data.retrofits
 
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants
 import com.example.framgianguyenvanthanhd.music_professional.data.comment.CommentApi
+import com.example.framgianguyenvanthanhd.music_professional.data.download.DownloadApi
 import com.example.framgianguyenvanthanhd.music_professional.data.search.SearchApi
 import com.example.framgianguyenvanthanhd.music_professional.data.song_parameter.SongParameterApi
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountApi
@@ -60,6 +61,10 @@ class APIService {
 
         fun getPlaylistPersonal(): PlaylistPersonalApi {
             return RetrofitClient.getClient(Constants.BASE_URL).create(PlaylistPersonalApi::class.java)
+        }
+
+        fun downloadSong(): DownloadApi {
+            return RetrofitClient.getClient(Constants.BASE_URL).create(DownloadApi::class.java)
         }
     }
 }
