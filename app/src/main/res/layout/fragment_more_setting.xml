@@ -7,7 +7,7 @@
     android:layout_margin="@dimen/space_8">
 
     <LinearLayout
-        android:id="@+id/menu_login"
+        android:id="@+id/menu_login_more"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -143,12 +143,18 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
-    <TextView
-        android:text="Phản hồi về ứng dụng"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_sie_18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:id="@+id/btn_feedback_dev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Phản hồi về ứng dụng"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_sie_18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 
     <View
         android:layout_marginTop="20dp"

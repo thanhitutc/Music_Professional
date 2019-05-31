@@ -49,8 +49,8 @@ class CategoryFromTopicActivity : AppCompatActivity(), CategoryFromTopicContract
         toolbar_detail_grid.setNavigationOnClickListener { view ->
             finish()
         }
-        rc_detail_grid.layoutManager = GridLayoutManager(this, 2)
-        rc_detail_grid.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(this, 10), true))
+        rc_detail_grid?.layoutManager = GridLayoutManager(this, 2)
+        rc_detail_grid?.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(this, 10), true))
         presenter = CategoryFromTopicPresenter(CategoryRepository.getInstance(), this)
         presenter.setView(this)
         presenter.onStart()
@@ -58,12 +58,12 @@ class CategoryFromTopicActivity : AppCompatActivity(), CategoryFromTopicContract
         topic?.idTopic?.let {
             presenter.fetchCategoryFromTopic(it)
         }
-        progress_isloading_grid.visibility = View.VISIBLE
-        swipe_refresh_grid.setOnRefreshListener {
+        progress_isloading_grid?.visibility = View.VISIBLE
+        swipe_refresh_grid?.setOnRefreshListener {
             topic?.idTopic?.let {
                 presenter.fetchCategoryFromTopic(it)
             }
-            swipe_refresh_grid.isRefreshing = true
+            swipe_refresh_grid?.isRefreshing = true
         }
     }
 
@@ -72,15 +72,15 @@ class CategoryFromTopicActivity : AppCompatActivity(), CategoryFromTopicContract
     }
 
     override fun loadSuccessfully(list: List<Category>) {
-        progress_isloading_grid.visibility = View.INVISIBLE
-        swipe_refresh_grid.isRefreshing = false
+        progress_isloading_grid?.visibility = View.INVISIBLE
+        swipe_refresh_grid?.isRefreshing = false
         mAdapter = CategoryDetailAdapter(list, this)
-        rc_detail_grid.adapter = mAdapter
+        rc_detail_grid?.adapter = mAdapter
     }
 
     override fun loadError(t: Throwable) {
-        progress_isloading_grid.visibility = View.INVISIBLE
-        swipe_refresh_grid.isRefreshing = false
+        progress_isloading_grid?.visibility = View.INVISIBLE
+        swipe_refresh_grid?.isRefreshing = false
     }
 
     override fun onItemClick(category: Category) {

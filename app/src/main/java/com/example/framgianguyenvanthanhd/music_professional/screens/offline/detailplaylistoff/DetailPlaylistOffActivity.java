@@ -18,9 +18,12 @@ import android.widget.Toast;
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.PlaylistOffline;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongOffline;
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.SongInPlaylistRepository;
 import com.example.framgianguyenvanthanhd.music_professional.screens.offline.listsongaddplaylist.ListAddPlaylistOffActivity;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity;
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 
 import java.util.List;
 
@@ -103,8 +106,11 @@ public class DetailPlaylistOffActivity extends AppCompatActivity
 
     @Override
     public void onItemClickSongDetailAlbum(List<SongOffline> songOfflines, int position) {
-//        startActivity(PlayMusicActivity.getInstance(this));
-//        startService(MediaService.getInstance(this, songOfflines, position));
+        SongOffline songOffline = songOfflines.get(position);
+        SongPlaying songPlaying = new SongPlaying(songOffline.getId(), songOffline.getTitle(), songOffline.getSinger(),
+                null, songOffline.getData());
+        startActivity(PlayMusicActivity.getInstance(this));
+        startService(MediaService.getInstance(this, songPlaying, position));
     }
 
     @Override

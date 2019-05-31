@@ -85,10 +85,10 @@ SongHomeAdapter.OnItemSongHomeClickListener{
         }
         collapsing_toolbar.title = title
         collapsing_toolbar.setCollapsedTitleTextColor(Color.WHITE)
-        rc_detail_songs.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rc_detail_songs.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
-        swipe_refresh.setOnRefreshListener {
-            swipe_refresh.isRefreshing = true
+        rc_detail_songs?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rc_detail_songs?.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.HORIZONTAL))
+        swipe_refresh?.setOnRefreshListener {
+            swipe_refresh?.isRefreshing = true
             if (intent.getStringExtra(Constants.SONG_HOME_TYPE) == SongHomeDetailType.SONG_HOME_FAVORITE.name) {
                 presenter.fetchFavorite()
             } else {
@@ -102,15 +102,15 @@ SongHomeAdapter.OnItemSongHomeClickListener{
     }
 
     override fun loadSuccessfully(list: List<SongHome>) {
-        progress_isloading.visibility = View.INVISIBLE
-        swipe_refresh.isRefreshing = false
+        progress_isloading?.visibility = View.INVISIBLE
+        swipe_refresh?.isRefreshing = false
         adapter = SongHomeAdapter(list, false, this)
-        rc_detail_songs.adapter = adapter
+        rc_detail_songs?.adapter = adapter
     }
 
     override fun loadError(t: Throwable) {
-        progress_isloading.visibility = View.INVISIBLE
-        swipe_refresh.isRefreshing = false
+        progress_isloading?.visibility = View.INVISIBLE
+        swipe_refresh?.isRefreshing = false
     }
 
     override fun onItemSongClick(song: SongHome) {

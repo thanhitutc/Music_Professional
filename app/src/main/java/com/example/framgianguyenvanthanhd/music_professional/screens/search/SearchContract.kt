@@ -19,5 +19,7 @@ class SearchContract {
     interface SearchPresenter : BasePresenter<SearchView> {
 
         fun search(keywords: String)
+
+        fun updatePlaySong(idSong: String)
     }
 }

@@ -5,14 +5,19 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.RemoteViews;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
 import com.example.framgianguyenvanthanhd.music_professional.MainActivity;
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.Utils.Constants;
@@ -24,6 +29,7 @@ import com.example.framgianguyenvanthanhd.music_professional.data.repository.Son
 import com.example.framgianguyenvanthanhd.music_professional.data.resources.local.SettingLocalDataSource;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.song_playing.ContractSongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.song_playing.SongPlayingPresenter;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +68,10 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     private SongPlayingRepository mPlayingRepository;
     private ContractSongPlaying.SongPlayingPresenter mPresenter;
 
+    public ContractSongPlaying.SongPlayingPresenter getmPresenter() {
+        return mPresenter;
+    }
+
     public static Intent getInstance(Context context, SongPlaying songPlaying, int position) {
         Intent intent = new Intent(context, MediaService.class);
         intent.setAction(Constants.ConstantIntent.ACTION_INIT_SONG_SERVICE);
@@ -81,7 +91,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
             mSongsPlaying.clear();
         }
         mSongsPlaying = songPlaying;
-        Log.e("thanhd_init", mSongsPlaying.size() +"");
+        Log.e("thanhd_init", mSongsPlaying.size() + "");
     }
 
     @Override
@@ -116,6 +126,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) return START_STICKY;
         String action = intent.getAction();
         if (action == null) {
             return START_STICKY;
@@ -127,8 +138,8 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                 mPlayingRepository.insertSongPlaying(songPlaying);
                 mPresenter.getSongsPlaying();
                 mPosition = mSongsPlaying.indexOf(songPlaying);
-                if (intent.getIntExtra(Constants.ConstantIntent.FLAG_PLAY_SONG_SERVICE,-1) == FLAG_NOT_PLAY) {
-                    if (mSetting.isShuffleMode()){
+                if (intent.getIntExtra(Constants.ConstantIntent.FLAG_PLAY_SONG_SERVICE, -1) == FLAG_NOT_PLAY) {
+                    if (mSetting.isShuffleMode()) {
                         shuffleSong();
                     }
                     break;
@@ -179,7 +190,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     public void play(int position) {
         mMediaPlayer.reset();
         try {
-            Log.e("thanhd_position_play", position+"");
+            Log.e("thanhd_position_play", position + "");
             boolean shuffleMode = mSetting.isShuffleMode();
             if (shuffleMode) {
                 mMediaPlayer.setDataSource(mSongsShuffled.get(position).getResource());
@@ -189,7 +200,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                         mSongsShuffled.get(position).getImage(),
                         mSongsShuffled.get(position).getSinger(),
                         mSongsShuffled.get(position).getResource());
-                Log.e("thanhd_song_play_size", mSongsShuffled.size()+"");
+                Log.e("thanhd_song_play_size", mSongsShuffled.size() + "");
             } else {
                 mMediaPlayer.setDataSource(mSongsPlaying.get(position).getResource());
                 SharedPrefs.getInstance().updateLastPlay(
@@ -199,9 +210,10 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                         mSongsPlaying.get(position).getSinger(),
                         mSongsPlaying.get(position).getResource()
                 );
-                Log.e("thanhd_song_play_size", mSongsPlaying.size()+"");
+                Log.e("thanhd_song_play_size", mSongsPlaying.size() + "");
             }
             mMediaPlayer.prepare();
+//            mMediaPlayer.prepareAsync();
         } catch (IOException e) {
             Logger.getLogger(e.toString());
         }
@@ -418,10 +430,13 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         @Override
         public void onPrepared(MediaPlayer mediaPlayer) {
             start();
+
             if (!mSetting.isShuffleMode()) {
-                createNotification(mSongsPlaying.get(mPosition).getName());
+                createNotification(mSongsPlaying.get(mPosition).getName(),
+                        mSongsPlaying.get(mPosition).getImage());
             } else {
-                createNotification(mSongsShuffled.get(mPositionShuffled).getName());
+                createNotification(mSongsShuffled.get(mPositionShuffled).getName(),
+                        mSongsShuffled.get(mPositionShuffled).getImage());
             }
         }
     };
@@ -441,7 +456,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                 mPositionShuffled).getSinger();
     }
 
-    private void createNotification(String title) {
+    private void createNotification(String title, String image) {
         mRemoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification);
         mRemoteViews.setTextViewText(R.id.text_title_song_notification, title);
 
@@ -491,6 +506,11 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
                     .build();
         }
         startForeground(ID_NOTIFICATION, mNotification);
+        if (image != null) {
+            Picasso.with(this).load(Uri.parse(image)).into(mRemoteViews, R.id.img_notification, ID_NOTIFICATION, mNotification);
+        } else {
+            Picasso.with(this).load(R.drawable.ic_song_playing).into(mRemoteViews, R.id.img_notification, ID_NOTIFICATION, mNotification);
+        }
     }
 
     private void updateNotification() {
@@ -511,7 +531,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         }
     }
 
-    public String getIdSongPlaying(){
+    public String getIdSongPlaying() {
         if (mSetting.isShuffleMode()) {
             return mSongsShuffled.get(mPositionShuffled).getId();
         }

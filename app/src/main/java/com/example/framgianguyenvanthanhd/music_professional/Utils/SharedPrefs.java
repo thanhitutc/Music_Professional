@@ -33,6 +33,15 @@ public final class SharedPrefs {
         put(KeysPref.RESOURCE_PLAYING.name(), resource);
     }
 
+    public void cleanUserInfo(){
+        put(KeysPref.ID_ACCOUNT.name(), "");
+        put(KeysPref.USER_NAME.name(), "");
+        put(KeysPref.LOGIN_TYPE.name(), "");
+        put(KeysPref.FIRST_NAME.name(), "");
+        put(KeysPref.LAST_NAME.name(), "");
+        put(KeysPref.AVATAR.name(), "");
+    }
+
     public <T> T get(String key, Class<T> anonymousClass) {
         if (anonymousClass == String.class) {
             return (T) mSharedPreferences.getString(key, "");

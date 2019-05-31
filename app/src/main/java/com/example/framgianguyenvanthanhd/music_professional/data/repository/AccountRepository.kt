@@ -1,5 +1,6 @@
 package com.example.framgianguyenvanthanhd.music_professional.data.repository
 
+import com.example.framgianguyenvanthanhd.music_professional.OnCommonResponse
 import com.example.framgianguyenvanthanhd.music_professional.data.user.Account
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountDataSource
 import com.example.framgianguyenvanthanhd.music_professional.data.user.AccountRemoteDataSource
@@ -28,5 +29,13 @@ class AccountRepository private constructor(
 
     override fun login(account: Account, onResponse: AccountDataSource.OnResponseLogin) {
         remoteDataSource.login(account, onResponse)
+    }
+
+    override fun updateUser(account: Account, onResponse: AccountDataSource.OnResponseLogin) {
+        remoteDataSource.updateUser(account, onResponse)
+    }
+
+    override fun updatePassword(account: Account, onResponse: OnCommonResponse) {
+        remoteDataSource.updatePassword(account, onResponse)
     }
 }

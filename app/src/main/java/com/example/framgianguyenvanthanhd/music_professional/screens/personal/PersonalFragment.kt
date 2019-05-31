@@ -15,6 +15,7 @@ import com.example.framgianguyenvanthanhd.music_professional.screens.BaseFragmen
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.favorite_user.FavoritePersonalFragment
 import com.example.framgianguyenvanthanhd.music_professional.screens.personal.playlist.PlaylistPersonalFragment
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_more_setting.*
 import kotlinx.android.synthetic.main.fragment_personal.*
 
 /**
@@ -36,13 +37,16 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
         val lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name, String::class.java)
         val avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name, String::class.java)
         if (fistName.isNotEmpty() && lastName.isNotEmpty()) {
-            txt_account_name.text =  fistName + lastName
+            txt_account_name.text = fistName + lastName
+            menu_login?.isClickable = false
         } else if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isNotEmpty()) {
             txt_account_name.text = SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java)
+            menu_login?.isClickable = false
         }
         if (avatar.isNotEmpty()) {
             Picasso.with(activity).load(avatar).into(account_avatar)
         }
+
 
         menu_login.setOnClickListener(this)
         menu_playlist.setOnClickListener(this)
@@ -51,11 +55,15 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
         menu_favorite.setOnClickListener(this)
         menu_favorite_online.setOnClickListener(this)
         menu_playlist_online.setOnClickListener(this)
+
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.menu_login -> {
+                if (txt_account_name.text != getString(R.string.login)) {
+                    return
+                }
                 replaceFragment(LoginFragment())
                 return
             }

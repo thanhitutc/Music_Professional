@@ -15,6 +15,10 @@ interface DetailPlaylistContract {
 
         fun loadError(t: Throwable)
 
+        fun deleteSongSuccess(idSong: String)
+
+        fun deleteSongFail()
+
     }
 
     interface DetailPlPresenter : BasePresenter<DetailPlaylistView> {
@@ -25,5 +29,7 @@ interface DetailPlaylistContract {
         fun updatePlaySong(idSong: String)
 
         fun insertToPlaying(songPlaying: SongPlaying)
+
+        fun deleteSongFromPlaylist(idSong: String, idPlaylist: String)
     }
 }

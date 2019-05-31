@@ -26,8 +26,11 @@ import android.widget.Toast;
 
 import com.example.framgianguyenvanthanhd.music_professional.R;
 import com.example.framgianguyenvanthanhd.music_professional.data.model.SongOffline;
+import com.example.framgianguyenvanthanhd.music_professional.data.model.SongPlaying;
 import com.example.framgianguyenvanthanhd.music_professional.data.repository.FavoriteRepository;
 import com.example.framgianguyenvanthanhd.music_professional.screens.offline.listsongaddfavorite.ListSongAddActivity;
+import com.example.framgianguyenvanthanhd.music_professional.screens.playmusic.PlayMusicActivity;
+import com.example.framgianguyenvanthanhd.music_professional.service.MediaService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,8 +112,11 @@ public class FavoriteFragment extends Fragment
 
     @Override
     public void onItemClickFavoriteSong(List<SongOffline> songOfflines, int position) {
-//        getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
-//        getActivity().startService(MediaService.getInstance(getActivity(), songOfflines, position));
+        SongOffline songOffline = songOfflines.get(position);
+        SongPlaying songPlaying = new SongPlaying(songOffline.getId(), songOffline.getTitle(), songOffline.getSinger(),
+                null, songOffline.getData());
+        getActivity().startActivity(PlayMusicActivity.getInstance(getActivity()));
+        getActivity().startService(MediaService.getInstance(getActivity(), songPlaying, position));
     }
 
     @Override

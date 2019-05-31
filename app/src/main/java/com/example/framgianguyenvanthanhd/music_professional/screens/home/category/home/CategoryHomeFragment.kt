@@ -46,8 +46,8 @@ class CategoryHomeFragment : Fragment(), CategoryContract.View, OnItemCategoryCl
         presenter.setView(this)
         presenter.onStart()
         presenter.getCategorysHome()
-        rc_category_home.layoutManager = GridLayoutManager(activity, 2)
-        rc_category_home.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context,10), true))
+        rc_category_home?.layoutManager = GridLayoutManager(activity, 2)
+        rc_category_home?.addItemDecoration(GridSpacingItemDecoration(2, GridSpacingItemDecoration.dpToPx(context,10), true))
 
         txt_title_category_home.setOnClickListener(this)
         btn_category_home_more.setOnClickListener(this)

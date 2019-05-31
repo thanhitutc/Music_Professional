@@ -63,7 +63,7 @@ class PlayMostFragment : BaseFragment(), PlaymostContract.View, View.OnClickList
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rc_playmost_home.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rc_playmost_home?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         presenter = PlayMostPresenter(PlayMostRepository.getInstance(),
                 SongParameterRepository.getInstance()
         , SongPlayingRepository.getInstance(context))

@@ -56,15 +56,14 @@ class SlideFragment : Fragment(), SlideContract.View {
 
     private var infinitySlideRunable = object : Runnable {
         override fun run() {
-            if (slide_pager == null) {
-                return
+            slide_pager?.let {
+                currentPosition++
+                if (slide_pager.currentItem++ >= slideAdapter.count - 1) {
+                    currentPosition = 0
+                    slide_pager.setCurrentItem(currentPosition, true)
+                    update()
+                }
             }
-            currentPosition++
-            if (slide_pager.currentItem++ >= slideAdapter.count - 1) {
-                currentPosition = 0
-            }
-            slide_pager.setCurrentItem(currentPosition, true)
-            update()
         }
 
     }
