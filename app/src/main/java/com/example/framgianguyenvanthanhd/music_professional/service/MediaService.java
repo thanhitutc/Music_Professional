@@ -1,20 +1,26 @@
 package com.example.framgianguyenvanthanhd.music_professional.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
+
+import android.support.v4.app.NotificationCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
@@ -62,6 +68,8 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     private int mPositionShuffled;
     private RemoteViews mRemoteViews;
     private Notification mNotification;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder notificationBuilder;
     private Intent mIntentBroadcast;
     private Setting mSetting;
     private SettingRepository mSettingRepository;
@@ -496,10 +504,18 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         PendingIntent pendingIntent =
                 PendingIntent.getActivities(this, (int) System.currentTimeMillis(),
                         new Intent[]{intent}, 0);
-        Notification.Builder notificationBuilder =
-                new Notification.Builder(getApplicationContext());
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            channelId = createNotificationChannel("play_music_id", "music");
+        } else {
+            channelId = "";
+        }
+        notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), channelId);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             mNotification = notificationBuilder.setSmallIcon(R.drawable.icon_notification)
+                    .setOngoing(true)
                     .setContentIntent(pendingIntent)
                     .setContent(mRemoteViews)
                     .setDefaults(Notification.FLAG_NO_CLEAR)
@@ -522,6 +538,18 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
         startForeground(ID_NOTIFICATION, mNotification);
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private String createNotificationChannel(String channelId, String channelName){
+        NotificationChannel notificationChannel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW);
+        notificationChannel.setDescription("no sound");
+        notificationChannel.setSound(null, null);
+        notificationChannel.enableLights(false);
+        notificationChannel.setLightColor(Color.BLUE);
+        notificationChannel.enableVibration(false);
+        mNotificationManager.createNotificationChannel(notificationChannel);
+        return channelId;
+    }
+
     /**
      * Media Binder
      */
@@ -532,6 +560,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     }
 
     public String getIdSongPlaying() {
+        if (mSongsShuffled == null && mSongsPlaying == null) return null;
         if (mSetting.isShuffleMode()) {
             return mSongsShuffled.get(mPositionShuffled).getId();
         }

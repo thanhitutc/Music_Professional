@@ -29,6 +29,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="48dp"
+            android:singleLine="true"
             android:drawableLeft="@drawable/user"
             android:hint="@string/user_name" />
 
@@ -39,6 +40,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_marginTop="8dp"
+            android:singleLine="true"
             android:drawableLeft="@drawable/pass"
             android:hint="@string/user_password"
             android:inputType="textPassword" />
@@ -91,7 +93,6 @@
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

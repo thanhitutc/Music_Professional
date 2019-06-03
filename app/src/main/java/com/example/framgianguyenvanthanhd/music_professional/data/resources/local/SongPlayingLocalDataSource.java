@@ -75,7 +75,7 @@ public class SongPlayingLocalDataSource extends DatabaseHelper implements SongPl
             contentValues.put(SINGER, songPlaying.getSinger());
             contentValues.put(IMAGE, songPlaying.getImage());
             contentValues.put(RESOURCE, songPlaying.getResource());
-            result = db.insert(TABLE_PLAYING, null, contentValues);
+            result = db.insertWithOnConflict(TABLE_PLAYING, null, contentValues, SQLiteDatabase.CONFLICT_REPLACE);
         } finally {
             db.close();
         }
