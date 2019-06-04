@@ -10,8 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_layout"
-        >
+        android:layout_margin="@dimen/margin_layout">
 
         <ImageView
             android:id="@+id/image_avatar_album"
@@ -20,26 +19,26 @@
             android:contentDescription="@string/description_image_avatar"
             android:src="@drawable/img_playlist"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/text_name_album"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             />
 
         <TextView
             android:id="@+id/text_name_album"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="start"
+            android:layout_marginTop="@dimen/space_10"
             android:paddingLeft="@dimen/margin_layout"
-            android:textAlignment="viewStart"
+            android:textAlignment="center"
             android:textColor="@color/color_grey_900"
             android:textSize="@dimen/text_size_title"
+            android:maxLines="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/image_more_album"
-            app:layout_constraintTop_toBottomOf="@+id/image_avatar_album"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/image_avatar_album" />
 
         <ImageView
             android:id="@+id/image_more_album"
@@ -48,13 +47,12 @@
             android:layout_marginBottom="@dimen/margin_layout"
             android:layout_marginTop="@dimen/margin_layout"
             android:contentDescription="@string/description_image_view"
-            android:paddingRight="@dimen/margin_layout"
             android:src="@drawable/ic_btn_more"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/text_name_album"
             app:layout_constraintHorizontal_bias="0.99"
             app:layout_constraintLeft_toRightOf="@id/text_name_album"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_avatar_album"
+            app:layout_constraintTop_toTopOf="@id/text_name_album"
             />
 
     </android.support.constraint.ConstraintLayout>

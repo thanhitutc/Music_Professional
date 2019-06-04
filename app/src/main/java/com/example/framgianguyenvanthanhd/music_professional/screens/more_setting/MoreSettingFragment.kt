@@ -82,7 +82,7 @@ class MoreSettingFragment : BaseFragment() {
         val lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name, String::class.java)
         val avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name, String::class.java)
         if (fistName.isNotEmpty() && lastName.isNotEmpty()) {
-            txt_account_name_setting.text =  fistName + lastName
+            txt_account_name_setting.text = "$fistName $lastName"
         } else if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isNotEmpty()) {
             txt_account_name_setting.text = SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java)
         }

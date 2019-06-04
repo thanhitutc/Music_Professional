@@ -1,6 +1,8 @@
 package com.example.framgianguyenvanthanhd.music_professional.screens.personal
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,10 +71,18 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
             }
 
             R.id.menu_favorite_online -> {
+                if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                    showDialogNeedLogin()
+                    return
+                }
                 replaceFragment(FavoritePersonalFragment())
                 return
             }
             R.id.menu_playlist_online -> {
+                if (SharedPrefs.getInstance().get(KeysPref.USER_NAME.name, String::class.java).isEmpty()) {
+                    showDialogNeedLogin()
+                    return
+                }
                 replaceFragment(PlaylistPersonalFragment())
                 return
             }
@@ -86,5 +96,18 @@ class PersonalFragment : BaseFragment(), View.OnClickListener {
             else -> MainType.ALL_SONG
         }
         startActivity(MainOfflineActivity.getInstance(context, mainType))
+    }
+
+    private fun showDialogNeedLogin() {
+        val buider = AlertDialog.Builder(context)
+        buider.setMessage("Bạn cần đăng nhập để sử dụng tính năng này!")
+        buider.setPositiveButton("OK") { dialog, _ ->
+            replaceFragment(LoginFragment())
+            dialog.dismiss()
+        }
+        buider.setNegativeButton("Huỷ") { dialog, _ ->
+            dialog.dismiss()
+        }
+        buider.create().show()
     }
 }

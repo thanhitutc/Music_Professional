@@ -36,6 +36,7 @@ public final class SharedPrefs {
     public void cleanUserInfo(){
         put(KeysPref.ID_ACCOUNT.name(), "");
         put(KeysPref.USER_NAME.name(), "");
+        put(KeysPref.PASS_USER.name(), "");
         put(KeysPref.LOGIN_TYPE.name(), "");
         put(KeysPref.FIRST_NAME.name(), "");
         put(KeysPref.LAST_NAME.name(), "");

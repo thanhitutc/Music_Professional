@@ -97,7 +97,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                             whereArgs, MediaStore.Audio.Media.DATE_ADDED + " DESC");
         } else {
             cursor = mContext.getContentResolver()
-                    .query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null,
+                    .query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, null, null,
                             MediaStore.Audio.Media.DATE_ADDED + " DESC");
         }
         if (cursor == null) {

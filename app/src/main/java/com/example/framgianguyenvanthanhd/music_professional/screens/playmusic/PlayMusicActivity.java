@@ -249,7 +249,9 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
 
     private void initLikeSong() {
         cboLike = findViewById(R.id.cbo_like);
-        mPlayingPresenter.checkLikeSong(mService.getIdSongPlaying());
+        if (mService.getSongPlaying() != null) {
+            mPlayingPresenter.checkLikeSong(mService.getIdSongPlaying());
+        }
 
         cboLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -406,6 +408,7 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
         mButtonRepeat = findViewById(R.id.image_repeat);
         mViewPager = findViewById(R.id.pager_playing);
         mViewPager.setAdapter(new PlayingPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setCurrentItem(1);
         mHandler = new Handler();
     }
 

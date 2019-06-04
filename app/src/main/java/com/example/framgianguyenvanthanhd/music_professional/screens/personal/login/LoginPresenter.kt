@@ -33,6 +33,7 @@ class LoginPresenter(
                 Log.e("thanhd", account.toString())
                 SharedPrefs.getInstance().put(KeysPref.ID_ACCOUNT.name, account.idAccount)
                 SharedPrefs.getInstance().put(KeysPref.USER_NAME.name, account.userName)
+                SharedPrefs.getInstance().put(KeysPref.PASS_USER.name, account.password)
                 SharedPrefs.getInstance().put(KeysPref.LOGIN_TYPE.name, account.loginType)
                 SharedPrefs.getInstance().put(KeysPref.FIRST_NAME.name, account.firstName)
                 SharedPrefs.getInstance().put(KeysPref.LAST_NAME.name, account.lastName)

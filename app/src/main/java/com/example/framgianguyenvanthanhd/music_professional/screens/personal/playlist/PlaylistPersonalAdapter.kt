@@ -62,7 +62,7 @@ class PlaylistPersonalAdapter(
 
         fun bindData(playlist: Playlist) {
             txtName?.text = playlist.name
-            Picasso.with(itemView?.context).load(playlist.image).into(imgAvatar)
+//            Picasso.with(itemView?.context).load(playlist.image).into(imgAvatar)
         }
     }
 }

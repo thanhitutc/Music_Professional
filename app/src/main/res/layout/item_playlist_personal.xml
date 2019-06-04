@@ -1,58 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<android.support.v7.widget.CardView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:elevation="4dp"
+app:cardCornerRadius="@dimen/space_8"
+xmlns:android="http://schemas.android.com/apk/res/android">
+
+<android.support.constraint.ConstraintLayout
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:background="?attr/selectableItemBackgroundBorderless"
-    app:cardCornerRadius="@dimen/space_4"
-    app:cardElevation="@dimen/space_8">
+    android:layout_margin="@dimen/margin_layout">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="@dimen/space_160"
+        android:layout_height="@dimen/space_160"
+        android:contentDescription="@string/description_image_avatar"
+        android:src="@drawable/img_playlist"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/txt_name_playlist_personal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-        <ImageView
-            android:id="@+id/img_avatar"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:scaleType="fitXY"
-            android:background="@drawable/ic_song_playing"
-            app:background="?attr/selectableItemBackgroundBorderless" />
+    <TextView
+        android:id="@+id/txt_name_playlist_personal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_8"
+        android:paddingLeft="@dimen/margin_layout"
+        android:textAlignment="textStart"
+        android:textColor="@color/color_grey_900"
+        android:textSize="@dimen/text_size_title"
+        android:maxLines="2"
+        app:layout_constraintBottom_toTopOf="@id/artist"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_more"
+        app:layout_constraintTop_toBottomOf="@+id/img_avatar" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/btn_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_layout"
+        android:layout_marginTop="@dimen/margin_layout"
+        android:contentDescription="@string/description_image_view"
+        android:src="@drawable/ic_btn_more"
+        app:layout_constraintBottom_toBottomOf="@id/artist"
+        app:layout_constraintHorizontal_bias="0.99"
+        app:layout_constraintLeft_toRightOf="@id/txt_name_playlist_personal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_name_playlist_personal"
+        />
 
-            <TextView
-                android:id="@+id/txt_name_playlist_personal"
-                style="@style/title_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/space_6"
-                android:maxLines="2"
-                android:textColor="#000000" />
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/default_artists"
+        android:textColor="@color/sub_title_color"
+        android:textSize="@dimen/text_sie_13"
+        android:layout_marginLeft="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_6"
+        app:layout_constraintStart_toStartOf="@id/txt_name_playlist_personal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_name_playlist_personal"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/default_artists"
-                android:textColor="@color/sub_title_color"
-                android:textSize="@dimen/text_sie_13"
-                android:layout_marginTop="@dimen/space_6"
-                android:layout_below="@id/txt_name_playlist_personal"/>
-
-            <ImageView
-                android:id="@+id/btn_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_btn_more"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-
+</android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
