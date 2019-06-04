@@ -159,6 +159,7 @@ class UserInformationFragment : BaseFragment(), UserInfoContract.UserInfoView{
     }
 
     override fun updatePassSuccess() {
+        SharedPrefs.getInstance().put(KeysPref.PASS_USER.name, edt_new_pass.text.toString())
         isloading_user_info?.visibility = View.INVISIBLE
         (context as MainActivity).onBackPressed()
     }
