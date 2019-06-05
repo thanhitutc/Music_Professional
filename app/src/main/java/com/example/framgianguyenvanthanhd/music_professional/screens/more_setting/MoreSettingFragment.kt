@@ -71,13 +71,7 @@ class MoreSettingFragment : BaseFragment() {
                 }
             }
         }
-    }
 
-    override fun initiateView() {
-        val mainActivity = activity as MainActivity
-        mainActivity.isDisplayBottomNavigation(true)
-        mainActivity.isDisplayToolbar(true)
-        mainActivity.updateToolbar(true)
         val fistName = SharedPrefs.getInstance().get(KeysPref.FIRST_NAME.name, String::class.java)
         val lastName = SharedPrefs.getInstance().get(KeysPref.LAST_NAME.name, String::class.java)
         val avatar = SharedPrefs.getInstance().get(KeysPref.AVATAR.name, String::class.java)
@@ -89,6 +83,13 @@ class MoreSettingFragment : BaseFragment() {
         if (avatar.isNotEmpty()) {
             Picasso.with(activity).load(avatar).into(account_avatar_setting)
         }
+    }
+
+    override fun initiateView() {
+        val mainActivity = activity as MainActivity
+        mainActivity.isDisplayBottomNavigation(true)
+        mainActivity.isDisplayToolbar(true)
+        mainActivity.updateToolbar(true)
 
         txt_version.text = getAppVersion()
 

@@ -84,7 +84,7 @@ public class DownloadService extends IntentService {
         Log.d("Downloaded: " , currentProgress + "");
         notificationBuilder.setProgress(100, currentProgress, false);
         notificationBuilder.setContentTitle("Downloading");
-        notificationBuilder.setContentText(nameSong +": " + currentProgress + "%");
+        notificationBuilder.setContentText( currentProgress + "% " + nameSong);
         notificationManager.notify(0, notificationBuilder.build());
     }
 

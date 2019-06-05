@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -83,7 +84,11 @@ DetailSongAdapter.OnItemSongClickListener{
         idPlaylist = playlist?.idPlaylist ?:"-1"
         isRemoveable = playlist?.idAccount != "1"
         playlist?.let {
-            Picasso.with(baseContext).load(playlist.background).fit().into(backdrop)
+            if (it.background != null){
+                Picasso.with(baseContext).load(playlist.background).fit().into(backdrop)
+            } else {
+                Picasso.with(baseContext).load(R.drawable.img_playlist).fit().into(backdrop)
+            }
             Picasso.with(baseContext).load(playlist.image).into(image_detail)
             collapsing_toolbar.title = playlist.name
             collapsing_toolbar.setCollapsedTitleTextColor(Color.WHITE)

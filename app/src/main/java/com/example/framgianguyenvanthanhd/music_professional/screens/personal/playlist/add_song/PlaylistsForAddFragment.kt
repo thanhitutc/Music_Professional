@@ -79,6 +79,7 @@ class PlaylistsForAddFragment : BaseFragment(), PlaylistPersonalContract.Playlis
 
     override fun onItemClick(playlist: Playlist) {
         presenter.insertSongToPlaylist(playlist.idPlaylist ?: "-1", idSong)
+        isloading_playlist_personal_add?.visibility = View.VISIBLE
     }
 
     override fun onClickMoreBtn(playlist: Playlist) {
