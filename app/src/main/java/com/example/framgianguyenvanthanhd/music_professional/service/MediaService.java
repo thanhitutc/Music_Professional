@@ -530,6 +530,7 @@ public class MediaService extends Service implements BaseMediaPlayer, ContractSo
     }
 
     private void updateNotification() {
+        if (mRemoteViews == null) return;
         if (isPlay()) {
             mRemoteViews.setImageViewResource(R.id.image_pause, R.drawable.ic_pause);
         } else {

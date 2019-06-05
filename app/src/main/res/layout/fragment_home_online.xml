@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:scrollbars="vertical"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,14 +18,16 @@
             android:id="@+id/fragment_slide_home"
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.slide.SlideFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_slide"/>
 
         <fragment
             android:layout_marginTop="@dimen/text_sie_16"
             android:id="@+id/fragment_playlist_home"
             android:name="com.example.framgianguyenvanthanhd.music_professional.screens.home.playlist_top.PlaylistHomeFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_playlist_home"/>
         <fragment
             android:layout_marginTop="@dimen/text_sie_16"
             android:id="@+id/fragment_topic_home"
